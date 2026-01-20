@@ -94,8 +94,8 @@ begin {
         using System.Runtime.InteropServices;
 
         public class WindowPosition {
-            [DllImport("user32.dll")]
-            public static extern IntPtr GetForegroundWindow();
+            [DllImport("kernel32.dll")]
+            public static extern IntPtr GetConsoleWindow();
 
             [DllImport("user32.dll")]
             public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
@@ -108,8 +108,8 @@ begin {
         [System.Int32]$HostHandleWidth     = 950
         [System.Int32]$HostHandleHeight    = 550
 
-        # Get the active window (PowerShell host)
-        [System.IntPtr]$HostHandle = [WindowPosition]::GetForegroundWindow()
+        # Get the PowerShell console window (not just any foreground window)
+        [System.IntPtr]$HostHandle = [WindowPosition]::GetConsoleWindow()
         # Move the window
         [WindowPosition]::MoveWindow($HostHandle,$HostHandleX,$HostHandleY,$HostHandleWidth,$HostHandleHeight, $true) | Out-Null
     }
