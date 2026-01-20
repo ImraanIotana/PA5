@@ -164,7 +164,7 @@ process {
     Add-WorkFoldersToMainObject
 
     # Unblock and dotsource the PS1 files
-    [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.Modules)
+    [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
     [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1, *.psm1, *.psd1 }
     $AllPS1FileObjects | ForEach-Object { if ($_) { Unblock-File -Path $_.FullName ; . $_.FullName } }
 
