@@ -20,7 +20,7 @@
 
     ##### DEPLOYMENT SCRIPT PATH #####
     DeploymentScriptPath            = '\\domain.nl\Packages\SoftwareLibrary\UniversalDeploymentScript'
-    SupportScriptsPath              = '\\ksmod.nl\KSpackages\SoftwareLibrary\_Administration\Other\PowerShell\UniversalDeploymentScript\Deploy-ApplicationSupport'
+    SupportScriptsPath              = '\\domain.nl\Packages\SoftwareLibrary\_Administration\Other\PowerShell\UniversalDeploymentScript\Deploy-ApplicationSupport'
 
     ##### CUSTOMER DEPARTMENT SETTINGS #####
     CustomerDepartments             = @('Baseline','MiddleWare','Optional','Dept1','Dept1')
