@@ -44,7 +44,7 @@ function Update-ScriptInWorkFolder {
         ### MAIN PROPERTIES ###
 
         # Handlers
-        [System.String]$FolderToCopy        = '\\ksmod.nl\KSpackages\SoftwareLibrary\_Administration\Other\PowerShell\UniversalDeploymentScript\Deploy-ApplicationSupport'
+        [System.String]$FolderToCopy        = $Global:ApplicationObject.Settings.SupportScriptsPath
 
         ####################################################################################################
         ### SUPPORTING FUNCTIONS ###

@@ -64,7 +64,7 @@ function Move-Screenshots {
             ParentOutputFolder          = $ParentOutputFolder
             Confirm                     = $Confirm
             # Handlers
-            NetworkScreenshotsFolder    = [System.String]('\\ksmod.nl\ks-home\Home\{0}\Pictures\Screenshots' -f $ENV:USERNAME)
+            NetworkScreenshotsFolder    = [System.String]($Global:ApplicationObject.Settings.NetworkScreenshotsFolderFix -f $ENV:USERNAME)
             LocalScreenshotsFolder      = [System.String]'To be determined...'
             # Confirmation Handlers
             ConfirmationTitle           = [System.String]'Move screenshots'

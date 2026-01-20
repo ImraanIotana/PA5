@@ -5,10 +5,10 @@
 .DESCRIPTION
     This data is self-contained and does not refer to functions, variables or classes, that are in other files.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : July 2025
-    Last Update     : August 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -16,40 +16,41 @@
     ##### CUSTOMER SPECIFIC SETTINGS ##### START
 
     ##### DSL/SOFTWARE LIBRARY #####
-    DefaultDSLFolder                = '\\ksmod.nl\KSpackages\SoftwareLibrary'
+    DefaultDSLFolder                = '\\domain.nl\Packages\SoftwareLibrary'
 
-    ##### DSL/SOFTWARE LIBRARY #####
-    DeploymentScriptPath            = '\\ksmod.nl\KSpackages\SoftwareLibrary\_Administration\Other\PowerShell\UniversalDeploymentScript'
+    ##### DEPLOYMENT SCRIPT PATH #####
+    DeploymentScriptPath            = '\\domain.nl\Packages\SoftwareLibrary\UniversalDeploymentScript'
+    SupportScriptsPath              = '\\ksmod.nl\KSpackages\SoftwareLibrary\_Administration\Other\PowerShell\UniversalDeploymentScript\Deploy-ApplicationSupport'
 
     ##### CUSTOMER DEPARTMENT SETTINGS #####
-    CustomerDepartments             = @('Baseline','DHC','EW','GeoInt','ISRD','KSIT','MiddleWare','Optional','OS','Space')
+    CustomerDepartments             = @('Baseline','MiddleWare','Optional','Dept1','Dept1')
 
     ##### SCCM DEFAULT SETTINGS #####
     SCCMDefaultSiteCode             = 'CNM'
-    SCCMDefaultProviderMachineName  = 'V0164APS0511.ksmod.nl'
+    SCCMDefaultProviderMachineName  = 'servername.domain.nl'
 
     ##### SCCM EXECUTABLE #####
     SCCMExecutable                  = 'D:\Program Files\Microsoft Configuration Manager\AdminConsole\bin\Microsoft.ConfigurationManagement.exe'
 
     ##### SCCM REPOSITORY #####
-    SCCMRepository                  = '\\ksmod.nl\kspackages\Sources\01-Application Management'
+    SCCMRepository                  = '\\domain.nl\SCCMSources'
 
     ##### SCCM TEST COLLECTION #####
-    SCCMPackagingVDICollection      = 'Test - Packaging VDI'
-    SCCMTestVDICollection           = 'Test - Packaging VDI'
+    SCCMPackagingVDICollection      = 'Packaging VDI'
+    SCCMTestVDICollection           = 'Test VDI'
 
     ##### DEM REPOSITORY #####
-    DEMShortcutRepository           = '\\ksmod.nl\DEMconfig\0164c1\general\FlexRepository\Shortcut'
-    DEMUserFilesRepository          = '\\ksmod.nl\DEMconfig\0164c1\general\FlexRepository\Settings\File'
-    DEMUserRegistryRepository       = '\\ksmod.nl\DEMconfig\0164c1\general\FlexRepository\Settings\Reg'
-    DEMLogFolder                    = '\\ksmod.nl\ks-home\Profile\'
+    DEMShortcutRepository           = '\\domain.nl\DEMconfig\folder\general\FlexRepository\Shortcut'
+    DEMUserFilesRepository          = '\\domain.nl\DEMconfig\folder\general\FlexRepository\Settings\File'
+    DEMUserRegistryRepository       = '\\domain.nl\DEMconfig\folder\general\FlexRepository\Settings\Reg'
+    DEMLogFolder                    = '\\domain.nl\folder\Profile\'
 
     ##### APPLOCKER LDAP #####
-    AppLockerLDAPTEST               = 'LDAP://v0164aps0500.ksmod.nl/CN={62242444-75F6-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=ksmod,DC=nl'
-    AppLockerLDAPPROD               = 'LDAP://v0164aps0500.ksmod.nl/CN={BA363FDE-6098-4CBA-9233-E1512BF88ABA},CN=Policies,CN=System,DC=ksmod,DC=nl'
+    AppLockerLDAPTEST               = 'LDAP://servername.domain.nl/CN={62242444-75F6-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPPROD               = 'LDAP://servername.domain.nl/CN={BA363FDE-6098-4CBA-9233-E1512BF88ABA},CN=Policies,CN=System,DC=domain,DC=nl'
 
-    ##### APPLOCKER LDAP #####
-    NetworkScreenshotsFolderFix     = '\\ksmod.nl\ks-home\Home\{0}\Pictures\Screenshots'
+    ##### SCREENSHOTS #####
+    NetworkScreenshotsFolderFix     = '\\domain.nl\folder\Home\{0}\Pictures\Screenshots'
 
 
     ##### CUSTOMER SPECIFIC SETTINGS ##### END

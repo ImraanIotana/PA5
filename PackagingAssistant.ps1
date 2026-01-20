@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.6'
+        Version                     = [System.String]'5.7.0'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -163,13 +163,9 @@ process {
     Move-HostToTopLeft
     Add-WorkFoldersToMainObject
 
-    # Unblock all files in all subfolders
-    Write-Host 'Unblocking all files in subfolders...' -ForegroundColor DarkGray
-    Get-ChildItem -Path $Global:ApplicationObject.RootFolder -Recurse -File -Include *.ps1, *.psm1, *.psd1 | ForEach-Object { Unblock-File -Path $_ -ErrorAction SilentlyContinue }
-
     # Unblock and dotsource the PS1 files
     [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.Modules)
-    [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1 }
+    [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1, *.psm1, *.psd1 }
     $AllPS1FileObjects | ForEach-Object { if ($_) { Unblock-File -Path $_ ; . $_.FullName } }
 
     # Continue the Initialization (After dotsourcing, all functions have become available.)
