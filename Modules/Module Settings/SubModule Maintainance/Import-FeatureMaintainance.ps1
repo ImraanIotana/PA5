@@ -1,0 +1,93 @@
+﻿####################################################################################################
+<#
+.SYNOPSIS
+    This feature performs maintaince on the Packaging Assistant.
+.DESCRIPTION
+    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+.EXAMPLE
+    Import-FeatureMaintainance
+.INPUTS
+    [System.Windows.Forms.TabPage]
+.OUTPUTS
+    This function returns no stream output.
+.NOTES
+    Version         : 5.5.1
+    Author          : Imraan Iotana
+    Creation Date   : September 2025
+    Last Updated    : September 2025
+#>
+####################################################################################################
+
+function Import-FeatureMaintainance {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]
+        [System.Windows.Forms.TabPage]
+        $ParentTabPage
+    )
+
+    begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Function
+        [System.String[]]$FunctionDetails       = @($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'Maintainance'
+            Color           = [System.String]'OrangeRed'
+            NumberOfRows    = [System.Int32]4
+        }
+        # Maintainance Action Handlers
+        [System.Collections.Hashtable]$Global:ActionHashtable = @{
+            #DownLoadScript  = 'GENERAL: Download the DeploymentScript'
+            ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
+            UpdateScript    = 'APPLICATION INTAKE: Update the DeploymentScript'
+        }
+
+
+        ####################################################################################################
+        ### BUTTON PROPERTIES ###
+
+        [System.Collections.Hashtable[]]$ActionButtons = @(
+           @{
+                ColumnNumber    = 1
+                Text            = 'Execute the Action'
+                Image           = 'cog_go.png'
+                SizeType        = 'Large'
+                ToolTip         = 'Execute the selected maintaince Action'
+                Function        = {
+                    [System.String]$SelectedKey = $Global:ActionHashtable.Keys | Where-Object { $Global:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
+                    switch ($SelectedKey) {
+                        'DownLoadScript'    { Copy-ScriptToOutputFolder }
+                        'UpdateScript'      { Update-InternalDeploymentScript }
+                        'ShowFormsColors'   { Write-WindowsFormsColors }
+                        Default             { Write-Line "This function has not been defined yet. No action has been taken." }
+                    }
+                }
+            }
+        )
+
+        ####################################################################################################
+
+        # Write the begin message
+        Write-Function -Begin $FunctionDetails
+    } 
+    
+    process {
+        # Create the GroupBox
+        [System.Windows.Forms.GroupBox]$Global:FAMMaintainanceGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color
+        # Create the Audit ComboBox
+        [System.Windows.Forms.ComboBox]$Global:FAMActionComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Action:' -ContentArray $Global:ActionHashtable.Values -PropertyName 'FAMActionComboBox'
+        # Create the buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
+    }
+
+    end {
+        # Write the end message
+        Write-Function -End $FunctionDetails
+    }
+}
+
+### END OF SCRIPT
+####################################################################################################
