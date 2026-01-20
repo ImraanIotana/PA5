@@ -165,7 +165,7 @@ process {
 
     # Unblock all files in all subfolders
     Write-Host 'Unblocking all files in subfolders...' -ForegroundColor DarkGray
-    Get-ChildItem -Path $Global:ApplicationObject.RootFolder -Recurse -File | ForEach-Object { Unblock-File -Path $_ -ErrorAction SilentlyContinue }
+    Get-ChildItem -Path $Global:ApplicationObject.RootFolder -Recurse -File -Include *.ps1, *.psm1, *.psd1 | ForEach-Object { Unblock-File -Path $_ -ErrorAction SilentlyContinue }
 
     # Unblock and dotsource the PS1 files
     [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.Modules)
