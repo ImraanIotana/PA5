@@ -144,8 +144,8 @@ begin {
     }
         
     function Import-PAModules {
-        # Add the Module Directory to the Environment Variable
-        $ENV:PSModulePath += ";$($Global:ApplicationObject.WorkFolders.SharedModules)"
+        # Add the Module Directories to the Environment Variable
+        $ENV:PSModulePath += ";$($Global:ApplicationObject.WorkFolders.SharedModules);$($Global:ApplicationObject.WorkFolders.Modules)"
         # Import the PA Modules
         Import-Module -Name PASystemModule
         Import-Module -Name PAWriteModule
@@ -166,7 +166,15 @@ process {
     # Unblock and dotsource the PS1 files
     [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
     [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1 }
-    $AllPS1FileObjects | ForEach-Object { if ($_) { Unblock-File -Path $_.FullName ; . $_.FullName } }
+    [System.Int32]$FileCount = @($AllPS1FileObjects).Count
+    [System.Int32]$CurrentFile = 0
+    $AllPS1FileObjects | ForEach-Object { 
+        $CurrentFile++
+        [System.Int32]$PercentComplete = [Math]::Round(($CurrentFile / $FileCount) * 100)
+        Write-Progress -Activity 'Unblocking and Loading PowerShell Files' -Status "[$CurrentFile/$FileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
+        if ($_) { Unblock-File -Path $_.FullName ; . $_.FullName } 
+    }
+    Write-Progress -Activity 'Unblocking and Loading PowerShell Files' -Completed
 
     # Continue the Initialization (After dotsourcing, all functions have become available.)
     New-LogFolder
