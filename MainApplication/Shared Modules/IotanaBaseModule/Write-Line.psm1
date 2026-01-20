@@ -144,6 +144,14 @@ function Write-Line {
     }
     
     process {
+        # VALIDATION
+        # Validate the Global Objects
+        if (($null -eq $Global:ApplicationObject) -and ($null -eq $Global:DeploymentObject)) {
+            Write-Host "Write-Line: ERROR: Neither ApplicationObject nor DeploymentObject is initialized" -ForegroundColor Red
+            return
+        }
+
+        # EXECUTION
         # Write the message
         switch ([System.String]::IsNullOrEmpty($BackgroundColor)) {
             $false  { Write-Host $FullMessage -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor }

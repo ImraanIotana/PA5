@@ -23,10 +23,10 @@
     SupportScriptsPath              = '\\domain.nl\Packages\SoftwareLibrary\_Administration\Other\PowerShell\UniversalDeploymentScript\Deploy-ApplicationSupport'
 
     ##### CUSTOMER DEPARTMENT SETTINGS #####
-    CustomerDepartments             = @('Baseline','MiddleWare','Optional','Dept1','Dept1')
+    CustomerDepartments             = @('Baseline','MiddleWare','Optional','Dept1','Dept2')
 
     ##### SCCM DEFAULT SETTINGS #####
-    SCCMDefaultSiteCode             = 'CNM'
+    SCCMDefaultSiteCode             = 'ABC'
     SCCMDefaultProviderMachineName  = 'servername.domain.nl'
 
     ##### SCCM EXECUTABLE #####
