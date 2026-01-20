@@ -31,10 +31,8 @@ function Write-Line {
         [System.String]
         $Message,
 
-        [Parameter(Mandatory=$false,HelpMessage='Type for deciding the colors and prefixes.')]
-        [ValidateSet('Busy','NoAction','Success','SuccessNoAction','ValidationSuccess','Fail','ActionFail','ValidationFail','Special','Seperation','DoubleSeperation')]
-        [AllowNull()]
-        [AllowEmptyString()]
+        [Parameter(Mandatory=$false,Position=1,HelpMessage='Type for deciding the colors and prefixes.')]
+        [ValidateSet('Normal','Busy','NoAction','Success','SuccessNoAction','ValidationSuccess','Fail','ActionFail','ValidationFail','Special','Seperation','DoubleSeperation')]
         [System.String]
         $Type
     )
@@ -47,9 +45,8 @@ function Write-Line {
         [System.String]$InputMessage    = $Message
         [System.String]$MessageType     = $Type
 
-        # Test if this is UDS or PA
-        [System.Boolean]$IsPackagingAssistant           = ($Global:ApplicationObject.Name -eq 'Packaging Assistant')
-        [System.Boolean]$IsUniversalDeploymentScript    = ($Global:DeploymentObject.Name -eq 'Universal Deployment Script')
+        # Test if this is the Universal Deployment Script
+        [System.Boolean]$IsUniversalDeploymentScript = ($Global:DeploymentObject.Name -eq 'Universal Deployment Script')
 
         # Get the name of the calling function
         [System.String]$CallingFunction = ((Get-PSCallStack).Command[1])
@@ -65,57 +62,26 @@ function Write-Line {
 
 
         # Set the FullMessage
-        [System.String]$FullMessage = if ($IsPackagingAssistant) {
-            switch ($MessageType) {
-                'NoAction'          {
+        [System.String]$FullMessage = switch ($MessageType) {
+            'NoAction'          { 'No action has been taken.' }
+            'SuccessNoAction'   { 
+                if ($IsUniversalDeploymentScript) {
+                    "[$($FullTimeStamp)] [$($CallingFunction)]: The $($Global:DeploymentObject.Action)-process is considered successful. No action has been taken."
+                } else {
                     'No action has been taken.'
-                }
-                'SuccessNoAction'   {
-                    ("[$($FullTimeStamp)] [$($CallingFunction)]: The $($Global:DeploymentObject.Action)-process is considered successful. No action has been taken.")
-                }
-                'Seperation'        {
-                    "[$($FullTimeStamp)] ----------------------------------------------------------------------------------------------------"
-                }
-                'DoubleSeperation'  {
-                    "[$($FullTimeStamp)] ===================================================================================================="
-                }
-                'ValidationSuccess' {
-                    ("[$($FullTimeStamp)] [$($CallingFunction)]: The validation is successful. The process will now start.")
-                }
-                'ValidationFail'    {
-                    ("[$($FullTimeStamp)] [$($CallingFunction)]: The validation failed. The process will NOT start.")
-                }
-                Default             {
-                    $InputMessage
                 }
             }
-
-        } elseif ($IsUniversalDeploymentScript) {
-            switch ($MessageType) {
-                'NoAction'          {
-                    'No action has been taken.'
-                }
-                'SuccessNoAction'   {
-                    ("[$($FullTimeStamp)] [$($CallingFunction)]: The $($Global:DeploymentObject.Action)-process is considered successful. No action has been taken.")
-                }
-                'Seperation'        {
-                    "[$($FullTimeStamp)] ----------------------------------------------------------------------------------------------------"
-                }
-                'DoubleSeperation'  {
-                    "[$($FullTimeStamp)] ===================================================================================================="
-                }
-                'ValidationSuccess' {
-                    ("[$($FullTimeStamp)] [$($CallingFunction)]: The validation is successful. The process will now start.")
-                }
-                'ValidationFail'    {
-                    ("[$($FullTimeStamp)] [$($CallingFunction)]: The validation failed. The process will NOT start.")
-                }
-                Default             {
-                    if ($InputMessage.StartsWith('[')) {
-                        "[$($FullTimeStamp)] $($InputMessage)"
-                    } else {
-                        ("[$($FullTimeStamp)] [$($CallingFunction)]: $($InputMessage)")
-                    }
+            'Seperation'        { "[$($FullTimeStamp)] " + ('-' * 100) }
+            'DoubleSeperation'  { "[$($FullTimeStamp)] " + ('=' * 100) }
+            'ValidationSuccess' { "[$($FullTimeStamp)] [$($CallingFunction)]: The validation is successful. The process will now start." }
+            'ValidationFail'    { "[$($FullTimeStamp)] [$($CallingFunction)]: The validation failed. The process will NOT start." }
+            Default             {
+                if ($IsUniversalDeploymentScript -and -not $InputMessage.StartsWith('[')) {
+                    "[$($FullTimeStamp)] [$($CallingFunction)]: $InputMessage"
+                } elseif ($IsUniversalDeploymentScript) {
+                    "[$($FullTimeStamp)] $InputMessage"
+                } else {
+                    $InputMessage
                 }
             }
         }
@@ -152,11 +118,18 @@ function Write-Line {
         }
 
         # EXECUTION
-        # Write the message
-        switch ([System.String]::IsNullOrEmpty($BackgroundColor)) {
-            $false  { Write-Host $FullMessage -ForegroundColor $ForegroundColor -BackgroundColor $BackgroundColor }
-            $true   { Write-Host $FullMessage -ForegroundColor $ForegroundColor }
+        # Set the Write-Host parameters
+        [System.Collections.Hashtable]$WriteHostParams = @{
+            'Object'            = $FullMessage
+            'ForegroundColor'   = $ForegroundColor
         }
+        # Add BackgroundColor if specified
+        if (-not [System.String]::IsNullOrEmpty($BackgroundColor)) {
+            $WriteHostParams['BackgroundColor'] = $BackgroundColor
+        }
+
+        # Write the message
+        Write-Host @WriteHostParams
     }
     
     end {
