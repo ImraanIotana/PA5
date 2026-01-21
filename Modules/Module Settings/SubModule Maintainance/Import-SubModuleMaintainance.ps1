@@ -5,16 +5,16 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-ModuleMaintainance
+    Import-SubModuleMaintainance
 .INPUTS
     [System.Windows.Forms.TabControl]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : September 2025
-    Last Update     : September 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -22,7 +22,6 @@ function Import-SubModuleMaintainance {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
-        [Alias('TabControl')]
         [System.Windows.Forms.TabControl]
         $ParentTabControl = $Global:MainTabControl
     )
@@ -33,7 +32,8 @@ function Import-SubModuleMaintainance {
 
         # Handlers
         [System.String]$TabTitle        = 'Maintainance'
-        [System.String]$ModuleVersion   = '5.5.1'
+        [System.String]$ModuleVersion   = '5.7.0'
+        [System.String]$BackGroundColor = 'Cornsilk'
 
         ####################################################################################################
     }
@@ -41,9 +41,9 @@ function Import-SubModuleMaintainance {
     process {
         try {
             # Write the message
-            Write-ModuleImport -Title $TabTitle -Version $ModuleVersion
+            Write-Line "Importing Module $TabTitle $ModuleVersion"
             # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor 'Cornsilk'
+            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
             # Import the Features
             Import-FeatureMaintainance -ParentTabPage $ParentTabPage
         }
