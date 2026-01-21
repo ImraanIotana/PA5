@@ -20,11 +20,9 @@
 #>
 ####################################################################################################
 
-function Write-WindowsFormsColors {
+function Write-WindowsFormsColorsOLD {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $false,HelpMessage = "The TextBox to get text from.")]
-        [System.Object]$BoxToGetTextFrom
     )
 
     begin {
@@ -32,7 +30,6 @@ function Write-WindowsFormsColors {
     
     process {
         # EXECUTION
-        #Write-Line "Executing Maintainance: [$($Global:FAMActionComboBox.Text)]"
         [PSCustomObject[]]$Colors = [System.Drawing.Color] | Get-Member -Static | Where-Object { $_.MemberType -eq 'Property' } | Select-Object Name | Sort-Object Name
         $Colors | Out-Host
     }
