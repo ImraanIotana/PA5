@@ -72,7 +72,7 @@ begin {
     function Write-WelcomeMessage {
         # Write the copyright and welcome message
         Write-Line $Global:ApplicationObject.Messages.CopyrightNotice
-        Write-Host $Global:ApplicationObject.Messages.WelcomeMessageCircumFix -f $Global:ApplicationObject.Name, $Global:ApplicationObject.Version
+        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageCircumFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version)
     }
 
     function Add-WorkFoldersToMainObject { param([PSCustomObject]$Object = $Global:ApplicationObject)
