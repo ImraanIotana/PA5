@@ -49,7 +49,29 @@ function Import-FeatureMaintenance {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
+        [System.Management.Automation.ScriptBlock]$ButtonScriptBlockSwitch = { param([System.String]$SelectedKey)
+            switch ($SelectedKey) {
+                'UpdateScript'      { Update-InternalDeploymentScript }
+                'ShowFormsColors'   { Write-WindowsFormsColors }
+                Default             { Write-Line "This function has not been defined yet. No action has been taken." }
+            }
+        }
+
         [System.Collections.Hashtable[]]$ActionButtons = @(
+           @{
+                ColumnNumber    = 1
+                Text            = 'Execute the Action'
+                Image           = 'cog_go.png'
+                SizeType        = 'Large'
+                ToolTip         = 'Execute the selected Maintenance Action'
+                Function        = {
+                    [System.String]$SelectedKey = $Global:ActionHashtable.Keys | Where-Object { $Global:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
+                    $ButtonScriptBlockSwitch.Invoke($SelectedKey)
+                }
+            }
+        )
+
+        <#[System.Collections.Hashtable[]]$ActionButtons = @(
            @{
                 ColumnNumber    = 1
                 Text            = 'Execute the Action'
@@ -66,16 +88,18 @@ function Import-FeatureMaintenance {
                     }
                 }
             }
-        )
+        )#>
 
         ####################################################################################################
-    } 
-    
+    }
+
     process {
         # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$Global:FAMMaintenanceGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color
+        [System.Windows.Forms.GroupBox]$Global:FAMMaintenanceGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color
+
         # Create the Audit ComboBox
         [System.Windows.Forms.ComboBox]$Global:FAMActionComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Action:' -ContentArray $Global:ActionHashtable.Values -PropertyName 'FAMActionComboBox'
+
         # Create the buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
     }
