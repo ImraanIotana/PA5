@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function imports the Module 'Maintainance'.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Import-ModuleMaintainance
 .INPUTS
