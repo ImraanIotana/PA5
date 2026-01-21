@@ -58,15 +58,19 @@ begin {
             WelcomeMessageCircumFix = 'Welcome to the {0} version {1}.'
             SettingWorkFolders      = 'Setting workfolders...'
             ImportingSettings       = 'Importing settings...'
+            LoadingSettings         = 'Loading settings...'
         }
+        # End Handlers
+        LeaveHostOpen               = $true
+        HostPromptText              = 'Press Enter to close this window...'
     }
    
     ####################################################################################################
     ### MAIN PROPERTIES ###
 
     # End Handlers
-    [System.Boolean]$LeaveHostOpen  = $false
-    [System.String]$HostPromptText  = 'Press Enter to close this window...'
+    #[System.Boolean]$LeaveHostOpen  = $false
+    #[System.String]$HostPromptText  = 'Press Enter to close this window...'
 
     ####################################################################################################
     ### SUPPORTING FUNCTION ###
@@ -176,19 +180,20 @@ process {
     # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
     # Set the properties for progress
-    [System.Int32]$TotalFileCount = @($AllFilesToUnblock).Count
-    [System.Int32]$FileCounter = 0
+    [System.Int32]$TotalFileCount   = @($AllFilesToUnblock).Count
+    [System.Int32]$FileCounter      = 0
+    [System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingSettings
     # Unblock all files with progress
     $AllFilesToUnblock | ForEach-Object {
         $FileCounter++
         [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
-        Write-Progress -Activity 'Loading functions' -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
+        Write-Progress -Activity $Activity -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
         # Unblock the file
         Unblock-File -Path $_.FullName
         # If the file is a ps1, then also dotsource it
         if ($_.Extension -eq '.ps1') { . $_.FullName }
     }
-    Write-Progress -Activity 'Loading functions' -Completed
+    Write-Progress -Activity $Activity -Completed
 
 
     # Continue the Initialization (After dotsourcing, all functions have become available.)
@@ -246,7 +251,8 @@ process {
 
 end {
     # If LeaveHostOpen is set to true, leave the host open
-    if ($LeaveHostOpen) { Read-Host -Prompt $HostPromptText }
+    if ($Global:ApplicationObject.LeaveHostOpen) { Read-Host -Prompt $Global:ApplicationObject.HostPromptText }
+    #if ($LeaveHostOpen) { Read-Host -Prompt $HostPromptText }
 }
 
 ### END OF SCRIPT
