@@ -38,7 +38,7 @@ function Import-FeatureMaintenance {
         }
 
         # Maintenance Action Handlers
-        [System.Collections.Hashtable]$Global:ActionHashtable = @{
+        [System.Collections.Hashtable]$Script:ActionHashtable = @{
             #DownLoadScript  = 'GENERAL: Download the DeploymentScript'
             UpdatePA        = 'GENERAL: Update the Packaging Assistant'
             ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
@@ -49,7 +49,10 @@ function Import-FeatureMaintenance {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        [System.Management.Automation.ScriptBlock]$Script:ButtonScriptBlockSwitch = { param([System.String]$SelectedKey)
+        [System.Management.Automation.ScriptBlock]$Script:ExecuteActionScriptBlock = {
+            # Get the selected key from the hashtable
+            [System.String]$SelectedKey = $Script:ActionHashtable.Keys | Where-Object { $Script:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
+            # Perform the action based on the selected key
             switch ($SelectedKey) {
                 'UpdateScript'      { Update-InternalDeploymentScript }
                 'ShowFormsColors'   { Write-WindowsFormsColors }
@@ -64,10 +67,7 @@ function Import-FeatureMaintenance {
                 Image           = 'cog_go.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Execute the selected Maintenance Action'
-                Function        = {
-                    [System.String]$SelectedKey = $Global:ActionHashtable.Keys | Where-Object { $Global:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
-                    $Script:ButtonScriptBlockSwitch.Invoke($SelectedKey)
-                }
+                Function        = { & $Script:ExecuteActionScriptBlock }
             }
         )
 
