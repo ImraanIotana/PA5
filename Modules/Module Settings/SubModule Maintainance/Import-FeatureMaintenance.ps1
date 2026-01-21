@@ -49,7 +49,7 @@ function Import-FeatureMaintenance {
         ### BUTTON PROPERTIES ###
 
         # Set the ScriptBlock for the Execute Action button
-        function Invoke-ExecuteActionButtonScriptBlock {
+        [System.Management.Automation.ScriptBlock]$Script:ExecuteActionScriptBlock = {
             # Get the selected key from the hashtable
             [System.String]$SelectedKey = $Script:ActionHashtable.Keys | Where-Object { $Script:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
             # Perform the action based on the selected key
@@ -68,7 +68,7 @@ function Import-FeatureMaintenance {
                 Image           = 'cog_go.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Execute the selected Maintenance Action'
-                Function        = { Invoke-ExecuteActionButtonScriptBlock }
+                Function        = { & $Script:ExecuteActionScriptBlock }
             }
         )
 
