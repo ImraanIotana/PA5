@@ -12,4 +12,4 @@ Invoke-WebRequest $ZipFileOnGithub -OutFile $DownloadedFile
 Expand-Archive -Path $DownloadedFile -DestinationPath C:\Users\iotan500\Downloads -Force
 
 Remove-Item -Path $DownloadedFile -Force
-Invoke-Item $ShortcutToStart
+Invoke-Item $PathToRemove
