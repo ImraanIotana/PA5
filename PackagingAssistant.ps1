@@ -155,6 +155,31 @@ begin {
         Import-Module -Name PAShortcutModule
     }
 
+    function Invoke-FileOperationWithProgress {
+        [CmdletBinding()]
+        param(
+            [Parameter(Mandatory=$true)]
+            [System.IO.FileSystemInfo[]]$Files,
+            
+            [Parameter(Mandatory=$true)]
+            [System.String]$Activity,
+            
+            [Parameter(Mandatory=$true)]
+            [ScriptBlock]$Operation
+        )
+        
+        [System.Int32]$FileCount = @($Files).Count
+        [System.Int32]$CurrentFile = 0
+        
+        $Files | ForEach-Object {
+            $CurrentFile++
+            [System.Int32]$PercentComplete = [Math]::Round(($CurrentFile / $FileCount) * 100)
+            Write-Progress -Activity $Activity -Status "[$CurrentFile/$FileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
+            & $Operation $_
+        }
+        Write-Progress -Activity $Activity -Completed
+    }
+
     ####################################################################################################
 }
 
@@ -163,23 +188,18 @@ process {
     Move-HostToTopLeft
     Add-WorkFoldersToMainObject
 
+    # LOADING AND UNBLOCKING FILES
     # Set the folders to search
     [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
     # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1 }
     [System.IO.FileSystemInfo[]]$AllPSM1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.psm1 }
-    # Unblock all psm1 files
-    $AllPSM1FileObjects | ForEach-Object { Unblock-File -Path $_.FullName } #; Import-Module -Name $_.FullName }
-    # Unblock and dotsource all ps1 files with progress
-    [System.Int32]$FileCount = @($AllPS1FileObjects).Count
-    [System.Int32]$CurrentFile = 0
-    $AllPS1FileObjects | ForEach-Object { 
-        $CurrentFile++
-        [System.Int32]$PercentComplete = [Math]::Round(($CurrentFile / $FileCount) * 100)
-        Write-Progress -Activity 'Unblocking and Loading PowerShell Files' -Status "[$CurrentFile/$FileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
-        if ($_) { Unblock-File -Path $_.FullName ; . $_.FullName } 
-    }
-    Write-Progress -Activity 'Unblocking and Loading PowerShell Files' -Completed
+    
+    # Unblock all PSM1 files with progress
+    Invoke-FileOperationWithProgress -Files $AllPSM1FileObjects -Activity 'Unblocking PowerShell Module Files' -Operation { Unblock-File -Path $_.FullName }
+    
+    # Unblock and dotsource all PS1 files with progress
+    Invoke-FileOperationWithProgress -Files $AllPS1FileObjects -Activity 'Unblocking and Loading PowerShell Files' -Operation { Unblock-File -Path $_.FullName ; . $_.FullName }
 
     # Continue the Initialization (After dotsourcing, all functions have become available.)
     New-LogFolder
