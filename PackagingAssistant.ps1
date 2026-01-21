@@ -58,14 +58,14 @@ begin {
             WelcomeMessageFix       = 'Welcome to the {0} version {1}.'
             SettingWorkFolders      = 'Setting workfolders...'
             ImportingSettings       = 'Importing settings...'
-            LoadingFunctions        = 'Loading functions and modules...'
+            LoadingFunctions        = 'Loading functions...'
             LoadingGraphics         = 'Loading graphical prerequisites...'
             LoadingAssembliesFix    = 'Loading Assembly: ({0})'
             AddingFontsToSettings   = 'Adding the fonts to the Settings...'
             HostPromptText          = 'Press Enter to close this window...'
         }
         # End Handlers
-        LeaveHostOpen               = $true
+        LeaveHostOpen               = $false
     }
 
     ####################################################################################################
@@ -79,8 +79,9 @@ begin {
         $Object.WorkFolderLeafNames.GetEnumerator() | ForEach-Object {
             [System.String]$FolderId    = $_.Name
             [System.String]$FullPath    = Join-Path -Path $Object.RootFolder -ChildPath $_.Value
-            Write-Verbose ('Setting the full path of folder id ({0}) to: ({1})' -f $FolderId, $FullPath)
-            $WorkFolders.$FolderId = $FullPath
+            #Write-Verbose ('Setting the full path of folder id ({0}) to: ({1})' -f $FolderId, $FullPath)
+            $WorkFolders[$FolderId] = $FullPath
+            #$WorkFolders.$FolderId = $FullPath
         }
         # Add the new WorkFolders hashtable to the main object
         $Object | Add-Member -NotePropertyName WorkFolders -NotePropertyValue $WorkFolders
