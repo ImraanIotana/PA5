@@ -55,14 +55,17 @@ begin {
         # Message Handlers
         Messages                    = [System.Collections.Hashtable]@{
             CopyrightNotice         = 'Copyright (C) Iotana. All rights reserved.'
-            WelcomeMessageCircumFix = 'Welcome to the {0} version {1}.'
+            WelcomeMessageFix       = 'Welcome to the {0} version {1}.'
             SettingWorkFolders      = 'Setting workfolders...'
             ImportingSettings       = 'Importing settings...'
             LoadingFunctions        = 'Loading functions and modules...'
+            LoadingGraphics         = 'Loading graphical prerequisites...'
+            LoadingAssembliesFix    = 'Loading Assembly: ({0})'
+            AddingFontsToSettings   = 'Adding the fonts to the Settings...'
+            HostPromptText          = 'Press Enter to close this window...'
         }
         # End Handlers
         LeaveHostOpen               = $true
-        HostPromptText              = 'Press Enter to close this window...'
     }
 
     ####################################################################################################
@@ -133,10 +136,10 @@ begin {
 
     function Add-GraphicalPrerequisites { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Load the assemblies
-        Write-Line 'Loading Graphical Prerequisites...'
-        $Object.Settings.Assemblies | ForEach-Object { Write-Verbose ('Loading Assembly: ({0})' -f $_) ; Add-Type -AssemblyName $_ }
+        Write-Line $Object.Messages.LoadingGraphics
+        $Object.Settings.Assemblies | ForEach-Object { Write-Verbose ($Object.Messages.LoadingAssembliesFix -f $_) ; Add-Type -AssemblyName $_ }
         # Add the fonts
-        Write-Verbose 'Adding the fonts to the Settings...'
+        Write-Verbose $Object.Messages.AddingFontsToSettings
         [System.Drawing.Font]$MainFont = New-Object System.Drawing.Font($Object.Settings.MainFont.Name,$Object.Settings.MainFont.Size,[System.Drawing.FontStyle]::Bold)
         Add-Member -InputObject $Object.Settings -NotePropertyName MainFont -NotePropertyValue $MainFont
     }
@@ -156,7 +159,7 @@ begin {
     function Write-WelcomeMessage {
         # Write the copyright and welcome message
         Write-Line $Global:ApplicationObject.Messages.CopyrightNotice
-        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageCircumFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version)
+        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version)
     }
 
     ####################################################################################################
@@ -244,7 +247,7 @@ process {
 
 end {
     # If LeaveHostOpen is set to true, leave the host open
-    if ($Global:ApplicationObject.LeaveHostOpen) { Read-Host -Prompt $Global:ApplicationObject.HostPromptText }
+    if ($Global:ApplicationObject.LeaveHostOpen) { Read-Host -Prompt $Global:ApplicationObject.Messages.HostPromptText }
 }
 
 ### END OF SCRIPT
