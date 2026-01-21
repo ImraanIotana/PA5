@@ -34,6 +34,7 @@ function Import-ModuleLauncher {
         # Set the Properties
         [System.String]$TabTitle        = 'Launcher'
         [System.String]$ModuleVersion   = '5.3.3'
+        [System.String]$BackGroundColor = 'LightSalmon'
 
         ####################################################################################################
     }
@@ -42,8 +43,8 @@ function Import-ModuleLauncher {
         # Write the message
         $ParentTabControl.WriteImportMessageOLD($TabTitle,$ModuleVersion)
         # Create the Module TabPage
-        [System.Windows.Forms.TabPage]$Global:LauncherTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor 'Violet'
-        [System.Windows.Forms.TabPage]$ParentTabPage = $Global:LauncherTabPage
+        [System.Windows.Forms.TabPage]$ParentTabPage = $Global:LauncherTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
+        #[System.Windows.Forms.TabPage]$ParentTabPage = $Global:LauncherTabPage
         # Import the Features
         Import-FeatureSystemFolderLauncher -ParentTabPage $ParentTabPage
         Import-FeatureUserFolderLauncher -ParentTabPage $ParentTabPage

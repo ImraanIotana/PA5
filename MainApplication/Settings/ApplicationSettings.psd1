@@ -13,8 +13,7 @@
 ####################################################################################################
 
 @{
-    ##### Graphical Settings #####
-
+    # GRAPHICAL SETTINGS
     # Assemblies needed for graphics (Forms, Fonts)
     Assemblies          = @('System.Windows.Forms','System.Drawing')
 
