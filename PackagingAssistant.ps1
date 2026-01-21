@@ -16,7 +16,7 @@
     Version         : See below at line 35: Version = [System.String]'x.y'
     Author          : Imraan Iotana
     Creation Date   : May 2023
-    Last Update     : December 2025
+    Last Update     : January 2026
 .COPYRIGHT
     Copyright (C) Iotana. All rights reserved.
 #>
@@ -163,9 +163,14 @@ process {
     Move-HostToTopLeft
     Add-WorkFoldersToMainObject
 
-    # Unblock and dotsource the PS1 files
+    # Set the folders to search
     [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
+    # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1 }
+    [System.IO.FileSystemInfo[]]$AllPSM1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.psm1 }
+    # Unblock all psm1 files
+    $AllPSM1FileObjects | ForEach-Object { Unblock-File -Path $_.FullName } #; Import-Module -Name $_.FullName }
+    # Unblock and dotsource all ps1 files with progress
     [System.Int32]$FileCount = @($AllPS1FileObjects).Count
     [System.Int32]$CurrentFile = 0
     $AllPS1FileObjects | ForEach-Object { 
