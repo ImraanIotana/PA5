@@ -30,20 +30,19 @@ function Import-FeatureMaintenance {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Function
-        [System.String[]]$FunctionDetails       = @($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
             Title           = [System.String]'Maintenance'
             Color           = [System.String]'Blue'
             NumberOfRows    = [System.Int32]4
         }
+
         # Maintainance Action Handlers
         [System.Collections.Hashtable]$Global:ActionHashtable = @{
             #DownLoadScript  = 'GENERAL: Download the DeploymentScript'
+            UpdatePA        = 'GENERAL: Update the Packaging Assistant'
             ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
             UpdateScript    = 'APPLICATION INTAKE: Update the DeploymentScript'
-            UpdatePA        = 'GENERAL: Update the Packaging Assistant'
         }
 
 
@@ -60,7 +59,7 @@ function Import-FeatureMaintenance {
                 Function        = {
                     [System.String]$SelectedKey = $Global:ActionHashtable.Keys | Where-Object { $Global:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
                     switch ($SelectedKey) {
-                        'DownLoadScript'    { Copy-ScriptToOutputFolder }
+                        #'DownLoadScript'    { Copy-ScriptToOutputFolder }
                         'UpdateScript'      { Update-InternalDeploymentScript }
                         'ShowFormsColors'   { Write-WindowsFormsColors }
                         Default             { Write-Line "This function has not been defined yet. No action has been taken." }
@@ -70,9 +69,6 @@ function Import-FeatureMaintenance {
         )
 
         ####################################################################################################
-
-        # Write the begin message
-        Write-Function -Begin $FunctionDetails
     } 
     
     process {
@@ -85,8 +81,6 @@ function Import-FeatureMaintenance {
     }
 
     end {
-        # Write the end message
-        Write-Function -End $FunctionDetails
     }
 }
 
