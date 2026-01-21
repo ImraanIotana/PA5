@@ -164,10 +164,15 @@ process {
     Add-WorkFoldersToMainObject
 
     # LOADING AND UNBLOCKING FILES
+    # Set the subfolders to search
+    [System.String[]]$SubFoldersToSearch = @('GraphicFunctions','SharedFunctions','SharedModules','Modules')
+    # Set the full paths to search
+    [System.String[]]$FullPathsToSearch = $SubFoldersToSearch | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
     # Set the folders to search
-    [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
+    #[System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
     # Get all PS1 and PSM1 file objects
-    [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
+    [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
+    #[System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
     # Unblock all files with progress
     [System.Int32]$TotalFileCount = @($AllFilesToUnblock).Count
     [System.Int32]$FileCounter = 0
@@ -179,8 +184,6 @@ process {
         Unblock-File -Path $_.FullName
         # If the file is a ps1, then also dotsource it
         if ($_.Extension -eq '.ps1') { . $_.FullName }
-        # If the file is a ps1, unblock and dotsource, else just unblock
-        #if ($_.Extension -eq '.ps1') { Unblock-File -Path $_.FullName ; . $_.FullName } else { Unblock-File -Path $_.FullName }
     }
     Write-Progress -Activity 'Unblocking PowerShell Files' -Completed
 
