@@ -175,19 +175,20 @@ process {
     [System.String[]]$FullPathsToSearch = @('GraphicFunctions','SharedFunctions','SharedModules','Modules') | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
     # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
-    # Unblock all files with progress
+    # Set the properties for progress
     [System.Int32]$TotalFileCount = @($AllFilesToUnblock).Count
     [System.Int32]$FileCounter = 0
+    # Unblock all files with progress
     $AllFilesToUnblock | ForEach-Object {
         $FileCounter++
         [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
-        Write-Progress -Activity 'Unblocking PowerShell Files' -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
+        Write-Progress -Activity 'Loading functions' -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
         # Unblock the file
         Unblock-File -Path $_.FullName
         # If the file is a ps1, then also dotsource it
         if ($_.Extension -eq '.ps1') { . $_.FullName }
     }
-    Write-Progress -Activity 'Unblocking PowerShell Files' -Completed
+    Write-Progress -Activity 'Loading functions' -Completed
 
 
     # Continue the Initialization (After dotsourcing, all functions have become available.)
