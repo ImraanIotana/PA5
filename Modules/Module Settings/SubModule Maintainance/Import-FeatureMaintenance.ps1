@@ -35,7 +35,7 @@ function Import-FeatureMaintenance {
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
             Title           = [System.String]'Maintenance'
-            Color           = [System.String]'OrangeRed'
+            Color           = [System.String]'Blue'
             NumberOfRows    = [System.Int32]4
         }
         # Maintainance Action Handlers
