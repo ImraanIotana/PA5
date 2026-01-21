@@ -1,7 +1,7 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This feature performs maintaince on the Packaging Assistant.
+    This feature performs maintenance on the Packaging Assistant.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
@@ -11,10 +11,10 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : September 2025
-    Last Updated    : September 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -34,7 +34,7 @@ function Import-FeatureMaintenance {
         [System.String[]]$FunctionDetails       = @($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
-            Title           = [System.String]'Maintainance'
+            Title           = [System.String]'Maintenance'
             Color           = [System.String]'OrangeRed'
             NumberOfRows    = [System.Int32]4
         }
@@ -43,6 +43,7 @@ function Import-FeatureMaintenance {
             #DownLoadScript  = 'GENERAL: Download the DeploymentScript'
             ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
             UpdateScript    = 'APPLICATION INTAKE: Update the DeploymentScript'
+            UpdatePA        = 'GENERAL: Update the Packaging Assistant'
         }
 
 
