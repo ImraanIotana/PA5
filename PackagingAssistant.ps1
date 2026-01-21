@@ -56,6 +56,8 @@ begin {
         Messages                    = [System.Collections.Hashtable]@{
             CopyrightNotice         = 'Copyright (C) Iotana. All rights reserved.'
             WelcomeMessageCircumFix = 'Welcome to the {0} version {1}.'
+            SettingWorkFolders      = 'Setting workfolders...'
+            ImportingSettings       = 'Importing settings...'
         }
     }
    
@@ -69,15 +71,9 @@ begin {
     ####################################################################################################
     ### SUPPORTING FUNCTION ###
 
-    function Write-WelcomeMessage {
-        # Write the copyright and welcome message
-        Write-Line $Global:ApplicationObject.Messages.CopyrightNotice
-        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageCircumFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version)
-    }
-
     function Add-WorkFoldersToMainObject { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Create a new empty WorkFolders hashtable
-        Write-Host 'Setting workfolders...' -ForegroundColor DarkGray
+        Write-Host $Object.Messages.SettingWorkFolders -ForegroundColor DarkGray
         [System.Collections.Hashtable]$WorkFolders = @{}
         # Add the full paths to the new WorkFolders hashtable
         $Object.WorkFolderLeafNames.GetEnumerator() | ForEach-Object {
@@ -126,7 +122,7 @@ begin {
 
     function Add-SettingsToMainObject { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Import the Settings
-        Write-Line 'Importing settings...'
+        Write-Line $Object.Messages.ImportingSettings
         [System.String]$SettingsFilePath = Join-Path -Path $Object.WorkFolders.Settings -ChildPath $Object.SettingsFileName
         [System.Collections.Hashtable]$Settings = Import-PowerShellDataFile -Path $SettingsFilePath
         # Import the Customer Settings
@@ -158,6 +154,12 @@ begin {
         Import-Module -Name PAOmnissaDEMModule
         Import-Module -Name PAAppLockerModule
         Import-Module -Name PAShortcutModule
+    }
+
+    function Write-WelcomeMessage {
+        # Write the copyright and welcome message
+        Write-Line $Global:ApplicationObject.Messages.CopyrightNotice
+        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageCircumFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version)
     }
 
     ####################################################################################################
