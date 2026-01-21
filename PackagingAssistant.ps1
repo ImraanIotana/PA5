@@ -167,28 +167,18 @@ process {
     # Set the folders to search
     [System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
     # Get all PS1 and PSM1 file objects
-    [System.IO.FileSystemInfo[]]$AllPS1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1 }
-    [System.IO.FileSystemInfo[]]$AllPSM1FileObjects = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.psm1 }
-    # Add the arrays
-    [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $AllPS1FileObjects + $AllPSM1FileObjects    
+    [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FoldersToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
     # Unblock all files with progress
     [System.Int32]$TotalFileCount = @($AllFilesToUnblock).Count
     [System.Int32]$FileCounter = 0
     $AllFilesToUnblock | ForEach-Object {
         $FileCounter++
         [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
-        Write-Progress -Activity 'Unblocking PowerShell Module Files' -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
-        # If the file is a ps1, unblock and dotsource
-        if ($_.Extension -eq '.ps1') {
-            Unblock-File -Path $_.FullName
-            . $_.FullName
-        }
-        # Else only unblock
-        else {
-            Unblock-File -Path $_.FullName
-        }
+        Write-Progress -Activity 'Unblocking PowerShell Files' -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
+        # If the file is a ps1, unblock and dotsource, else just unblock
+        if ($_.Extension -eq '.ps1') { Unblock-File -Path $_.FullName ; . $_.FullName } else { Unblock-File -Path $_.FullName }
     }
-    Write-Progress -Activity 'Unblocking PowerShell Module Files' -Completed
+    Write-Progress -Activity 'Unblocking PowerShell Files' -Completed
 
 
 
