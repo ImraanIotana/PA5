@@ -49,7 +49,7 @@ function Import-FeatureMaintenance {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        [System.Management.Automation.ScriptBlock]$ButtonScriptBlockSwitch = { param([System.String]$SelectedKey)
+        [System.Management.Automation.ScriptBlock]$Script:ButtonScriptBlockSwitch = { param([System.String]$SelectedKey)
             switch ($SelectedKey) {
                 'UpdateScript'      { Update-InternalDeploymentScript }
                 'ShowFormsColors'   { Write-WindowsFormsColors }
@@ -66,7 +66,7 @@ function Import-FeatureMaintenance {
                 ToolTip         = 'Execute the selected Maintenance Action'
                 Function        = {
                     [System.String]$SelectedKey = $Global:ActionHashtable.Keys | Where-Object { $Global:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
-                    $ButtonScriptBlockSwitch.Invoke($SelectedKey)
+                    $Script:ButtonScriptBlockSwitch.Invoke($SelectedKey)
                 }
             }
         )
