@@ -57,7 +57,7 @@ function Import-ModuleApplicationSettings {
             # Import the SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
             if (-Not($IsSCCMServer)) { Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
-            Import-SubModuleMaintainance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
+            Import-SubModuleMaintenance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
         }
     }
     

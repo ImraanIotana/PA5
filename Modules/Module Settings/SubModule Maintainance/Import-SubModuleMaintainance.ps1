@@ -1,11 +1,11 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the Module 'Maintainance'.
+    This function imports the Module 'Maintenance'.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-SubModuleMaintainance
+    Import-SubModuleMaintenance
 .INPUTS
     [System.Windows.Forms.TabControl]
 .OUTPUTS
@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Import-SubModuleMaintainance {
+function Import-SubModuleMaintenance {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
@@ -31,7 +31,7 @@ function Import-SubModuleMaintainance {
         ### MAIN PROPERTIES ###
 
         # Handlers
-        [System.String]$TabTitle        = 'Maintainance'
+        [System.String]$TabTitle        = 'Maintenance'
         [System.String]$ModuleVersion   = '5.7.0'
         [System.String]$BackGroundColor = 'Cornsilk'
 
