@@ -164,15 +164,10 @@ process {
     Add-WorkFoldersToMainObject
 
     # LOADING AND UNBLOCKING FILES
-    # Set the subfolders to search
-    [System.String[]]$SubFoldersToSearch = @('GraphicFunctions','SharedFunctions','SharedModules','Modules')
     # Set the full paths to search
-    [System.String[]]$FullPathsToSearch = $SubFoldersToSearch | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
-    # Set the folders to search
-    #[System.String[]]$FoldersToSearch = @($Global:ApplicationObject.WorkFolders.GraphicFunctions,$Global:ApplicationObject.WorkFolders.SharedFunctions,$Global:ApplicationObject.WorkFolders.SharedModules,$Global:ApplicationObject.WorkFolders.Modules)
+    [System.String[]]$FullPathsToSearch = @('GraphicFunctions','SharedFunctions','SharedModules','Modules') | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
     # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
-    #[System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
     # Unblock all files with progress
     [System.Int32]$TotalFileCount = @($AllFilesToUnblock).Count
     [System.Int32]$FileCounter = 0
