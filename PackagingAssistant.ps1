@@ -58,7 +58,7 @@ begin {
     ### MAIN PROPERTIES ###
 
     # End Handlers
-    [System.Boolean]$LeaveHostOpen  = $true
+    [System.Boolean]$LeaveHostOpen  = $false
     [System.String]$HostPromptText  = 'Press Enter to close this window...'
 
     ####################################################################################################
