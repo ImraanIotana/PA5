@@ -3,9 +3,9 @@
 .SYNOPSIS
     This feature performs maintaince on the Packaging Assistant.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-FeatureMaintainance
+    Import-FeatureMaintenance
 .INPUTS
     [System.Windows.Forms.TabPage]
 .OUTPUTS
@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Import-FeatureMaintainance {
+function Import-FeatureMaintenance {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]

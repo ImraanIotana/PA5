@@ -33,7 +33,7 @@ function Import-SubModuleMaintenance {
         # Handlers
         [System.String]$TabTitle        = 'Maintenance'
         [System.String]$ModuleVersion   = '5.7.0'
-        [System.String]$BackGroundColor = 'Cornsilk'
+        [System.String]$BackGroundColor = 'LightSalmon'
 
         ####################################################################################################
     }
@@ -45,7 +45,7 @@ function Import-SubModuleMaintenance {
             # Create the Module TabPage
             [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
             # Import the Features
-            Import-FeatureMaintainance -ParentTabPage $ParentTabPage
+            Import-FeatureMaintenance -ParentTabPage $ParentTabPage
         }
         catch {
             Write-FullError
