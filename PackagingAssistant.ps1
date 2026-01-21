@@ -175,33 +175,15 @@ process {
         $FileCounter++
         [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
         Write-Progress -Activity 'Unblocking PowerShell Files' -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
+        # Unblock the file
+        Unblock-File -Path $_.FullName
+        # If the file is a ps1, then also dotsource it
+        if ($_.Extension -eq '.ps1') { . $_.FullName }
         # If the file is a ps1, unblock and dotsource, else just unblock
-        if ($_.Extension -eq '.ps1') { Unblock-File -Path $_.FullName ; . $_.FullName } else { Unblock-File -Path $_.FullName }
+        #if ($_.Extension -eq '.ps1') { Unblock-File -Path $_.FullName ; . $_.FullName } else { Unblock-File -Path $_.FullName }
     }
     Write-Progress -Activity 'Unblocking PowerShell Files' -Completed
 
-
-
-    <# Unblock all psm1 files with progress
-    [System.Int32]$PSM1FileCount = @($AllPSM1FileObjects).Count
-    [System.Int32]$CurrentPSM1File = 0
-    $AllPSM1FileObjects | ForEach-Object {
-        $CurrentPSM1File++
-        [System.Int32]$PercentComplete = [Math]::Round(($CurrentPSM1File / $PSM1FileCount) * 100)
-        Write-Progress -Activity 'Unblocking PowerShell Module Files' -Status "[$CurrentPSM1File/$PSM1FileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
-        Unblock-File -Path $_.FullName
-    }
-    Write-Progress -Activity 'Unblocking PowerShell Module Files' -Completed
-    # Unblock and dotsource all ps1 files with progress
-    [System.Int32]$FileCount = @($AllPS1FileObjects).Count
-    [System.Int32]$CurrentFile = 0
-    $AllPS1FileObjects | ForEach-Object { 
-        $CurrentFile++
-        [System.Int32]$PercentComplete = [Math]::Round(($CurrentFile / $FileCount) * 100)
-        Write-Progress -Activity 'Unblocking and Loading PowerShell Files' -Status "[$CurrentFile/$FileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
-        if ($_) { Unblock-File -Path $_.FullName ; . $_.FullName } 
-    }
-    Write-Progress -Activity 'Unblocking and Loading PowerShell Files' -Completed#>
 
     # Continue the Initialization (After dotsourcing, all functions have become available.)
     New-LogFolder
