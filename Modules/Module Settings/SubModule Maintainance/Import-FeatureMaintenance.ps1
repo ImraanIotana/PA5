@@ -42,6 +42,7 @@ function Import-FeatureMaintenance {
             UpdatePA        = 'GENERAL: Update the Packaging Assistant'
             ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
             UpdateScript    = 'APPLICATION INTAKE: Update the DeploymentScript'
+            TestModule      = 'TEST: Test the new module'
         }
 
 
@@ -56,6 +57,7 @@ function Import-FeatureMaintenance {
             switch ($SelectedKey) {
                 'UpdateScript'      { Update-InternalDeploymentScript }
                 'ShowFormsColors'   { Write-WindowsFormsColors }
+                'TestModule'        { Test-NewModule }
                 Default             { Write-Line "This function has not been defined yet. No action has been taken." }
             }
         }
