@@ -52,6 +52,11 @@ begin {
         SettingsFileName            = [System.String]'ApplicationSettings.psd1'
         CustomerSettingsFileName    = [System.String]'CustomerSettings.psd1'
         IconFileName                = [System.String]'KPN.ico'
+        # Message Handlers
+        Messages                    = [System.Collections.Hashtable]@{
+            CopyrightNotice         = 'Copyright (C) Iotana. All rights reserved.'
+            WelcomeMessageCircumFix = 'Welcome to the {0} version {1}.'
+        }
     }
    
     ####################################################################################################
@@ -66,8 +71,8 @@ begin {
 
     function Write-WelcomeMessage {
         # Write the copyright and welcome message
-        Write-Line "Copyright (C) Iotana. All rights reserved."
-        Write-Host "Welcome to the $($Global:ApplicationObject.Name) version $($Global:ApplicationObject.Version)."
+        Write-Line $Global:ApplicationObject.Messages.CopyrightNotice
+        Write-Host $Global:ApplicationObject.Messages.WelcomeMessageCircumFix -f $Global:ApplicationObject.Name, $Global:ApplicationObject.Version
     }
 
     function Add-WorkFoldersToMainObject { param([PSCustomObject]$Object = $Global:ApplicationObject)
