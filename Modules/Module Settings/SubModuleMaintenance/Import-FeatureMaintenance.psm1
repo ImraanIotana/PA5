@@ -56,7 +56,10 @@ function Import-FeatureMaintenance {
             # Perform the action based on the selected key
             switch ($SelectedKey) {
                 'UpdateScript'      { Update-InternalDeploymentScript }
-                'ShowFormsColors'   { Write-WindowsFormsColors }
+                'ShowFormsColors'   {
+                    Write-Line "Executing Maintainance: [$($Global:FAMActionComboBox.Text)]"
+                    Write-WindowsFormsColors
+                }
                 'TestModule'        { Test-NewModule }
                 Default             { Write-Line "This function has not been defined yet. No action has been taken." }
             }
