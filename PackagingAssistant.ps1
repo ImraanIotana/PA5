@@ -58,19 +58,12 @@ begin {
             WelcomeMessageCircumFix = 'Welcome to the {0} version {1}.'
             SettingWorkFolders      = 'Setting workfolders...'
             ImportingSettings       = 'Importing settings...'
-            LoadingSettings         = 'Loading settings...'
+            LoadingFunctions        = 'Loading functions and modules...'
         }
         # End Handlers
         LeaveHostOpen               = $true
         HostPromptText              = 'Press Enter to close this window...'
     }
-   
-    ####################################################################################################
-    ### MAIN PROPERTIES ###
-
-    # End Handlers
-    #[System.Boolean]$LeaveHostOpen  = $false
-    #[System.String]$HostPromptText  = 'Press Enter to close this window...'
 
     ####################################################################################################
     ### SUPPORTING FUNCTION ###
@@ -182,7 +175,7 @@ process {
     # Set the properties for progress
     [System.Int32]$TotalFileCount   = @($AllFilesToUnblock).Count
     [System.Int32]$FileCounter      = 0
-    [System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingSettings
+    [System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingFunctions
     # Unblock all files with progress
     $AllFilesToUnblock | ForEach-Object {
         $FileCounter++
@@ -252,7 +245,6 @@ process {
 end {
     # If LeaveHostOpen is set to true, leave the host open
     if ($Global:ApplicationObject.LeaveHostOpen) { Read-Host -Prompt $Global:ApplicationObject.HostPromptText }
-    #if ($LeaveHostOpen) { Read-Host -Prompt $HostPromptText }
 }
 
 ### END OF SCRIPT
