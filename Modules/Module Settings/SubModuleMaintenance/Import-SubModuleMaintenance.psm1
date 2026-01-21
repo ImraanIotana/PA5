@@ -41,11 +41,11 @@ function Import-SubModuleMaintenance {
     process {
         try {
             # Write the message
-            Write-Line "Importing Module $TabTitle $ModuleVersion"
-            # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
+            Write-Line "Importing SubModule $TabTitle $ModuleVersion"
+            # Create the SubModule TabPage
+            [System.Windows.Forms.TabPage]$SubModuleMaintenanceTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
             # Import the Features
-            Import-FeatureMaintenance -ParentTabPage $ParentTabPage
+            Import-FeatureMaintenance -ParentTabPage $SubModuleMaintenanceTabPage
         }
         catch {
             Write-FullError
