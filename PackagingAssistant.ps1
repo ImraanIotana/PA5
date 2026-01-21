@@ -65,7 +65,7 @@ begin {
             HostPromptText          = 'Press Enter to close this window...'
         }
         # End Handlers
-        LeaveHostOpen               = $false
+        LeaveHostOpen               = $true
     }
 
     ####################################################################################################
