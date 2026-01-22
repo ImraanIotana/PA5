@@ -41,7 +41,7 @@ function Import-FeatureUpdates {
         [PSCustomObject]$GroupBox = @{
             Title           = [System.String]'Updates'
             Color           = [System.String]'Blue'
-            NumberOfRows    = [System.Int32]4
+            NumberOfRows    = [System.Int32]5
             GroupBoxAbove   = $Global:FAMMaintenanceGroupBox
         }
 
@@ -52,7 +52,7 @@ function Import-FeatureUpdates {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        # Set the Buttons
+        # Set the URL Buttons
         [System.Collections.Hashtable[]]$URLButtonProperties = @(
             @{
                 ColumnNumber    = 1
