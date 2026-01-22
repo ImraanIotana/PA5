@@ -20,7 +20,7 @@
 #>
 ####################################################################################################
 
-function Get-ApplicationUpdate {
+function Get-ApplicationUpdateOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]

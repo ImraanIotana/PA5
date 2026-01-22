@@ -46,10 +46,8 @@ function Import-FeatureMaintenance {
 
         # Set the Action Hashtable
         [System.Collections.Hashtable]$Script:ActionHashtable = @{
-            UpdatePA        = 'GENERAL: Update the Packaging Assistant'
             ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
             UpdateScript    = 'APPLICATION INTAKE: Update the DeploymentScript'
-            TestModule      = 'TEST: Test the new module'
         }
 
 
@@ -61,13 +59,10 @@ function Import-FeatureMaintenance {
             # Get the selected key from the hashtable
             [System.String]$SelectedKey = $Script:ActionHashtable.Keys | Where-Object { $Script:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
             # Perform the action based on the selected key
+            Write-Line "Executing Maintenance: [$($Global:FAMActionComboBox.Text)]"
             switch ($SelectedKey) {
                 'UpdateScript'      { Update-InternalDeploymentScript }
-                'ShowFormsColors'   {
-                    Write-Line "Executing Maintenance: [$($Global:FAMActionComboBox.Text)]"
-                    Write-WindowsFormsColors
-                }
-                'TestModule'        { Test-NewModule }
+                'ShowFormsColors'   { Write-WindowsFormsColors }
                 Default             { Write-Line "This Action has not been implemented yet. No action has been taken." }
             }
         }
@@ -160,9 +155,3 @@ function Write-WindowsFormsColors {
 ### END OF SCRIPT
 ####################################################################################################
 
-
-####################################################################################################
-function Test-NewModule {
-    Write-Host "TESTING: Test-NewModule called" -ForegroundColor Green
-}
-####################################################################################################
