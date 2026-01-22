@@ -102,6 +102,9 @@ function Get-ApplicationUpdate {
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Copying new files to installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Copy-Item -Path "$ExtractFolder\*" -Destination "$InstallationFolder" -Recurse -Force
+            Write-Host "Removing the extracted update folder... ($ExtractFolder)" -ForegroundColor Yellow
+            Remove-Item -Path "$ExtractFolder" -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Host "Update process completed successfully!" -ForegroundColor Green
             pause
 "@
             Set-Content -Path $UpdateScriptFilePath -Value $UpdateContent -Force -Encoding UTF8
