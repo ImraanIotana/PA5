@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.003'
+        Version                     = [System.String]'5.7.0.004'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -65,7 +65,7 @@ begin {
             HostPromptText          = 'Press Enter to close this window...'
         }
         # End Handlers
-        LeaveHostOpen               = $true
+        LeaveHostOpen               = $false
     }
 
     ####################################################################################################
