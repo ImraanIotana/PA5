@@ -46,16 +46,23 @@ function Get-ApplicationUpdate {
     
     process {
         # VALIDATION
+        # If the URL is empty, return
         if ([System.String]::IsNullOrEmpty($ZipFileToDownload)) { Write-Line "The URL is empty. No action has been taken." ; Return }
 
         # EXECUTION
         try {
-            Write-Line "DOWNLOADING $ZipFileToDownload"
-    
-            Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
-            Expand-Archive -Path $OutputFilePath -DestinationPath $OutputFolder -Force
+            # If the zip file already exists, remove it
+            if (Test-Path -Path $OutputFilePath) { Write-Line "Removing the previous update file... ($OutputFilePath)" ; Remove-Item -Path $OutputFilePath -Force }
 
-            #Remove-Item -Path $DownloadedFile -Force
+            # Download the update file
+            Write-Line "Downloading update... ($ZipFileToDownload)"
+            Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
+
+            # Extract the update file
+            Write-Line "Extracting update to folder... ($OutputFolder)"
+            Expand-Archive -Path $OutputFilePath -DestinationPath "$OutputFolder\NEW" -Force
+
+            # Open the output folder
             Open-Folder -Path $OutputFolder
         }
         catch {
