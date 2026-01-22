@@ -149,8 +149,8 @@ function Write-WindowsFormsColors {
         $Colors | Out-Host
 
         # Show the Windows Forms Colors Image
-        [System.String]$ImagePath = Get-ChildItem -Path $PSScriptRoot -Filter $ColorImageFileName -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
-        if ($ImagePath) { Invoke-Item -Path $ImagePath }
+        [System.IO.FileSystemInfo]$ImageObject = Get-ChildItem -Path $PSScriptRoot -Recurse -Filter $ColorImageFileName -ErrorAction SilentlyContinue
+        if ($ImageObject) { Invoke-Item -Path $ImageObject.FullName }
     }
     
     end {
