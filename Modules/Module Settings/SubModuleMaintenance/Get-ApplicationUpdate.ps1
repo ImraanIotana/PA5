@@ -1,7 +1,7 @@
 ####################################################################################################
 <#
 .SYNOPSIS
-    This function writes the Windows Forms Colors to the host.
+    This function downloads the update file from the URL.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
@@ -13,7 +13,7 @@
 .NOTES
     Version         : 5.7.0
     Author          : Imraan Iotana
-    Creation Date   : September 2025
+    Creation Date   : January 2026
     Last Update     : January 2026
 .COPYRIGHT
     Copyright (C) Iotana. All rights reserved.
@@ -23,14 +23,16 @@
 function Get-ApplicationUpdate {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory = $true)]
+        [System.String]$URL
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Handlers
-        [System.String]$ColorImageFileName = 'WindowsFormsColors.png'
+        # Input
+        [System.String]$ZipFileToDownload = $URL
 
         ####################################################################################################
 
@@ -38,8 +40,7 @@ function Get-ApplicationUpdate {
     
     process {
         # EXECUTION
-        
-        
+        Write-Line "DOWNLOADING $ZipFileToDownload"       
     }
     
     end {

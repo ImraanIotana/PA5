@@ -60,7 +60,7 @@ function Import-FeatureUpdates {
                 Image           = 'inbox_upload.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Download the file.'
-                Function        = { Write-Line -Type NoAction }
+                Function        = { Get-ApplicationUpdate -URL $Global:SMFUURLTextBox.Text }
             }
             @{
                 ColumnNumber    = 2
