@@ -101,10 +101,10 @@ function Import-FeatureUpdates {
             @{
                 ColumnNumber    = 1
                 Text            = 'Browse'
-                Image           = 'inbox_upload.png'
+                Image           = 'folders_explorer.png'
                 SizeType        = 'Medium'
-                ToolTip         = 'Download the file.'
-                Function        = {  }
+                ToolTip         = 'Browse to the installation folder.'
+                Function        = { [System.String]$FolderName = Select-Item -Folder ; if ($FolderName) { $Global:SMFUInstallationFolderTextBox.Text = $FolderName } }
             }
             @{
                 ColumnNumber    = 2
