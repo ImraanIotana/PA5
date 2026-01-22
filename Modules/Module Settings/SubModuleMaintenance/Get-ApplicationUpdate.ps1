@@ -35,10 +35,14 @@ function Get-ApplicationUpdate {
         # Input
         [System.String]$ZipFileToDownload   = $URL
 
-        # Handlers
+        # Download Handlers
         [System.String]$OutputFolder        = Get-Path -OutputFolder
         [System.String]$OutputFileName      = "PAUpdate.zip"
         [System.String]$OutputFilePath      = Join-Path -Path $OutputFolder -ChildPath $OutputFileName
+
+        # Extraction Handlers
+        [System.String]$CurrentVersion      = $Global:ApplicationObject.Version
+        [System.String]$ExtractFolder       = Join-Path -Path $OutputFolder -ChildPath ("Update for PA $CurrentVersion")
 
         ####################################################################################################
 
@@ -49,18 +53,26 @@ function Get-ApplicationUpdate {
         # If the URL is empty, return
         if ([System.String]::IsNullOrEmpty($ZipFileToDownload)) { Write-Line "The URL is empty. No action has been taken." ; Return }
 
+        # PREPARATION
+        # If the zip file already exists, remove it
+        if (Test-Path -Path $OutputFilePath) { Write-Line "Removing the previous update file... ($OutputFilePath)" ; Remove-Item -Path $OutputFilePath -Force }
+
+        # If the extract folder already exists, remove it
+        if (Test-Path -Path $ExtractFolder) { Write-Line "Removing the previous extracted folder... ($ExtractFolder)" ; Remove-Item -Path $ExtractFolder -Recurse -Force }
+
         # EXECUTION
         try {
-            # If the zip file already exists, remove it
-            if (Test-Path -Path $OutputFilePath) { Write-Line "Removing the previous update file... ($OutputFilePath)" ; Remove-Item -Path $OutputFilePath -Force }
-
             # Download the update file
             Write-Line "Downloading update... ($ZipFileToDownload)"
             Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
 
             # Extract the update file
-            Write-Line "Extracting update to folder... ($OutputFolder)"
-            Expand-Archive -Path $OutputFilePath -DestinationPath "$OutputFolder\NEW" -Force
+            Write-Line "Extracting the update file to folder... ($OutputFolder)"
+            Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
+
+            # Remove the update file after extraction
+            Write-Line "Removing the update file... ($OutputFilePath)"
+            Remove-Item -Path $OutputFilePath -Force
 
             # Open the output folder
             Open-Folder -Path $OutputFolder
