@@ -63,19 +63,22 @@ function Get-ApplicationUpdate {
         # EXECUTION
         try {
             # Download the update file
-            Write-Line "Downloading update... ($ZipFileToDownload)"
+            Write-Line "Downloading update... ($ZipFileToDownload)" -Type Busy
             Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
 
             # Extract the update file
-            Write-Line "Extracting the update file to folder... ($OutputFolder)"
+            Write-Line "Extracting the update file to folder... ($OutputFolder)" -Type Busy
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
             # Remove the update file after extraction
-            Write-Line "Removing the update file... ($OutputFilePath)"
+            Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
             Remove-Item -Path $OutputFilePath -Force
 
-            # Open the output folder
-            Open-Folder -Path $OutputFolder
+            # Write the message
+            Write-Line "The update has been downloaded." -Type Success
+
+            # Open the extract folder
+            Open-Folder -Path $ExtractFolder
         }
         catch {
             Write-FullError
