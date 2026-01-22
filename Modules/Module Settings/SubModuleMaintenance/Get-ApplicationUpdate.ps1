@@ -82,7 +82,7 @@ function Get-ApplicationUpdate {
             switch ($FolderObjects.Count) {
                 1 {
                     # Change the value of the extract folder
-                    $ExtractFolder = $FolderObjects[0].FullName
+                    [System.String]$FolderToCopyFrom = $FolderObjects[0].FullName
                 }
                 default {
                     # Do nothing
@@ -98,11 +98,11 @@ function Get-ApplicationUpdate {
             [System.String]$UpdateContent = @"
             Write-Host "Starting the update process..." -ForegroundColor Yellow
             Start-Sleep -Seconds 2
-            Write-Host "Removing old files from installation folder... ($InstallationFolder)" -ForegroundColor Yellow
+            Write-Host "Removing the old files from the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
-            Write-Host "Copying new files to installation folder... ($InstallationFolder)" -ForegroundColor Yellow
-            Copy-Item -Path "$ExtractFolder\*" -Destination "$InstallationFolder" -Recurse -Force
-            Write-Host "Removing the extracted update folder... ($ExtractFolder)" -ForegroundColor Yellow
+            Write-Host "Copying the new files to the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
+            Copy-Item -Path "$FolderToCopyFrom\*" -Destination "$InstallationFolder" -Recurse -Force
+            Write-Host "Removing the Extract folder... ($ExtractFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$ExtractFolder" -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Update process completed successfully!" -ForegroundColor Green
             pause
