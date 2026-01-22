@@ -48,9 +48,6 @@ function Get-ApplicationUpdate {
         [System.String]$InstallationFolder      = $Global:SMFUInstallationFolderTextBox.Text
         [System.String]$UpdateScriptFileName    = "Install-PAUpdate.ps1"
         [System.String]$UpdateScriptFilePath    = Join-Path -Path $OutputFolder -ChildPath $UpdateScriptFileName
-        [System.String]$UpdateContent           = @"
-        Get-ChildItem -Path `"$InstallationFolder`" -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
-"@
 
         ####################################################################################################
 
@@ -98,6 +95,10 @@ function Get-ApplicationUpdate {
 
             # Create the update script
             Write-Line "Creating the update script..." -Type Busy
+            [System.String]$UpdateContent = @"
+            Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
+            Copy-Item -Path "$ExtractFolder\*" -Destination "$InstallationFolder" -Recurse -Force
+"@
             Set-Content -Path $UpdateScriptFilePath -Value $UpdateContent -Force -Encoding UTF8
 
             # Write the message
