@@ -64,11 +64,11 @@ function Import-FeatureMaintenance {
             switch ($SelectedKey) {
                 'UpdateScript'      { Update-InternalDeploymentScript }
                 'ShowFormsColors'   {
-                    Write-Line "Executing Maintainance: [$($Global:FAMActionComboBox.Text)]"
+                    Write-Line "Executing Maintenance: [$($Global:FAMActionComboBox.Text)]"
                     Write-WindowsFormsColors
                 }
                 'TestModule'        { Test-NewModule }
-                Default             { Write-Line "This function has not been defined yet. No action has been taken." }
+                Default             { Write-Line "This Action has not been implemented yet. No action has been taken." }
             }
         }
 
@@ -101,4 +101,55 @@ function Import-FeatureMaintenance {
 }
 
 ### END OF SCRIPT
+####################################################################################################
+
+
+####################################################################################################
+<#
+.SYNOPSIS
+    This function writes the Windows Forms Colors to the host.
+.DESCRIPTION
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+.EXAMPLE
+    Write-WindowsFormsColors
+.INPUTS
+    -
+.OUTPUTS
+    This function returns no stream output.
+.NOTES
+    Version         : 5.7.0
+    Author          : Imraan Iotana
+    Creation Date   : September 2025
+    Last Update     : January 2026
+.COPYRIGHT
+    Copyright (C) Iotana. All rights reserved.
+#>
+####################################################################################################
+
+function Write-WindowsFormsColors {
+    [CmdletBinding()]
+    param (
+    )
+
+    begin {
+    }
+    
+    process {
+        # EXECUTION
+        [PSCustomObject[]]$Colors = [System.Drawing.Color] | Get-Member -Static | Where-Object { $_.MemberType -eq 'Property' } | Select-Object Name | Sort-Object Name
+        $Colors | Out-Host
+    }
+    
+    end {
+    }
+}
+
+### END OF SCRIPT
+####################################################################################################
+
+
+####################################################################################################
+function Test-NewModule {
+    Write-Host "TESTING: Test-NewModule called" -ForegroundColor Green
+}
 ####################################################################################################
