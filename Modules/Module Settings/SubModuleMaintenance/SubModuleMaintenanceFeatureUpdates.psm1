@@ -39,9 +39,10 @@ function Import-FeatureUpdates {
 
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
-            Title           = [System.String]'Maintenance'
+            Title           = [System.String]'Updates'
             Color           = [System.String]'Blue'
             NumberOfRows    = [System.Int32]4
+            GroupBoxAbove   = $Global:FAMMaintenanceGroupBox
         }
 
         # Set the Action Hashtable
@@ -89,9 +90,9 @@ function Import-FeatureUpdates {
 
     process {
         # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$Global:FAMMaintenanceGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color
+        [System.Windows.Forms.GroupBox]$Global:SMFeatureUpdatesGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the ComboBox
-        [System.Windows.Forms.ComboBox]$Global:FAMActionComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Action:' -ContentArray $Script:ActionHashtable.Values -PropertyName 'FAMActionComboBox'
+        [System.Windows.Forms.ComboBox]$Global:SMFeatureUpdatesComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Action:' -ContentArray $Script:ActionHashtable.Values -PropertyName 'SMFeatureUpdatesComboBox'
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
     }
