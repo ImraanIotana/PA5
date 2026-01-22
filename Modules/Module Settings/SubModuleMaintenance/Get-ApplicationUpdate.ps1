@@ -93,11 +93,9 @@ function Get-ApplicationUpdate {
             Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
             Remove-Item -Path $OutputFilePath -Force
 
-            # Create the update script
-            Write-Line "Creating the update script..." -Type Busy
-            [System.String]$UpdateContent = @"
+            # Set the update script content
+            [System.String]$UpdateScriptContent = @"
             Write-Host "Starting the update process..." -ForegroundColor Yellow
-            Start-Sleep -Seconds 2
             Write-Host "Removing the old files from the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Copying the new files to the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
@@ -105,12 +103,16 @@ function Get-ApplicationUpdate {
             Write-Host "Removing the Extract folder... ($ExtractFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$ExtractFolder" -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Update process completed successfully!" -ForegroundColor Green
-            pause
+            Start-Sleep -Seconds 2
 "@
-            Set-Content -Path $UpdateScriptFilePath -Value $UpdateContent -Force -Encoding UTF8
+            # Create the update script file
+            Write-Line "Creating the update script..." -Type Busy
+            Set-Content -Path $UpdateScriptFilePath -Value $UpdateScriptContent -Force -Encoding UTF8
 
             # Write the message
             Write-Line "The update has been downloaded." -Type Success
+            Write-Line "Please close this application, and run the script: ($UpdateScriptFilePath)." -Type Success
+            Write-Line "Then restart this application." -Type Success
 
             # Open the output folder
             Open-Folder -Path $OutputFolder
