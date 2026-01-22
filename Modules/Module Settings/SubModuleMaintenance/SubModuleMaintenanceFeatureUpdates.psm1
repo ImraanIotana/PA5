@@ -53,7 +53,7 @@ function Import-FeatureUpdates {
         ### BUTTON PROPERTIES ###
 
         # Set the Buttons
-        [System.Collections.Hashtable[]]$ButtonPropertiesArray = @(
+        [System.Collections.Hashtable[]]$URLButtonProperties = @(
             @{
                 ColumnNumber    = 1
                 Text            = 'Download'
@@ -96,13 +96,49 @@ function Import-FeatureUpdates {
             }
         )
 
+        # Set the Installation Folder Buttons
+        [System.Collections.Hashtable[]]$InstallationFolderButtonProperties = @(
+            @{
+                ColumnNumber    = 1
+                Text            = 'Browse'
+                Image           = 'inbox_upload.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Download the file.'
+                Function        = {  }
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Copy'
+                Image           = 'page_copy.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Copy the content of the textbox to your clipboard.'
+                Function        = { Invoke-ClipBoard -CopyFromBox $Global:SMFUInstallationFolderTextBox }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'Paste'
+                Image           = 'page_paste.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Paste the content of your clipboard to the textbox'
+                Function        = { Invoke-ClipBoard -PasteToBox $Global:SMFUInstallationFolderTextBox }
+            }
+            @{
+                ColumnNumber    = 4
+                Text            = 'Clear'
+                Image           = 'textfield_delete.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Clear the textbox.'
+                Function        = { Invoke-ClipBoard -ClearBox $Global:SMFUInstallationFolderTextBox }
+            }
+        )
+
         ####################################################################################################
     }
 
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:SMFeatureUpdatesGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
-        # Create the TextBox
+        # Create the URL TextBox
         [System.Windows.Forms.TextBox]$Global:SMFUURLTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'URL to zip file:' -PropertyName 'SMFUURLTextBox'
         $Global:SMFUURLTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $SMFUURLTextBoxDefaultValue
         $Global:SMFUURLTextBox | ForEach-Object {
@@ -112,7 +148,11 @@ function Import-FeatureUpdates {
             }
         }
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $URLButtonProperties -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
+        # Create the Installation Folder TextBox
+        [System.Windows.Forms.TextBox]$Global:SMFUInstallationFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Installation Folder:' -PropertyName 'SMFUInstallationFolderTextBox'
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $InstallationFolderButtonProperties -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $PSScriptRoot
     }
 
     end {

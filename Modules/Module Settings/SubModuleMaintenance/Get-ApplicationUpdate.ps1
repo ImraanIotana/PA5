@@ -44,6 +44,9 @@ function Get-ApplicationUpdate {
         [System.String]$CurrentVersion      = $Global:ApplicationObject.Version
         [System.String]$ExtractFolder       = Join-Path -Path $OutputFolder -ChildPath ("Update for PA $CurrentVersion")
 
+        # Other Handlers
+        [System.String]$InstallationFolder  = $Global:SMFUInstallationFolderTextBox.Text
+
         ####################################################################################################
 
     }
@@ -98,6 +101,9 @@ function Get-ApplicationUpdate {
 
             # Open the extract folder
             Open-Folder -Path $ExtractFolder
+
+            # Open the installation folder
+            Open-Folder -Path $InstallationFolder
         }
         catch [System.Net.WebException] {
             # Write the error message
