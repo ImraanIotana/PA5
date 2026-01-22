@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.016'
+        Version                     = [System.String]'5.7.0.017'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -102,7 +102,7 @@ begin {
             [DllImport("user32.dll")]
             public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
         }
-"@ # (When indenting this last line, the parsing goes wrong.)
+"@
 
         # Set the dimensions
         [System.Int32]$HostHandleX         = 0
