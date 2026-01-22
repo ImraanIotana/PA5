@@ -80,6 +80,11 @@ function Get-ApplicationUpdate {
             # Open the extract folder
             Open-Folder -Path $ExtractFolder
         }
+        catch [System.Net.WebException] {
+            # Write the error message
+            Write-Line "The update file could not be reached. Please check your spelling or your internet connection and try again." -Type Fail
+            Write-Line "There was an error downloading the update file. Please check your internet connection and try again." -Type ActionFail
+        }
         catch {
             Write-FullError
         }
