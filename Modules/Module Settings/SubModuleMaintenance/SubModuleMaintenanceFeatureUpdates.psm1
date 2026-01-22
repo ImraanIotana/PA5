@@ -56,6 +56,14 @@ function Import-FeatureUpdates {
         [System.Collections.Hashtable[]]$ButtonPropertiesArray = @(
             @{
                 ColumnNumber    = 1
+                Text            = 'Download'
+                Image           = 'inbox_upload.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Download the file.'
+                Function        = { Write-Line -Type NoAction }
+            }
+            @{
+                ColumnNumber    = 2
                 Text            = 'Copy'
                 Image           = 'page_copy.png'
                 SizeType        = 'Medium'
@@ -63,7 +71,7 @@ function Import-FeatureUpdates {
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:SMFUURLTextBox }
             }
             @{
-                ColumnNumber    = 2
+                ColumnNumber    = 3
                 Text            = 'Paste'
                 Image           = 'page_paste.png'
                 SizeType        = 'Medium'
@@ -71,7 +79,7 @@ function Import-FeatureUpdates {
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:SMFUURLTextBox }
             }
             @{
-                ColumnNumber    = 3
+                ColumnNumber    = 4
                 Text            = 'Clear'
                 Image           = 'textfield_delete.png'
                 SizeType        = 'Medium'
