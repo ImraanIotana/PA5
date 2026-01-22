@@ -100,6 +100,7 @@ function Get-ApplicationUpdate {
             Start-Sleep -Seconds 2
             Write-Host "Removing old files from installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Host "Copying new files to installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Copy-Item -Path "$ExtractFolder\*" -Destination "$InstallationFolder" -Recurse -Force
             pause
 "@
