@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.017'
+        Version                     = [System.String]'5.7.0.018'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -219,6 +219,8 @@ process {
             Import-Module -Name PASCCMModule
             Import-ModuleSCCMApplication
         }
+        # Import these modules, for all machines
+        Import-ModuleLauncher
         # Import the modules, only if not an SCCM server
         if (-Not($IsSCCMServer)) {
             Import-ModuleApplicationIntake
@@ -232,7 +234,6 @@ process {
             Import-ModuleAppLockerImport
         }
         # Import these modules, for all machines
-        Import-ModuleLauncher
         Import-ModuleApplicationSettings
 
         # Write the welcome message
