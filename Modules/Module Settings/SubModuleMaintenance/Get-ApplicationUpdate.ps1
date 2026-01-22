@@ -112,11 +112,8 @@ function Get-ApplicationUpdate {
             # Write the message
             Write-Line "The update has been downloaded." -Type Success
 
-            # Open the extract folder
-            Open-Folder -Path $ExtractFolder
-
-            # Open the installation folder
-            Open-Folder -Path $InstallationFolder
+            # Open the output folder
+            Open-Folder -Path $OutputFolder
         }
         catch [System.Net.WebException] {
             # Write the error message
