@@ -53,7 +53,7 @@ function Get-ApplicationUpdate {
             Write-Line "DOWNLOADING $ZipFileToDownload"
     
             Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
-            #Expand-Archive -Path $DownloadedFile -DestinationPath C:\Users\iotan500\Downloads -Force
+            Expand-Archive -Path $OutputFilePath -DestinationPath $OutputFolder -Force
 
             #Remove-Item -Path $DownloadedFile -Force
             Open-Folder -Path $OutputFolder
