@@ -45,6 +45,9 @@ function Import-FeatureUpdates {
             GroupBoxAbove   = $Global:FAMMaintenanceGroupBox
         }
 
+        # Handlers
+        [System.String]$SMFUURLTextBoxDefaultValue = $Global:ApplicationObject.Settings.ZipFileOnGithub
+
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
@@ -91,8 +94,15 @@ function Import-FeatureUpdates {
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:SMFeatureUpdatesGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
-        # Create the ComboBox
+        # Create the TextBox
         [System.Windows.Forms.TextBox]$Global:SMFUURLTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'URL to zip file:' -PropertyName 'SMFUURLTextBox'
+        $Global:SMFUURLTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $SMFUURLTextBoxDefaultValue
+        $Global:SMFUURLTextBox | ForEach-Object {
+            if (Test-Object -IsEmpty ($_.Text)) {
+                Write-Line ('The Update URL field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
+                $_.Text = $_.DefaultValue
+            }
+        }
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
     }
