@@ -13,7 +13,7 @@
 .OUTPUTS
     This script returns no stream-output. All output is written to the host during runtime.
 .NOTES
-    Version         : See below at line 35: Version = [System.String]'x.y'
+    Version         : See below at line 37: Version = [System.String]'x.y'
     Author          : Imraan Iotana
     Creation Date   : May 2023
     Last Update     : January 2026
@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.002'
+        Version                     = [System.String]'5.7.0.003'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
