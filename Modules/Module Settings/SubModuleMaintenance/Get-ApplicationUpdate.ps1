@@ -24,6 +24,7 @@ function Get-ApplicationUpdate {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory = $true)]
+        [AllowEmptyString()]
         [System.String]$URL
     )
 
