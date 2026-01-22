@@ -45,43 +45,43 @@ function Import-FeatureUpdates {
             GroupBoxAbove   = $Global:FAMMaintenanceGroupBox
         }
 
-        # Set the Action Hashtable
-        [System.Collections.Hashtable]$Script:ActionHashtable = @{
-            UpdatePA        = 'GENERAL: Update the Packaging Assistant'
-            ShowFormsColors = 'GENERAL: Write Windows Forms Colors to Host'
-            UpdateScript    = 'APPLICATION INTAKE: Update the DeploymentScript'
-            TestModule      = 'TEST: Test the new module'
-        }
-
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        # Set the ScriptBlock for the Execute Action button
-        [System.Management.Automation.ScriptBlock]$Script:ExecuteActionScriptBlock = {
-            # Get the selected key from the hashtable
-            [System.String]$SelectedKey = $Script:ActionHashtable.Keys | Where-Object { $Script:ActionHashtable.$_ -eq $Global:FAMActionComboBox.Text }
-            # Perform the action based on the selected key
-            switch ($SelectedKey) {
-                'UpdateScript'      { Update-InternalDeploymentScript }
-                'ShowFormsColors'   {
-                    Write-Line "Executing Maintenance: [$($Global:FAMActionComboBox.Text)]"
-                    Write-WindowsFormsColors
-                }
-                'TestModule'        { Test-NewModule }
-                Default             { Write-Line "This Action has not been implemented yet. No action has been taken." }
-            }
-        }
-
         # Set the Buttons
         [System.Collections.Hashtable[]]$ButtonPropertiesArray = @(
-           @{
+            @{
                 ColumnNumber    = 1
-                Text            = 'Execute the Action'
-                Image           = 'cog_go.png'
-                SizeType        = 'Large'
-                ToolTip         = 'Execute the selected Maintenance Action'
-                Function        = { & $Script:ExecuteActionScriptBlock }
+                Text            = 'Copy'
+                Image           = 'page_copy.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Copy the content of the textbox to your clipboard.'
+                Function        = { Invoke-ClipBoard -CopyFromBox $Global:SMFUURLTextBox }
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Paste'
+                Image           = 'page_paste.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Paste the content of your clipboard to the textbox'
+                Function        = { Invoke-ClipBoard -PasteToBox $Global:SMFUURLTextBox }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'Clear'
+                Image           = 'textfield_delete.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Clear the textbox.'
+                Function        = { Invoke-ClipBoard -ClearBox $Global:SMFUURLTextBox }
+            }
+            @{
+                ColumnNumber    = 5
+                Text            = 'Default'
+                Image           = 'arrow_undo.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Reset the textbox to the default value.'
+                Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:SMFUURLTextBox.DefaultValue)) { $Global:SMFUURLTextBox.Text = $Global:SMFUURLTextBox.DefaultValue } }
             }
         )
 
@@ -92,7 +92,7 @@ function Import-FeatureUpdates {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:SMFeatureUpdatesGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the ComboBox
-        [System.Windows.Forms.TextBox]$Global:SMFUURLTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Input -Label 'URL to zip file:' -PropertyName 'SMFUURLTextBox'
+        [System.Windows.Forms.TextBox]$Global:SMFUURLTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'URL to zip file:' -PropertyName 'SMFUURLTextBox'
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
     }
