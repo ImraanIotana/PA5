@@ -96,8 +96,12 @@ function Get-ApplicationUpdate {
             # Create the update script
             Write-Line "Creating the update script..." -Type Busy
             [System.String]$UpdateContent = @"
+            Write-Host "Starting the update process..." -ForegroundColor Yellow
+            Start-Sleep -Seconds 2
+            Write-Host "Removing old files from installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
             Copy-Item -Path "$ExtractFolder\*" -Destination "$InstallationFolder" -Recurse -Force
+            pause
 "@
             Set-Content -Path $UpdateScriptFilePath -Value $UpdateContent -Force -Encoding UTF8
 
