@@ -40,7 +40,7 @@ function Import-FeatureUpdates {
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
             Title           = [System.String]'Updates'
-            Color           = [System.String]'Blue'
+            Color           = [System.String]'SteelBlue'
             NumberOfRows    = [System.Int32]4
             GroupBoxAbove   = $Global:FAMMaintenanceGroupBox
         }
