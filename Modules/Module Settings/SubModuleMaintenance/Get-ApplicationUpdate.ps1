@@ -40,8 +40,16 @@ function Get-ApplicationUpdate {
     }
     
     process {
+        # VALIDATION
+        if ([System.String]::IsNullOrEmpty($ZipFileToDownload)) { Write-Line "The URL is empty. No action has been taken." ; Return }
+
         # EXECUTION
-        Write-Line "DOWNLOADING $ZipFileToDownload"       
+        try {
+            Write-Line "DOWNLOADING $ZipFileToDownload"   
+        }
+        catch {
+            Write-FullError
+        }
     }
     
     end {
