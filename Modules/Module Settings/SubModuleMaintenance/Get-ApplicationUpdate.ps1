@@ -70,6 +70,25 @@ function Get-ApplicationUpdate {
             Write-Line "Extracting the update file to folder... ($OutputFolder)" -Type Busy
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
+            # Get the top folder
+            [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
+            [System.Int32]$NumberOfFolders = $FolderObjects.Count
+
+            # Switch on the number of folders
+            switch ($NumberOfFolders) {
+                1 {
+                    # Move the contents of the top folder to the extract folder
+                    [System.String]$TopFolderPath = $FolderObjects[0].FullName
+                    Get-ChildItem -Path $TopFolderPath | Move-Item -Destination $ExtractFolder
+
+                    # Remove the top folder
+                    Remove-Item -Path $TopFolderPath -Recurse -Force
+                }
+                default {
+                    # Do nothing
+                }
+            }
+
             # Remove the update file after extraction
             Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
             Remove-Item -Path $OutputFilePath -Force
