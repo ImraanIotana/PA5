@@ -132,12 +132,25 @@ function Write-WindowsFormsColors {
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Handlers
+        [System.String]$ColorImageFileName = 'WindowsFormsColors.png'
+
+        ####################################################################################################
+
     }
     
     process {
         # EXECUTION
+        # Write the Windows Forms Colors to Host
         [PSCustomObject[]]$Colors = [System.Drawing.Color] | Get-Member -Static | Where-Object { $_.MemberType -eq 'Property' } | Select-Object Name | Sort-Object Name
         $Colors | Out-Host
+
+        # Show the Windows Forms Colors Image
+        [System.String]$ImagePath = Get-ChildItem -Path $PSScriptRoot -Filter $ColorImageFileName -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName
+        if ($ImagePath) { Invoke-Item -Path $ImagePath }
     }
     
     end {
