@@ -33,7 +33,12 @@ function Get-ApplicationUpdate {
         ### MAIN PROPERTIES ###
 
         # Input
-        [System.String]$ZipFileToDownload = $URL
+        [System.String]$ZipFileToDownload   = $URL
+
+        # Handlers
+        [System.String]$OutputFolder        = Get-Path -OutputFolder
+        [System.String]$OutputFileName      = "PAUpdate.zip"
+        [System.String]$OutputFilePath      = Join-Path -Path $OutputFolder -ChildPath $OutputFileName
 
         ####################################################################################################
 
@@ -45,7 +50,13 @@ function Get-ApplicationUpdate {
 
         # EXECUTION
         try {
-            Write-Line "DOWNLOADING $ZipFileToDownload"   
+            Write-Line "DOWNLOADING $ZipFileToDownload"
+    
+            Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
+            #Expand-Archive -Path $DownloadedFile -DestinationPath C:\Users\iotan500\Downloads -Force
+
+            #Remove-Item -Path $DownloadedFile -Force
+            Open-Folder -Path $OutputFolder
         }
         catch {
             Write-FullError
