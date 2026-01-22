@@ -33,19 +33,24 @@ function Get-ApplicationUpdate {
         ### MAIN PROPERTIES ###
 
         # Input
-        [System.String]$ZipFileToDownload   = $URL
+        [System.String]$ZipFileToDownload       = $URL
 
         # Download Handlers
-        [System.String]$OutputFolder        = Get-Path -OutputFolder
-        [System.String]$OutputFileName      = "PAUpdate.zip"
-        [System.String]$OutputFilePath      = Join-Path -Path $OutputFolder -ChildPath $OutputFileName
+        [System.String]$OutputFolder            = Get-Path -OutputFolder
+        [System.String]$OutputFileName          = "PAUpdate.zip"
+        [System.String]$OutputFilePath          = Join-Path -Path $OutputFolder -ChildPath $OutputFileName
 
         # Extraction Handlers
-        [System.String]$CurrentVersion      = $Global:ApplicationObject.Version
-        [System.String]$ExtractFolder       = Join-Path -Path $OutputFolder -ChildPath ("Update for PA $CurrentVersion")
+        [System.String]$CurrentVersion          = $Global:ApplicationObject.Version
+        [System.String]$ExtractFolder           = Join-Path -Path $OutputFolder -ChildPath ("Update for PA $CurrentVersion")
 
         # Other Handlers
-        [System.String]$InstallationFolder  = $Global:SMFUInstallationFolderTextBox.Text
+        [System.String]$InstallationFolder      = $Global:SMFUInstallationFolderTextBox.Text
+        [System.String]$UpdateScriptFileName    = "Install-PAUpdate.ps1"
+        [System.String]$UpdateScriptFilePath    = Join-Path -Path $OutputFolder -ChildPath $UpdateScriptFileName
+        [System.String]$UpdateContent           = @"
+        Get-ChildItem -Path `"$InstallationFolder`" -Recurse | Remove-Item -Force -ErrorAction SilentlyContinue
+"@
 
         ####################################################################################################
 
@@ -59,9 +64,11 @@ function Get-ApplicationUpdate {
         # PREPARATION
         # If the zip file already exists, remove it
         if (Test-Path -Path $OutputFilePath) { Write-Line "Removing the previous update file... ($OutputFilePath)" ; Remove-Item -Path $OutputFilePath -Force }
-
         # If the extract folder already exists, remove it
         if (Test-Path -Path $ExtractFolder) { Write-Line "Removing the previous extracted folder... ($ExtractFolder)" ; Remove-Item -Path $ExtractFolder -Recurse -Force }
+        # If the update script already exists, remove it
+        if (Test-Path -Path $UpdateScriptFilePath) { Write-Line "Removing the previous update script... ($UpdateScriptFilePath)" ; Remove-Item -Path $UpdateScriptFilePath -Force }
+
 
         # EXECUTION
         try {
@@ -88,6 +95,10 @@ function Get-ApplicationUpdate {
             # Remove the update file after extraction
             Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
             Remove-Item -Path $OutputFilePath -Force
+
+            # Create the update script
+            Write-Line "Creating the update script..." -Type Busy
+            Set-Content -Path $UpdateScriptFilePath -Value $UpdateContent -Force -Encoding UTF8
 
             # Write the message
             Write-Line "The update has been downloaded." -Type Success
