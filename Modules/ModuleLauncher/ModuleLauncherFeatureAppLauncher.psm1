@@ -1,4 +1,4 @@
-####################################################################################################
+﻿####################################################################################################
 <#
 .SYNOPSIS
     This function imports the feature App Launcher.
@@ -25,7 +25,7 @@ function Import-FeatureAppLauncher {
         [System.Windows.Forms.TabPage]
         $ParentTabPage
     )
-
+ 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
@@ -55,14 +55,14 @@ function Import-FeatureAppLauncher {
                 Text            = 'Task Manager'
                 SizeType        = 'Large'
                 Image           = 'system_monitor.png'
-                Function        = { Invoke-Item -Path "$ENV:windir\System32\Taskmgr.exe" }
+                Function        = { Start-Process -FilePath "$ENV:windir\System32\Taskmgr.exe" -Verb RunAs }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Registry Editor'
                 SizeType        = 'Large'
                 Image           = 'Regedit.png'
-                Function        = { Invoke-Item -Path "$ENV:windir\regedit.exe" }
+                Function        = { Start-Process -FilePath "$ENV:windir\regedit.exe" -Verb RunAs }
             }
             @{
                 ColumnNumber    = 4
