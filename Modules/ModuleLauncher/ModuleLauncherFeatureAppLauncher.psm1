@@ -74,46 +74,44 @@ function Import-FeatureAppLauncher {
         ####################################################################################################
 
         # Add the AppLauncherButtons method
-        $Local:MainObject | Add-Member -MemberType ScriptMethod -Name AppLauncherButtons -Value {
-            # Return the button properties
-            @(
-                @{
-                    ColumnNumber    = 1
-                    Text            = 'Add/Remove Programs'
-                    SizeType        = 'Large'
-                    Image           = 'application_view_icons.png'
-                    Function        = { appwiz.cpl }
-                }
-                @{
-                    ColumnNumber    = 2
-                    Text            = 'Task Manager'
-                    SizeType        = 'Large'
-                    Image           = 'system_monitor.png'
-                    Function        = { Invoke-Item -Path "$ENV:windir\System32\Taskmgr.exe" }
-                }
-                @{
-                    ColumnNumber    = 3
-                    Text            = 'Registry Editor'
-                    SizeType        = 'Large'
-                    Image           = 'Regedit.png'
-                    Function        = { Invoke-Item -Path "$ENV:windir\regedit.exe" }
-                }
-                @{
-                    ColumnNumber    = 4
-                    Text            = 'Services'
-                    SizeType        = 'Large'
-                    Image           = 'cog.png'
-                    Function        = { services.msc }
-                }
-                @{
-                    ColumnNumber    = 5
-                    Text            = 'PowerShell'
-                    SizeType        = 'Large'
-                    Image           = 'PowerShell.png'
-                    Function        = { Start-Process -FilePath "$ENV:windir\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -Verb RunAs }
-                }
-            )
-        }
+        [System.Collections.Hashtable[]]$AppLauncherButtons = @(
+            @{
+                ColumnNumber    = 1
+                Text            = 'Add/Remove Programs'
+                SizeType        = 'Large'
+                Image           = 'application_view_icons.png'
+                Function        = { appwiz.cpl }
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Task Manager'
+                SizeType        = 'Large'
+                Image           = 'system_monitor.png'
+                Function        = { Invoke-Item -Path "$ENV:windir\System32\Taskmgr.exe" }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'Registry Editor'
+                SizeType        = 'Large'
+                Image           = 'Regedit.png'
+                Function        = { Invoke-Item -Path "$ENV:windir\regedit.exe" }
+            }
+            @{
+                ColumnNumber    = 4
+                Text            = 'Services'
+                SizeType        = 'Large'
+                Image           = 'cog.png'
+                Function        = { services.msc }
+            }
+            @{
+                ColumnNumber    = 5
+                Text            = 'PowerShell'
+                SizeType        = 'Large'
+                Image           = 'PowerShell.png'
+                Function        = { Start-Process -FilePath "$ENV:windir\System32\WindowsPowerShell\v1.0\powershell_ise.exe" -Verb RunAs }
+            }
+        )
+        
 
         # Add the AppLauncherButtons2 method
         $Local:MainObject | Add-Member -MemberType ScriptMethod -Name AppLauncherButtons2 -Value {
@@ -168,6 +166,8 @@ function Import-FeatureAppLauncher {
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons -ParentGroupBox $ParentGroupBox -RowNumber 1  -AssetFolder $PSScriptRoot
     }
 
     end {
