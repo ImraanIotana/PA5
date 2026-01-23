@@ -252,7 +252,8 @@ function Get-ApplicationUpdate {
             #Remove-Item -Path $OutputFilePath -Force
 
             # Set the update script content
-            [System.String]$UpdateScriptContent = @"
+            [System.String]$UpdateScriptContent = @'
+            # Start the update process
             Write-Host "Starting the update process..." -ForegroundColor Cyan
 
             # Extract the update file
@@ -260,11 +261,11 @@ function Get-ApplicationUpdate {
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
             # Switch on the number of folders inside the extract folder
-            [System.IO.DirectoryInfo[]]`$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
-            switch (`$FolderObjects.Count) {
+            [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
+            switch ($FolderObjects.Count) {
                 1 {
                     # Change the value of the extract folder
-                    [System.String]`$FolderToCopyFrom = `$FolderObjects[0].FullName
+                    [System.String]$FolderToCopyFrom = $FolderObjects[0].FullName
                 }
                 default {
                     # Do nothing
@@ -281,7 +282,14 @@ function Get-ApplicationUpdate {
             Remove-Item -Path "$ExtractFolder" -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Update process completed successfully!" -ForegroundColor Green
             Start-Sleep -Seconds 2
-"@
+'@
+
+            # Replace the variables in the script content
+            $UpdateScriptContent = $UpdateScriptContent -replace '\$OutputFolder', ('"{0}"' -f $OutputFolder)
+            $UpdateScriptContent = $UpdateScriptContent -replace '\$OutputFilePath', ('"{0}"' -f $OutputFilePath)
+            $UpdateScriptContent = $UpdateScriptContent -replace '\$ExtractFolder', ('"{0}"' -f $ExtractFolder)
+            $UpdateScriptContent = $UpdateScriptContent -replace '\$InstallationFolder', ('"{0}"' -f $InstallationFolder)
+
             # Create the update script file
             Write-Line "Creating the update script..." -Type Busy
             Set-Content -Path $UpdateScriptFilePath -Value $UpdateScriptContent -Force -Encoding UTF8
