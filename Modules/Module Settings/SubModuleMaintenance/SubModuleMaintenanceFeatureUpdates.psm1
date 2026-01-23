@@ -12,7 +12,7 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-FeatureUpdates
+    Import-FeatureUpdates -ParentTabPage $Global:ParentTabPage
 .INPUTS
     [System.Windows.Forms.TabPage]
 .OUTPUTS
@@ -47,7 +47,6 @@ function Import-FeatureUpdates {
 
         # Handlers
         [System.String]$SMFUURLTextBoxDefaultValue = $Global:ApplicationObject.Settings.ZipFileOnGithub
-
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###

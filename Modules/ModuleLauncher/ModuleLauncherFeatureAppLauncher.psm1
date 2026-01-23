@@ -1,23 +1,20 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the feature Settings.
+    This function imports the feature App Launcher.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : Invoke-Groupbox, Invoke-ButtonLine
-    External variables  : $Global:AppLauncherGroupBox
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-FeatureAppLauncher -ParentTabPage $Global:LauncherTabPage
+    Import-FeatureAppLauncher -ParentTabPage $Global:ParentTabPage
 .INPUTS
     [System.Windows.Forms.TabPage]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.0
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : February 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -41,37 +38,8 @@ function Import-FeatureAppLauncher {
             GroupBoxAbove   = $Global:UserFolderLauncherGroupBox
         }
 
-        # Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Function
-            FunctionDetails         = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-            # Input
-            #ParentTabPage           = $ParentTabPage
-            # Groupbox Handlers
-            #GroupboxTitle           = [System.String]'Apps'
-            #GroupboxColor           = [System.String]'Blue'
-            #GroupboxNumberOfRows    = [System.Int32]4
-            #GroupBoxAbove           = $Global:UserFolderLauncherGroupBox
-            # Handlers
-            AssetFolder             = [System.String]$PSScriptRoot
-            DefaultOutputFolder     = [System.String](Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads')
-        }
-
         ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-
-        # Add the Process method
-        $Local:MainObject | Add-Member -MemberType ScriptMethod -Name Process -Value {
-            # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            #[System.Windows.Forms.GroupBox]$Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupboxTitle -NumberOfRows $this.GroupboxNumberOfRows -Color $this.GroupboxColor -GroupBoxAbove $this.GroupBoxAbove
-            #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox
-            # Create the Buttons
-            #Invoke-ButtonLine -ButtonPropertiesArray $this.AppLauncherButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
-            #Invoke-ButtonLine -ButtonPropertiesArray $this.AppLauncherButtons2() -ParentGroupBox $ParentGroupBox -RowNumber 3 -AssetFolder $this.AssetFolder
-        }
-
-        ####################################################################################################
+        ### BUTTON PROPERTIES ###
 
         # Add the AppLauncherButtons method
         [System.Collections.Hashtable[]]$AppLauncherButtons = @(
@@ -114,60 +82,57 @@ function Import-FeatureAppLauncher {
         
 
         # Add the AppLauncherButtons2 method
-        $Local:MainObject | Add-Member -MemberType ScriptMethod -Name AppLauncherButtons2 -Value {
-            # Return the button properties
-            @(
-                @{
-                    ColumnNumber    = 1
-                    Text            = 'Omnissa DEM'
-                    Image           = 'omnissa_dem.png'
-                    SizeType        = 'Large'
-                    ToolTip         = 'Start the Omnissa DEM Management Console'
-                    Function        = {
-                        [System.String]$Path = 'C:\Program Files\Omnissa\DEM\Flex+ Management Console.exe'
-                        if (Test-Path -Path $Path) { Write-Line "Starting the Omnissa DEM Management Console" ; Start-Process -FilePath $Path } else { Write-Host ('The file could not be found: ({0})' -f $Path) }
-                    }
+        [System.Collections.Hashtable[]]$AppLauncherButtons2 = @(
+            @{
+                ColumnNumber    = 1
+                Text            = 'Omnissa DEM'
+                Image           = 'omnissa_dem.png'
+                SizeType        = 'Large'
+                ToolTip         = 'Start the Omnissa DEM Management Console'
+                Function        = {
+                    [System.String]$Path = 'C:\Program Files\Omnissa\DEM\Flex+ Management Console.exe'
+                    if (Test-Path -Path $Path) { Write-Line "Starting the Omnissa DEM Management Console" ; Start-Process -FilePath $Path } else { Write-Host ('The file could not be found: ({0})' -f $Path) }
                 }
-                @{
-                    ColumnNumber    = 2
-                    Text            = 'Event Viewer'
-                    SizeType        = 'Large'
-                    Image           = 'book.png'
-                    Function        = { Invoke-Item -Path "$ENV:windir\System32\eventvwr.msc" }
-                }
-                @{
-                    ColumnNumber    = 3
-                    Text            = 'Certificates'
-                    SizeType        = 'Large'
-                    Image           = 'ssl_certificates.png'
-                    Function        = { certmgr.msc }
-                }
-                @{
-                    ColumnNumber    = 4
-                    Text            = 'Task Scheduler'
-                    SizeType        = 'Large'
-                    Image           = 'clock.png'
-                    Function        = { Invoke-Item -Path "$ENV:windir\System32\en-US\taskschd.msc" }
-                }
-                @{
-                    ColumnNumber    = 5
-                    Text            = 'Cmd'
-                    SizeType        = 'Large'
-                    Image           = 'application_xp_terminal.png'
-                    Function        = { Invoke-Item -Path "$ENV:windir\System32\cmd.exe" }
-                }
-            )
-        }
-
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Event Viewer'
+                SizeType        = 'Large'
+                Image           = 'book.png'
+                Function        = { Invoke-Item -Path "$ENV:windir\System32\eventvwr.msc" }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'Certificates'
+                SizeType        = 'Large'
+                Image           = 'ssl_certificates.png'
+                Function        = { certmgr.msc }
+            }
+            @{
+                ColumnNumber    = 4
+                Text            = 'Task Scheduler'
+                SizeType        = 'Large'
+                Image           = 'clock.png'
+                Function        = { Invoke-Item -Path "$ENV:windir\System32\en-US\taskschd.msc" }
+            }
+            @{
+                ColumnNumber    = 5
+                Text            = 'Cmd'
+                SizeType        = 'Large'
+                Image           = 'application_xp_terminal.png'
+                Function        = { Invoke-Item -Path "$ENV:windir\System32\cmd.exe" }
+            }
+        )
+        
         ####################################################################################################
-
     } 
     
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons -ParentGroupBox $ParentGroupBox -RowNumber 1  -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons  -ParentGroupBox $ParentGroupBox -RowNumber 1  -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons2 -ParentGroupBox $ParentGroupBox -RowNumber 3  -AssetFolder $PSScriptRoot
     }
 
     end {

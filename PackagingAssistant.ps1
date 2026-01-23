@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.024'
+        Version                     = [System.String]'5.7.0.025'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -190,11 +190,11 @@ process {
             Write-Host "Geblokkeerd: $($_.FullName)"
             # Unblock the file
             Unblock-File -Path $_.FullName
+            # Unblock the file
+            #Unblock-File -Path $_.FullName
+            # If the file is a ps1, then also dotsource it
+            if ($_.Extension -eq '.ps1') { . $_.FullName }
         }
-        # Unblock the file
-        #Unblock-File -Path $_.FullName
-        # If the file is a ps1, then also dotsource it
-        if ($_.Extension -eq '.ps1') { . $_.FullName }
     }
     Write-Progress -Activity $Activity -Completed
 
