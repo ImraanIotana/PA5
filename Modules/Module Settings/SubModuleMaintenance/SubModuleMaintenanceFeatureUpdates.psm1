@@ -264,7 +264,7 @@ function Get-ApplicationUpdate {
             switch (`$FolderObjects.Count) {
                 1 {
                     # Change the value of the extract folder
-                    [System.String]$`FolderToCopyFrom = $`FolderObjects[0].FullName
+                    [System.String]`$FolderToCopyFrom = `$FolderObjects[0].FullName
                 }
                 default {
                     # Do nothing
