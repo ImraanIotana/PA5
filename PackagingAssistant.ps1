@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.023'
+        Version                     = [System.String]'5.7.0.024'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -182,11 +182,11 @@ process {
     [System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingFunctions
     # Unblock all files with progress
     $AllFilesToUnblock | ForEach-Object {
-        $FileCounter++
-        [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
-        Write-Progress -Activity $Activity -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
         # Check if the file is blocked
         if (Get-Item $_.FullName -Stream "Zone.Identifier" -ErrorAction SilentlyContinue) {
+            $FileCounter++
+            [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
+            Write-Progress -Activity $Activity -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
             Write-Host "Geblokkeerd: $($_.FullName)"
             # Unblock the file
             Unblock-File -Path $_.FullName
