@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.020'
+        Version                     = [System.String]'5.7.0.021'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -185,8 +185,12 @@ process {
         $FileCounter++
         [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
         Write-Progress -Activity $Activity -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
-        # Unblock the file
-        Unblock-File -Path $_.FullName
+        # Check if the file is blocked
+        if (Get-Item $_.FullName -Stream "Zone.Identifier" -ErrorAction SilentlyContinue) {
+            Write-Host "Geblokkeerd: $($_.FullName)"
+            # Unblock the file
+            Unblock-File -Path $_.FullName
+        }
         # If the file is a ps1, then also dotsource it
         if ($_.Extension -eq '.ps1') { . $_.FullName }
     }
