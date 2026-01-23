@@ -31,19 +31,27 @@ function Import-FeatureAppLauncher {
 
     begin {
         ####################################################################################################
-        ### MAIN OBJECT ###
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'App Launcher'
+            Color           = [System.String]'Blue'
+            NumberOfRows    = [System.Int32]4
+            GroupBoxAbove   = $Global:UserFolderLauncherGroupBox
+        }
 
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Function
             FunctionDetails         = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
             # Input
-            ParentTabPage           = $ParentTabPage
+            #ParentTabPage           = $ParentTabPage
             # Groupbox Handlers
-            GroupboxTitle           = [System.String]'Apps'
-            GroupboxColor           = [System.String]'Blue'
-            GroupboxNumberOfRows    = [System.Int32]4
-            GroupBoxAbove           = $Global:UserFolderLauncherGroupBox
+            #GroupboxTitle           = [System.String]'Apps'
+            #GroupboxColor           = [System.String]'Blue'
+            #GroupboxNumberOfRows    = [System.Int32]4
+            #GroupBoxAbove           = $Global:UserFolderLauncherGroupBox
             # Handlers
             AssetFolder             = [System.String]$PSScriptRoot
             DefaultOutputFolder     = [System.String](Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads')
@@ -52,20 +60,15 @@ function Import-FeatureAppLauncher {
         ####################################################################################################
         ### MAIN FUNCTION METHODS ###
 
-        # Add the Begin method
-        $Local:MainObject | Add-Member -MemberType ScriptMethod -Name Begin -Value { Write-Function -Begin $this.FunctionDetails }
-
-        # Add the End method
-        $Local:MainObject | Add-Member -MemberType ScriptMethod -Name End -Value { Write-Function -End $this.FunctionDetails }
 
         # Add the Process method
         $Local:MainObject | Add-Member -MemberType ScriptMethod -Name Process -Value {
             # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            [System.Windows.Forms.GroupBox]$Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupboxTitle -NumberOfRows $this.GroupboxNumberOfRows -Color $this.GroupboxColor -GroupBoxAbove $this.GroupBoxAbove
-            [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox
+            #[System.Windows.Forms.GroupBox]$Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupboxTitle -NumberOfRows $this.GroupboxNumberOfRows -Color $this.GroupboxColor -GroupBoxAbove $this.GroupBoxAbove
+            #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $this.AppLauncherButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
-            Invoke-ButtonLine -ButtonPropertiesArray $this.AppLauncherButtons2() -ParentGroupBox $ParentGroupBox -RowNumber 3 -AssetFolder $this.AssetFolder
+            #Invoke-ButtonLine -ButtonPropertiesArray $this.AppLauncherButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
+            #Invoke-ButtonLine -ButtonPropertiesArray $this.AppLauncherButtons2() -ParentGroupBox $ParentGroupBox -RowNumber 3 -AssetFolder $this.AssetFolder
         }
 
         ####################################################################################################
@@ -160,15 +163,14 @@ function Import-FeatureAppLauncher {
 
         ####################################################################################################
 
-        $Local:MainObject.Begin()
     } 
     
     process {
-        $Local:MainObject.Process()
+        # Create the GroupBox
+        [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
     }
 
     end {
-        $Local:MainObject.End()
     }
 }
 
