@@ -248,11 +248,14 @@ function Get-ApplicationUpdate {
             }
 
             # Remove the update file after extraction
-            Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
-            Remove-Item -Path $OutputFilePath -Force
+            #Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
+            #Remove-Item -Path $OutputFilePath -Force
 
             # Set the update script content
             [System.String]$UpdateScriptContent = @"
+        
+            Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
+            Remove-Item -Path $OutputFilePath -Force
             Write-Host "Starting the update process..." -ForegroundColor Yellow
             Write-Host "Removing the old files from the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
