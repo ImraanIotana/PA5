@@ -182,6 +182,7 @@ process {
     [System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingFunctions
     # Unblock all files with progress
     $AllFilesToUnblock | ForEach-Object {
+        # Update the progress
         $FileCounter++
         [System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
         Write-Progress -Activity $Activity -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
