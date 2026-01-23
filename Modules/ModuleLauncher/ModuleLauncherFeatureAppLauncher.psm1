@@ -41,7 +41,7 @@ function Import-FeatureAppLauncher {
             ParentTabPage           = $ParentTabPage
             # Groupbox Handlers
             GroupboxTitle           = [System.String]'Apps'
-            GroupboxColor           = [System.String]'DarkBlue'
+            GroupboxColor           = [System.String]'Blue'
             GroupboxNumberOfRows    = [System.Int32]4
             GroupBoxAbove           = $Global:UserFolderLauncherGroupBox
             # Handlers
