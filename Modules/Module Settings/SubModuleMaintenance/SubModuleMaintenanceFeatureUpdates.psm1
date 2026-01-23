@@ -260,11 +260,11 @@ function Get-ApplicationUpdate {
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
             # Switch on the number of folders inside the extract folder
-            [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
-            switch ($FolderObjects.Count) {
+            [System.IO.DirectoryInfo[]]`$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
+            switch (`$FolderObjects.Count) {
                 1 {
                     # Change the value of the extract folder
-                    [System.String]$FolderToCopyFrom = $FolderObjects[0].FullName
+                    [System.String]$`FolderToCopyFrom = $`FolderObjects[0].FullName
                 }
                 default {
                     # Do nothing
