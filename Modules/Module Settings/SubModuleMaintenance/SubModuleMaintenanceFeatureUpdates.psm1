@@ -231,7 +231,7 @@ function Get-ApplicationUpdate {
             Write-Line "Downloading update... ($ZipFileToDownload)" -Type Busy
             Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
 
-            # Extract the update file
+            <# Extract the update file
             Write-Line "Extracting the update file to folder... ($OutputFolder)" -Type Busy
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
@@ -245,7 +245,7 @@ function Get-ApplicationUpdate {
                 default {
                     # Do nothing
                 }
-            }
+            }#>
 
             # Remove the update file after extraction
             #Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
@@ -253,10 +253,26 @@ function Get-ApplicationUpdate {
 
             # Set the update script content
             [System.String]$UpdateScriptContent = @"
+            Write-Host "Starting the update process..." -ForegroundColor Cyan
+
+            # Extract the update file
+            Write-Host "Extracting the update file to folder... ($OutputFolder)" -ForegroundColor Yellow
+            Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
+
+            # Switch on the number of folders inside the extract folder
+            [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
+            switch ($FolderObjects.Count) {
+                1 {
+                    # Change the value of the extract folder
+                    [System.String]$FolderToCopyFrom = $FolderObjects[0].FullName
+                }
+                default {
+                    # Do nothing
+                }
+            }
         
-            Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
+            Write-Host "Removing the update file... ($OutputFilePath)" -ForegroundColor Yellow
             Remove-Item -Path $OutputFilePath -Force
-            Write-Host "Starting the update process..." -ForegroundColor Yellow
             Write-Host "Removing the old files from the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Copying the new files to the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
