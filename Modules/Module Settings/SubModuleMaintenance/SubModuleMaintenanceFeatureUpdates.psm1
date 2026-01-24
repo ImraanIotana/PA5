@@ -280,7 +280,7 @@ function Get-ApplicationUpdate {
 
             #$ScriptPath = $MyInvocation.MyCommand.Path
             #Start-Process powershell.exe -WindowStyle Hidden -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force ; pause'
-            Start-Process powershell.exe -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force ; pause'
+            Start-Process powershell.exe -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path $UpdateScriptFilePath -Force ; pause'
 
             # End of script
 '@
@@ -290,6 +290,7 @@ function Get-ApplicationUpdate {
             $UpdateScriptContent = $UpdateScriptContent -replace '\$OutputFilePath', ('"{0}"' -f $OutputFilePath)
             $UpdateScriptContent = $UpdateScriptContent -replace '\$ExtractFolder', ('"{0}"' -f $ExtractFolder)
             $UpdateScriptContent = $UpdateScriptContent -replace '\$InstallationFolder', ('"{0}"' -f $InstallationFolder)
+            $UpdateScriptContent = $UpdateScriptContent -replace '\$UpdateScriptFilePath', ('"{0}"' -f $UpdateScriptFilePath)
 
             # Create the update script file
             Write-Line "Creating the update script..." -Type Busy
