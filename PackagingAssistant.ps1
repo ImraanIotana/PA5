@@ -55,6 +55,7 @@ begin {
         # Message Handlers
         Messages                    = [System.Collections.Hashtable]@{
             CopyrightNotice         = 'Copyright (C) Iotana. All rights reserved.'
+            LoadingMessageFix       = 'Loading the {0} version {1}...'
             WelcomeMessageFix       = 'Welcome to the {0} version {1}.'
             SettingWorkFolders      = 'Setting workfolders...'
             ImportingSettings       = 'Importing settings...'
@@ -139,6 +140,7 @@ begin {
 
 process {
     # Start the Initialization
+    Write-Host ($Global:ApplicationObject.Messages.LoadingMessageFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version) -ForegroundColor DarkGray
     Add-WorkFoldersToMainObject
 
     # LOADING AND UNBLOCKING FILES
