@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.043'
+        Version                     = [System.String]'5.7.0.044'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -86,71 +86,6 @@ begin {
         # Add the new WorkFolders hashtable to the main object
         $Object | Add-Member -NotePropertyName WorkFolders -NotePropertyValue $WorkFolders
     }
-
-    # Set the function to move the host to the top left
-    function Move-HostToTopLeftOLD {
-
-        # Add the System.Runtime.InteropServices type
-        Add-Type @"
-        using System;
-        using System.Runtime.InteropServices;
-
-        public class WindowPosition {
-            [DllImport("kernel32.dll")]
-            public static extern IntPtr GetConsoleWindow();
-
-            [DllImport("user32.dll")]
-            public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-        }
-"@
-
-        # Set the dimensions
-        [System.Int32]$HostHandleX         = 0
-        [System.Int32]$HostHandleY         = 0
-        [System.Int32]$HostHandleWidth     = 950
-        [System.Int32]$HostHandleHeight    = 550
-
-        # Get the PowerShell console window (not just any foreground window)
-        [System.IntPtr]$HostHandle = [WindowPosition]::GetConsoleWindow()
-        # Move the window
-        [WindowPosition]::MoveWindow($HostHandle,$HostHandleX,$HostHandleY,$HostHandleWidth,$HostHandleHeight, $true) | Out-Null
-    }
-    function Move-HostToTopLeft {
-
-        Add-Type @"
-    using System;
-    using System.Runtime.InteropServices;
-
-    public class WindowPosition {
-        [DllImport("user32.dll")]
-        public static extern bool MoveWindow(
-            IntPtr hWnd,
-            int X,
-            int Y,
-            int nWidth,
-            int nHeight,
-            bool bRepaint
-        );
-    }
-"@
-
-        # Gewenste positie en grootte
-        $X = 0
-        $Y = 0
-        $Width  = 950
-        $Height = 550
-
-        # Pak het venster van het huidige PowerShell-proces
-        $hWnd = (Get-Process -Id $PID).MainWindowHandle
-
-        if ($hWnd -eq 0) {
-            Write-Host "Geen hostvenster gevonden."
-            return
-        }
-
-        [WindowPosition]::MoveWindow($hWnd, $X, $Y, $Width, $Height, $true) | Out-Null
-    }
-
 
     function New-LogFolder { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Create the LogFolder
@@ -204,7 +139,6 @@ begin {
 
 process {
     # Start the Initialization
-    Move-HostToTopLeft
     Add-WorkFoldersToMainObject
 
     # LOADING AND UNBLOCKING FILES

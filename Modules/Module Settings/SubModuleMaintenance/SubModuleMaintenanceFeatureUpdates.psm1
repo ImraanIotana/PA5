@@ -62,6 +62,14 @@ function Import-FeatureUpdates {
                 Function        = { Get-ApplicationUpdate -URL $Global:SMFUURLTextBox.Text }
             }
             @{
+                ColumnNumber    = 1
+                Text            = '...and Update'
+                Image           = 'update.png'
+                SizeType        = 'Medium'
+                ToolTip         = 'Download the file ans apply the update.'
+                Function        = { Get-ApplicationUpdate -URL $Global:SMFUURLTextBox.Text -Update }
+            }
+            @{
                 ColumnNumber    = 3
                 Text            = 'Copy'
                 Image           = 'page_copy.png'
@@ -181,9 +189,12 @@ function Import-FeatureUpdates {
 function Get-ApplicationUpdate {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true,HelpMessage='The URL to the zip file to download.')]
         [AllowEmptyString()]
-        [System.String]$URL
+        [System.String]$URL,
+
+        [Parameter(Mandatory = $false,HelpMessage='If specified, the update will be applied automatically after download.')]
+        [ystem.Management.Automation.SwitchParameter]$Update
     )
 
     begin {
@@ -231,25 +242,6 @@ function Get-ApplicationUpdate {
             Write-Line "Downloading update... ($ZipFileToDownload)" -Type Busy
             Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
 
-            <# Extract the update file
-            Write-Line "Extracting the update file to folder... ($OutputFolder)" -Type Busy
-            Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
-
-            # Switch on the number of folders inside the extract folder
-            [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
-            switch ($FolderObjects.Count) {
-                1 {
-                    # Change the value of the extract folder
-                    [System.String]$FolderToCopyFrom = $FolderObjects[0].FullName
-                }
-                default {
-                    # Do nothing
-                }
-            }#>
-
-            # Remove the update file after extraction
-            #Write-Line "Removing the update file... ($OutputFilePath)" -Type Busy
-            #Remove-Item -Path $OutputFilePath -Force
 
             # Set the update script content
             [System.String]$UpdateScriptContent = @'
@@ -304,6 +296,17 @@ function Get-ApplicationUpdate {
 
             # Open the output folder
             Open-Folder -Path $OutputFolder
+
+            # If the Update switch is specified, close the application and run the update script
+            if ($Update.IsPresent) {
+                Write-Line "The application will now close to apply the update..." -Type Success
+                Start-Sleep -Seconds 3
+                # Start the update script
+                Start-Process powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $UpdateScriptFilePath)
+                # Close the application
+                $Global:MainForm.Close()
+            }
+
         }
         catch [System.Net.WebException] {
             # Write the error message
