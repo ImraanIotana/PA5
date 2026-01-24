@@ -260,22 +260,12 @@ function Get-ApplicationUpdate {
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
-            <# Set the folder to copy from, based on the number of folders inside the extract folder
-            [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
-            [System.String]$FolderToCopyFrom = switch ($FolderObjects.Count) {
-                1 {
-                    $FolderObjects[0].FullName
-                }
-                default {
-                    $ExtractFolder
-                }
-            }#>
-            #[System.String]$FolderToCopyFrom = Get-ChildItem -Path $ExtractFolder -Directory | Select-Object -First 1 | ForEach-Object { $_.FullName }
-        
+            # Remove the update file after extraction
             Write-Host 'Removing the update file... ($OutputFilePath)' -ForegroundColor Yellow
             Remove-Item -Path $OutputFilePath -Force
 
-            Write-Host 'Removing the old files from the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
+            # Remove the old installation folder
+            Write-Host 'Removing the old installation folder... ($InstallationFolder)' -ForegroundColor Yellow
             Remove-Item -Path $InstallationFolder -Recurse -Force -ErrorAction SilentlyContinue
 
             Write-Host 'Copying the new files to the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
@@ -285,9 +275,10 @@ function Get-ApplicationUpdate {
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
 
             Write-Host "Update process completed successfully!" -ForegroundColor Green
-            Start-Sleep -Seconds 2
+            Write-Host "This window will close in 5 secondds..." -ForegroundColor Green
+            Start-Sleep -Seconds 5
 
-            pause
+            # End of script
 '@
 
             # Replace the variables in the script content
