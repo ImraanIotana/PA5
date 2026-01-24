@@ -280,7 +280,8 @@ function Get-ApplicationUpdate {
 
             #$ScriptPath = $MyInvocation.MyCommand.Path
             #Start-Process powershell.exe -WindowStyle Hidden -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force ; pause'
-            Start-Process powershell.exe -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path $UpdateScriptFilePath -Force ; pause'
+            Start-Process powershell.exe -ArgumentList ' Start-Sleep -Seconds 1 ; Remove-Item -Path $UpdateScriptFilePath -Force ; pause'
+            Start-Process powershell.exe -ArgumentList 'Remove-Item -Path $UpdateScriptFilePath -Force'
 
             # End of script
 '@
