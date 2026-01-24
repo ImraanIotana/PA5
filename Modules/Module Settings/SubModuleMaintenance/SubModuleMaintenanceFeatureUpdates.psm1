@@ -240,7 +240,10 @@ function Get-ApplicationUpdate {
         try {
             # Download the update file
             Write-Line "Downloading update... ($ZipFileToDownload)" -Type Busy
-            Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
+            #Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
+            $wc = New-Object System.Net.WebClient
+            $wc.DownloadFile($ZipFileToDownload, $OutputFilePath)
+
 
 
             # Set the update script content
