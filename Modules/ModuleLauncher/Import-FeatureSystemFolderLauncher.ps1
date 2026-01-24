@@ -28,6 +28,19 @@ function Import-FeatureSystemFolderLauncher {
 
     begin {
         ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'System Folders'
+            Color           = [System.String]'Blue'
+            NumberOfRows    = [System.Int32]2
+        }
+
+        ####################################################################################################
+        ### BUTTON PROPERTIES ###
+
+        ####################################################################################################
         ### MAIN OBJECT ###
 
         # Set the main object
@@ -103,7 +116,11 @@ function Import-FeatureSystemFolderLauncher {
     } 
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+        # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
+        [System.Windows.Forms.GroupBox]$Global:SystemFolderLauncherGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color
+        # Create the Buttons
+        #Invoke-ButtonLine -ButtonPropertiesArray $this.SystemFolderButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
     }
 
     end {
