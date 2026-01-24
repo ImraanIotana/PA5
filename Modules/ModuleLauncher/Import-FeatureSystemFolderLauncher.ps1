@@ -40,45 +40,14 @@ function Import-FeatureSystemFolderLauncher {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        ####################################################################################################
-        ### MAIN OBJECT ###
-
-        # Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Input
-            ParentTabPage           = $ParentTabPage
-            # Groupbox Handlers
-            GroupboxTitle           = [System.String]'System Folders'
-            GroupboxColor           = [System.String]'Blue'
-            GroupboxNumberOfRows    = [System.Int32]2
-            # Handlers
-            AssetFolder             = [System.String]$PSScriptRoot
-        }
-
-        ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            [System.Windows.Forms.GroupBox]$Global:SystemFolderLauncherGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupboxTitle -NumberOfRows $this.GroupboxNumberOfRows -Color $this.GroupboxColor
-            [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SystemFolderLauncherGroupBox
-            # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $this.SystemFolderButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
-        }
-
-        ####################################################################################################
-
         # Add the SystemFolderButtons method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name SystemFolderButtons -Value {
-            # Return the button properties
-            @(
+        [System.Collections.Hashtable[]]$SystemFolderButtons = @(
                 @{
                     ColumnNumber    = 1
                     Text            = 'Program Files'
                     SizeType        = 'Large'
                     Image           = '64_bit.png'
-                    Function        = { Open-Folder -Path ${ENV:ProgramFiles} -Verbose }
+                    Function        = { Open-Folder -Path ${ENV:ProgramFiles} }
                 }
                 @{
                     ColumnNumber    = 2
@@ -109,18 +78,15 @@ function Import-FeatureSystemFolderLauncher {
                     Function        = { Open-Folder -Path "$ENV:SystemRoot\Fonts" }
                 }
             )
-        }
 
         ####################################################################################################
-
     } 
     
     process {
-        #$Local:MainObject.Process()
         # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
         [System.Windows.Forms.GroupBox]$Global:SystemFolderLauncherGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color
         # Create the Buttons
-        #Invoke-ButtonLine -ButtonPropertiesArray $this.SystemFolderButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
+        Invoke-ButtonLine -ButtonPropertiesArray $SystemFolderButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
     }
 
     end {
