@@ -247,7 +247,7 @@ function Get-ApplicationUpdate {
             [System.String]$UpdateScriptContent = @'
             # Start the update process
             Write-Host "Starting the update process..." -ForegroundColor Cyan
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 5
 
             # Extract the update file
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
@@ -292,20 +292,20 @@ function Get-ApplicationUpdate {
             Write-Line "Creating the update script..." -Type Busy
             Set-Content -Path $UpdateScriptFilePath -Value $UpdateScriptContent -Force -Encoding UTF8
 
-            # Write the message
-            Write-Line "The update has been downloaded." -Type Success
-            Write-Line "Please close this application, and run the script: ($UpdateScriptFilePath)." -Type Success
-            Write-Line "Then restart this application." -Type Success
-
             # If the Update switch is specified, close the application and run the update script
             if ($Update.IsPresent) {
                 Write-Line "The application will now close to apply the update..." -Type Success
                 Start-Sleep -Seconds 3
                 # Start the update script
                 Start-Process powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $UpdateScriptFilePath)
+                Start-Sleep -Seconds 2
                 # Close the application
                 $Global:MainForm.Close()
             } else{
+                # Write the message
+                Write-Line "The update has been downloaded." -Type Success
+                Write-Line "Please close this application, and run the script: ($UpdateScriptFilePath)." -Type Success
+                Write-Line "Then restart this application." -Type Success
                 # Open the output folder
                 Open-Folder -Path $OutputFolder
             }
