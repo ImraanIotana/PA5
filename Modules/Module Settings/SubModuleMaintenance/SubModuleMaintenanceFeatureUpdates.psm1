@@ -297,9 +297,6 @@ function Get-ApplicationUpdate {
             Write-Line "Please close this application, and run the script: ($UpdateScriptFilePath)." -Type Success
             Write-Line "Then restart this application." -Type Success
 
-            # Open the output folder
-            Open-Folder -Path $OutputFolder
-
             # If the Update switch is specified, close the application and run the update script
             if ($Update.IsPresent) {
                 Write-Line "The application will now close to apply the update..." -Type Success
@@ -308,6 +305,9 @@ function Get-ApplicationUpdate {
                 Start-Process powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $UpdateScriptFilePath)
                 # Close the application
                 $Global:MainForm.Close()
+            } else{
+                # Open the output folder
+                Open-Folder -Path $OutputFolder
             }
 
         }
