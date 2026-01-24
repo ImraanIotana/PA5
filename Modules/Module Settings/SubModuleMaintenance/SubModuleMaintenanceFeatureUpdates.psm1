@@ -260,28 +260,33 @@ function Get-ApplicationUpdate {
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
-            # Switch on the number of folders inside the extract folder
+            # Set the folder to copy from, based on the number of folders inside the extract folder
             [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
-            switch ($FolderObjects.Count) {
+            [System.String]$FolderToCopyFrom = switch ($FolderObjects.Count) {
                 1 {
-                    # Change the value of the extract folder
-                    [System.String]$FolderToCopyFrom = $FolderObjects[0].FullName
+                    $FolderObjects[0].FullName
                 }
                 default {
-                    # Do nothing
+                    $ExtractFolder
                 }
             }
         
             Write-Host 'Removing the update file... ($OutputFilePath)' -ForegroundColor Yellow
             Remove-Item -Path $OutputFilePath -Force
+
             Write-Host 'Removing the old files from the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
-            Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
+            Remove-Item -Path $InstallationFolder -Recurse -Force -ErrorAction SilentlyContinue
+
             Write-Host 'Copying the new files to the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
-            Copy-Item -Path "$FolderToCopyFrom\*" -Destination "$InstallationFolder" -Recurse -Force
+            Copy-Item -Path "$FolderToCopyFrom\*" -Destination $InstallationFolder -Recurse -Force
+
             Write-Host 'Removing the Extract folder... ($ExtractFolder)' -ForegroundColor Yellow
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
+
             Write-Host "Update process completed successfully!" -ForegroundColor Green
             Start-Sleep -Seconds 2
+
+            pause
 '@
 
             # Replace the variables in the script content
