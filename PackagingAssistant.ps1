@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.042'
+        Version                     = [System.String]'5.7.0.043'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -88,7 +88,7 @@ begin {
     }
 
     # Set the function to move the host to the top left
-    function Move-HostToTopLeft {
+    function Move-HostToTopLeftOLD {
 
         # Add the System.Runtime.InteropServices type
         Add-Type @"
@@ -115,6 +115,42 @@ begin {
         # Move the window
         [WindowPosition]::MoveWindow($HostHandle,$HostHandleX,$HostHandleY,$HostHandleWidth,$HostHandleHeight, $true) | Out-Null
     }
+    function Move-HostToTopLeft {
+
+        Add-Type @"
+    using System;
+    using System.Runtime.InteropServices;
+
+    public class WindowPosition {
+        [DllImport("user32.dll")]
+        public static extern bool MoveWindow(
+            IntPtr hWnd,
+            int X,
+            int Y,
+            int nWidth,
+            int nHeight,
+            bool bRepaint
+        );
+    }
+"@
+
+        # Gewenste positie en grootte
+        $X = 0
+        $Y = 0
+        $Width  = 950
+        $Height = 550
+
+        # Pak het venster van het huidige PowerShell-proces
+        $hWnd = (Get-Process -Id $PID).MainWindowHandle
+
+        if ($hWnd -eq 0) {
+            Write-Host "Geen hostvenster gevonden."
+            return
+        }
+
+        [WindowPosition]::MoveWindow($hWnd, $X, $Y, $Width, $Height, $true) | Out-Null
+    }
+
 
     function New-LogFolder { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Create the LogFolder
