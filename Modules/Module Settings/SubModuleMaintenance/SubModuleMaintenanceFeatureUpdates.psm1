@@ -257,7 +257,7 @@ function Get-ApplicationUpdate {
             Write-Host "Starting the update process..." -ForegroundColor Cyan
 
             # Extract the update file
-            Write-Host "Extracting the update file to folder... ($OutputFolder)" -ForegroundColor Yellow
+            Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
             # Switch on the number of folders inside the extract folder
@@ -272,14 +272,14 @@ function Get-ApplicationUpdate {
                 }
             }
         
-            Write-Host "Removing the update file... ($OutputFilePath)" -ForegroundColor Yellow
+            Write-Host 'Removing the update file... ($OutputFilePath)' -ForegroundColor Yellow
             Remove-Item -Path $OutputFilePath -Force
-            Write-Host "Removing the old files from the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
+            Write-Host 'Removing the old files from the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
             Remove-Item -Path "$InstallationFolder\*" -Recurse -Force -ErrorAction SilentlyContinue
-            Write-Host "Copying the new files to the installation folder... ($InstallationFolder)" -ForegroundColor Yellow
+            Write-Host 'Copying the new files to the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
             Copy-Item -Path "$FolderToCopyFrom\*" -Destination "$InstallationFolder" -Recurse -Force
-            Write-Host "Removing the Extract folder... ($ExtractFolder)" -ForegroundColor Yellow
-            Remove-Item -Path "$ExtractFolder" -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Host 'Removing the Extract folder... ($ExtractFolder)' -ForegroundColor Yellow
+            Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
             Write-Host "Update process completed successfully!" -ForegroundColor Green
             Start-Sleep -Seconds 2
 '@
