@@ -275,11 +275,12 @@ function Get-ApplicationUpdate {
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
 
             Write-Host "Update process completed successfully!" -ForegroundColor Green
-            Write-Host "This window will close in 5 secondds..." -ForegroundColor Green
+            Write-Host "This window will close in 5 seconds..." -ForegroundColor Green
             Start-Sleep -Seconds 5
 
             #$ScriptPath = $MyInvocation.MyCommand.Path
-            Start-Process powershell.exe -WindowStyle Hidden -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force '
+            #Start-Process powershell.exe -WindowStyle Hidden -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force ; pause'
+            Start-Process powershell.exe -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force ; pause'
 
             # End of script
 '@
