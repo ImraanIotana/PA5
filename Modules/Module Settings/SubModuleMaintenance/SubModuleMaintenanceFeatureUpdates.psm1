@@ -272,8 +272,8 @@ function Get-ApplicationUpdate {
 
             # Final message
             Write-Host "Update process completed successfully!" -ForegroundColor Green
-            Write-Host "This window will close in 5 seconds..." -ForegroundColor Green
-            Start-Sleep -Seconds 5
+            Write-Host "This window will close in 3 seconds..." -ForegroundColor Green
+            Start-Sleep -Seconds 3
 
             # Remove the update script itself
             Start-Process powershell.exe -ArgumentList 'Remove-Item -Path $UpdateScriptFilePath -Force'
@@ -295,7 +295,7 @@ function Get-ApplicationUpdate {
             # If the Update switch is specified, close the application and run the update script
             if ($Update.IsPresent) {
                 Write-Line "The application will now close to apply the update..." -Type Success
-                Start-Sleep -Seconds 3
+                Start-Sleep -Seconds 2
                 # Start the update script
                 Start-Process powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $UpdateScriptFilePath)
                 Start-Sleep -Seconds 2
