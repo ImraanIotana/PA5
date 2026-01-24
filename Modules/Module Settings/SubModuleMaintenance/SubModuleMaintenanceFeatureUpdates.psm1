@@ -194,7 +194,7 @@ function Get-ApplicationUpdate {
         [System.String]$URL,
 
         [Parameter(Mandatory = $false,HelpMessage='If specified, the update will be applied automatically after download.')]
-        [ystem.Management.Automation.SwitchParameter]$Update
+        [System.Management.Automation.SwitchParameter]$Update
     )
 
     begin {
