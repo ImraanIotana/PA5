@@ -278,7 +278,7 @@ function Get-ApplicationUpdate {
             Remove-Item -Path $InstallationFolder -Recurse -Force -ErrorAction SilentlyContinue
 
             Write-Host 'Copying the new files to the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
-            Copy-Item -Path "$FolderToCopyFrom\*" -Destination $InstallationFolder -Recurse -Force
+            Copy-Item -Path $FolderToCopyFrom -Destination $InstallationFolder -Recurse -Force
 
             Write-Host 'Removing the Extract folder... ($ExtractFolder)' -ForegroundColor Yellow
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
