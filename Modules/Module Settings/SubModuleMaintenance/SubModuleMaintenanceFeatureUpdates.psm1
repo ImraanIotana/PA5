@@ -240,9 +240,8 @@ function Get-ApplicationUpdate {
         try {
             # Download the update file
             Write-Line "Downloading update... ($ZipFileToDownload)" -Type Busy
-            #Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
-            $wc = New-Object System.Net.WebClient
-            $wc.DownloadFile($ZipFileToDownload, $OutputFilePath)
+            $WebClient = New-Object System.Net.WebClient
+            $WebClient.DownloadFile($ZipFileToDownload, $OutputFilePath)
             Write-Line "Download completed successfully." -Type Success
 
 
@@ -254,8 +253,6 @@ function Get-ApplicationUpdate {
 
             # Extract the update file
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
-            #Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
-
             Add-Type -AssemblyName System.IO.Compression.FileSystem
             [System.IO.Compression.ZipFile]::ExtractToDirectory($OutputFilePath, $ExtractFolder)
 

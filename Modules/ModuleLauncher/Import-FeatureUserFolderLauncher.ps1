@@ -50,18 +50,6 @@ function Import-FeatureUserFolderLauncher {
 
         ####################################################################################################
         ### MAIN FUNCTION METHODS ###
-        
-        # Add the Begin method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Begin -Value {
-            # Write the Begin message
-            Write-Message -FunctionBegin -Details $this.FunctionDetails
-        }
-    
-        # Add the End method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name End -Value {
-            # Write the End message
-            Write-Message -FunctionEnd -Details $this.FunctionDetails
-        }
 
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
@@ -117,10 +105,6 @@ function Import-FeatureUserFolderLauncher {
         }
 
         ####################################################################################################
-
-        #region BEGIN
-        $Local:MainObject.Begin()
-        #endregion BEGIN
     } 
     
     process {
@@ -130,9 +114,6 @@ function Import-FeatureUserFolderLauncher {
     }
 
     end {
-        #region END
-        $Local:MainObject.End()
-        #endregion END
     }
 }
 
