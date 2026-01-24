@@ -266,14 +266,16 @@ function Get-ApplicationUpdate {
             Write-Host 'Removing the Extract folder... ($ExtractFolder)' -ForegroundColor Yellow
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
 
+            # Final message
             Write-Host "Update process completed successfully!" -ForegroundColor Green
             Write-Host "This window will close in 5 seconds..." -ForegroundColor Green
             Start-Sleep -Seconds 5
 
-            #$ScriptPath = $MyInvocation.MyCommand.Path
-            #Start-Process powershell.exe -WindowStyle Hidden -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force ; pause'
-            #Start-Process powershell.exe -ArgumentList ' Start-Sleep -Seconds 1 ; Remove-Item -Path $UpdateScriptFilePath -Force ; pause'
+            # Remove the update script itself
             Start-Process powershell.exe -ArgumentList 'Remove-Item -Path $UpdateScriptFilePath -Force'
+
+            # Restart the main application
+            Start-Process powershell.exe -ArgumentList ('-Executionpolicy Bypass -WindowStyle Normal -File "{0}"' -f (Join-Path -Path $InstallationFolder -ChildPath 'PackagingAssistant.ps1'))
 
             # End of script
 '@
