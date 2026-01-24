@@ -278,6 +278,9 @@ function Get-ApplicationUpdate {
             Write-Host "This window will close in 5 secondds..." -ForegroundColor Green
             Start-Sleep -Seconds 5
 
+            #$ScriptPath = $MyInvocation.MyCommand.Path
+            Start-Process powershell.exe -WindowStyle Hidden -ArgumentList ' Start-Sleep -Seconds 7 ; Remove-Item -Path "$MyInvocation.MyCommand.Path" -Force '
+
             # End of script
 '@
 
