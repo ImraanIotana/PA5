@@ -260,7 +260,7 @@ function Get-ApplicationUpdate {
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
             Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
 
-            # Set the folder to copy from, based on the number of folders inside the extract folder
+            <# Set the folder to copy from, based on the number of folders inside the extract folder
             [System.IO.DirectoryInfo[]]$FolderObjects = Get-ChildItem -Path $ExtractFolder -Directory
             [System.String]$FolderToCopyFrom = switch ($FolderObjects.Count) {
                 1 {
@@ -269,7 +269,8 @@ function Get-ApplicationUpdate {
                 default {
                     $ExtractFolder
                 }
-            }
+            }#>
+            #[System.String]$FolderToCopyFrom = Get-ChildItem -Path $ExtractFolder -Directory | Select-Object -First 1 | ForEach-Object { $_.FullName }
         
             Write-Host 'Removing the update file... ($OutputFilePath)' -ForegroundColor Yellow
             Remove-Item -Path $OutputFilePath -Force
@@ -278,7 +279,7 @@ function Get-ApplicationUpdate {
             Remove-Item -Path $InstallationFolder -Recurse -Force -ErrorAction SilentlyContinue
 
             Write-Host 'Copying the new files to the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
-            Copy-Item -Path $FolderToCopyFrom -Destination $InstallationFolder -Recurse -Force
+            Copy-Item -Path (Get-ChildItem -Path $ExtractFolder -Directory | Select-Object -First 1 | ForEach-Object { $_.FullName }) -Destination $InstallationFolder -Recurse -Force
 
             Write-Host 'Removing the Extract folder... ($ExtractFolder)' -ForegroundColor Yellow
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
