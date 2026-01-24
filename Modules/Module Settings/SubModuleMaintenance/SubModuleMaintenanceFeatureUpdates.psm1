@@ -243,7 +243,7 @@ function Get-ApplicationUpdate {
             #Invoke-WebRequest $ZipFileToDownload -OutFile $OutputFilePath
             $wc = New-Object System.Net.WebClient
             $wc.DownloadFile($ZipFileToDownload, $OutputFilePath)
-
+            Write-Line "Download completed successfully." -Type Success
 
 
             # Set the update script content
@@ -254,7 +254,10 @@ function Get-ApplicationUpdate {
 
             # Extract the update file
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
-            Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
+            #Expand-Archive -Path $OutputFilePath -DestinationPath $ExtractFolder -Force
+
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
+            [System.IO.Compression.ZipFile]::ExtractToDirectory($OutputFilePath, $ExtractFolder)
 
             # Remove the update file after extraction
             Write-Host 'Removing the update file... ($OutputFilePath)' -ForegroundColor Yellow
@@ -264,9 +267,11 @@ function Get-ApplicationUpdate {
             Write-Host 'Removing the old installation folder... ($InstallationFolder)' -ForegroundColor Yellow
             Remove-Item -Path $InstallationFolder -Recurse -Force -ErrorAction SilentlyContinue
 
+            # Copy the new files to the installation folder
             Write-Host 'Copying the new files to the installation folder... ($InstallationFolder)' -ForegroundColor Yellow
             Copy-Item -Path (Get-ChildItem -Path $ExtractFolder -Directory | Select-Object -First 1 | ForEach-Object { $_.FullName }) -Destination $InstallationFolder -Recurse -Force
 
+            # Remove the extract folder after copying
             Write-Host 'Removing the Extract folder... ($ExtractFolder)' -ForegroundColor Yellow
             Remove-Item -Path $ExtractFolder -Recurse -Force -ErrorAction SilentlyContinue
 
