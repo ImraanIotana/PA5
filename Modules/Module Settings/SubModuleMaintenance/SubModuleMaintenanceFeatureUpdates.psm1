@@ -62,7 +62,7 @@ function Import-FeatureUpdates {
                 Function        = { Get-ApplicationUpdate -URL $Global:SMFUURLTextBox.Text }
             }
             @{
-                ColumnNumber    = 1
+                ColumnNumber    = 2
                 Text            = '...and Update'
                 Image           = 'update.png'
                 SizeType        = 'Medium'
