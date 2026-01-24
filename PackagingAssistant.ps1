@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.041'
+        Version                     = [System.String]'5.7.0.042'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -180,7 +180,7 @@ process {
     #[System.Int32]$TotalFileCount   = @($AllFilesToUnblock).Count
     #[System.Int32]$FileCounter      = 0
     #[System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingFunctions
-    Write-Line $Global:ApplicationObject.Messages.LoadingFunctions
+    Write-Host $Global:ApplicationObject.Messages.LoadingFunctions -ForegroundColor DarkGray
     # Unblock all files with progress
     $AllFilesToUnblock | ForEach-Object {
         # Update the progress
