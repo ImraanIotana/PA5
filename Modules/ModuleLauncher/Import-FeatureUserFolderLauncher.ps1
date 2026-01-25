@@ -1,23 +1,20 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the feature Settings.
+    This function imports the feature User Folder Launcher.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : Invoke-Groupbox, Invoke-TextBox, Invoke-Label, Invoke-ButtonLine, Invoke-RegistrySettings, Select-Item, Invoke-ClipBoard, Get-UserConfirmation
-    External variables  : $Global:SettingsTabPage, $Global:GeneralSettingsGroupBox, $Global:OutputFolderTextBox, $Global:DSLFolderTextBox
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-FeatureTEMP
+    Import-FeatureUserFolderLauncher -ParentTabPage $Global:ParentTabPage
 .INPUTS
     [System.Windows.Forms.TabPage]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.0
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : February 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
