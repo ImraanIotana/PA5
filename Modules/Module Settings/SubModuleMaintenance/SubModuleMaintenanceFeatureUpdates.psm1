@@ -281,7 +281,7 @@ function Get-ApplicationUpdate {
             Start-Sleep -Seconds 3
 
             # Remove the update script itself
-            Start-Process powershell.exe -ArgumentList 'Remove-Item -Path $UpdateScriptFilePath -Force'
+            Start-Process powershell.exe -ArgumentList 'Write-Host "Removing the update script..." -ForegroundColor Yellow ; Start-Sleep 2 ; Remove-Item -Path $UpdateScriptFilePath -Force'
 
             # End of script
 '@
