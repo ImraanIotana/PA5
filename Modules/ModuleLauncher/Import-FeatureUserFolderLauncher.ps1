@@ -28,6 +28,20 @@ function Import-FeatureUserFolderLauncher {
 
     begin {
         ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'User Folders'
+            Color           = [System.String]'Blue'
+            NumberOfRows    = [System.Int32]2
+            GroupBoxAbove   = $Global:SystemFolderLauncherGroupBox
+        }
+
+        ####################################################################################################
+        ### BUTTON PROPERTIES ###
+
+        ####################################################################################################
         ### MAIN OBJECT ###
 
         # Set the main object
