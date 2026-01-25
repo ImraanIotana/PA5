@@ -33,7 +33,7 @@ function Import-FeatureSystemFolderLauncher {
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
             Title           = [System.String]'System Folders'
-            Color           = [System.String]'Orange'
+            Color           = [System.String]'Blue'
             NumberOfRows    = [System.Int32]2
         }
 
