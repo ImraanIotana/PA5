@@ -74,54 +74,53 @@ function Import-FeatureUserFolderLauncher {
         ####################################################################################################
 
         # Add the UserFolderButtons method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name UserFolderButtons -Value {
-            # Return the button properties
-            @(
-                @{
-                    ColumnNumber    = 1
-                    Text            = 'Roaming Profile'
-                    SizeType        = 'Large'
-                    Image           = 'folder_user.png'
-                    Function        = { Open-Folder -Path $ENV:APPDATA }
-                }
-                @{
-                    ColumnNumber    = 2
-                    Text            = 'Local AppData'
-                    SizeType        = 'Large'
-                    Image           = 'folder_page.png'
-                    Function        = { Open-Folder -Path $ENV:LOCALAPPDATA }
-                }
-                @{
-                    ColumnNumber    = 3
-                    Text            = 'ProgramData'
-                    SizeType        = 'Large'
-                    Image           = 'folder_brick.png'
-                    Function        = { Open-Folder -Path $ENV:ALLUSERSPROFILE }
-                }
-                @{
-                    ColumnNumber    = 4
-                    Text            = 'Downloads'
-                    SizeType        = 'Large'
-                    Image           = 'inbox_download.png'
-                    Function        = { Open-Folder -Path (Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads') }
-                }
-                @{
-                    ColumnNumber    = 5
-                    Text            = 'Temp'
-                    SizeType        = 'Large'
-                    Image           = 'folder_torn.png'
-                    Function        = { Open-Folder -Path $ENV:TEMP }
-                }
-            )
-        }
+        [System.Collections.Hashtable[]]$UserFolderButtons = @(
+            @{
+                ColumnNumber    = 1
+                Text            = 'Roaming Profile'
+                SizeType        = 'Large'
+                Image           = 'folder_user.png'
+                Function        = { Open-Folder -Path $ENV:APPDATA }
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Local AppData'
+                SizeType        = 'Large'
+                Image           = 'folder_page.png'
+                Function        = { Open-Folder -Path $ENV:LOCALAPPDATA }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'ProgramData'
+                SizeType        = 'Large'
+                Image           = 'folder_brick.png'
+                Function        = { Open-Folder -Path $ENV:ALLUSERSPROFILE }
+            }
+            @{
+                ColumnNumber    = 4
+                Text            = 'Downloads'
+                SizeType        = 'Large'
+                Image           = 'inbox_download.png'
+                Function        = { Open-Folder -Path (Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads') }
+            }
+            @{
+                ColumnNumber    = 5
+                Text            = 'Temp'
+                SizeType        = 'Large'
+                Image           = 'folder_torn.png'
+                Function        = { Open-Folder -Path $ENV:TEMP }
+            }
+        )
+    
 
         ####################################################################################################
     } 
     
     process {
-        #region PROCESS
-        $Local:MainObject.Process()
-        #endregion PROCESS
+        # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
+        [System.Windows.Forms.GroupBox]$Global:UserFolderLauncherGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $Groupbox.GroupBoxAbove
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $UserFolderButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
     }
 
     end {

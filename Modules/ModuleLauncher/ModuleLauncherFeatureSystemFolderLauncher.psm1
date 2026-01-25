@@ -86,7 +86,7 @@ function Import-FeatureSystemFolderLauncher {
         # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
         [System.Windows.Forms.GroupBox]$Global:SystemFolderLauncherGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $SystemFolderButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 #-AssetFolder $this.AssetFolder
+        Invoke-ButtonLine -ButtonPropertiesArray $SystemFolderButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
     }
 
     end {
