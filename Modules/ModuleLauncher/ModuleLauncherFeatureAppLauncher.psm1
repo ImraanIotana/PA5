@@ -33,7 +33,7 @@ function Import-FeatureAppLauncher {
         # GroupBox properties
         [PSCustomObject]$GroupBox = @{
             Title           = [System.String]'App Launcher'
-            Color           = [System.String]'WhiteSmoke'
+            Color           = [System.String]'Lime'
             NumberOfRows    = [System.Int32]4
             GroupBoxAbove   = $Global:UserFolderLauncherGroupBox
         }
