@@ -51,7 +51,6 @@ function Import-SubModuleSCCMSettings {
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Write the message
-            #$this.ParentTabControl.WriteImportMessage($this)
             Write-Host ($this.ImportMessage -f $this.TabTitle,$this.ModuleVersion) -ForegroundColor DarkGray
             # Create the Module TabPage
             [System.Windows.Forms.TabPage]$ParentTabPage = $Global:SubModuleSCCMSettingsTabPage = New-TabPage -Parent $this.ParentTabControl -Title $this.TabTitle -BackGroundColor 'YellowGreen'

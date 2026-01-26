@@ -46,7 +46,7 @@ function Import-ModuleApplicationSettings {
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Write the message
-            $this.ParentTabControl.WriteImportMessage($this)
+            Write-Line "Importing Module $($this.TabTitle) $($this.ModuleVersion)"
             # Create the Module TabPage
             [System.Windows.Forms.TabPage]$Global:ApplicationSettingsTabPage = New-TabPage -Parent $this.ParentTabControl -Title $this.TabTitle
             # Create a SubTabControl

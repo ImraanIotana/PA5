@@ -39,25 +39,22 @@ function Invoke-MainTabControl {
     
     process {
         try {
-            # Get the Location
+            # Get the Dimensions
             [System.Int32[]]$Location   = @($ApplicationObject.Settings.MainTabControl.TopLeftX, $ApplicationObject.Settings.MainTabControl.TopLeftY)
-            #[System.Int32[]]$Location   = Get-GraphicalDimension -MainTabControl -Location
-            # Get the Size
             [System.Int32[]]$Size       = @($ApplicationObject.Settings.MainTabControl.Width, $ApplicationObject.Settings.MainTabControl.Height)
-            #[System.Int32[]]$Size       = Get-GraphicalDimension -MainTabControl -Size
 
-            # Create the global tabcontrol
+            # Create the MainTabControl
             [System.Windows.Forms.TabControl]$Global:MainTabControl = New-TabControl -ParentForm $ParentForm -Location $Location -Size $Size
 
-            # Add the WriteImportMessageOLD method to the global tabcontrol
+            <# Add the WriteImportMessageOLD method to the MainTabControl
             Add-Member -InputObject $Global:MainTabControl -MemberType ScriptMethod -Name WriteImportMessageOLD -Value { param([System.String]$TabTitle,[System.String]$ModuleVersion)
                 Write-Host ('Importing Module {0} {1}' -f $TabTitle,$ModuleVersion) -ForegroundColor DarkGray
-            }
+            }#>
 
-            # Add the WriteImportMessage method to the global tabcontrol
+            <# Add the WriteImportMessage method to the MainTabControl
             Add-Member -InputObject $Global:MainTabControl -MemberType ScriptMethod -Name WriteImportMessage -Value { param([PSCustomObject]$Object)
                 Write-Host ('Importing Module {0} {1}' -f $Object.TabTitle,$Object.ModuleVersion) -ForegroundColor DarkGray
-            }
+            }#>
         }
         catch {
             Write-FullError
