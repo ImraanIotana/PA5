@@ -100,7 +100,6 @@ function Invoke-TextBox {
     
         # Add the AddTextBoxLocationToMainObject method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxLocationToMainObject -Value { param([System.Collections.Hashtable]$Settings,[System.Windows.Forms.GroupBox]$ParentGroupBox,[System.Int32]$RowNumber)
-            # Write the message
             # Set the TopLeftX of the textbox
             [System.Int32]$TextBoxTopLeftX = $ParentGroupBox.Location.X + $Settings.TextBox.LeftMargin
             # Set the TopLeftY of the textbox
@@ -117,7 +116,7 @@ function Invoke-TextBox {
                 'Medium'    { $this.Settings.TextBox.MediumWidth }
                 'Small'     { $this.Settings.TextBox.SmallWidth }
             }
-            # Set the Height of the textbox
+            # Set the Height of the TextBox
             [System.Int32]$Height = $this.Location.TextBoxTopLeftY + $this.Settings.TextBox.Height
             # Add the result to the main object
             Add-Member -InputObject $this -NotePropertyName Size -NotePropertyValue @($Width, $Height)
@@ -125,7 +124,6 @@ function Invoke-TextBox {
     
         # Add the AddTextBoxFontToMainObject method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxFontToMainObject -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
             # Get the Font from the Global Settings
             [System.Drawing.Font]$Font = $Settings.MainFont
             # Add the result to the main object
