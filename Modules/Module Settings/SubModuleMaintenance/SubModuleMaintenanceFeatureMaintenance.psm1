@@ -88,7 +88,7 @@ function Import-FeatureMaintenance {
         # Create the ComboBox
         [System.Windows.Forms.ComboBox]$Global:FAMActionComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Action:' -ContentArray $Script:ActionHashtable.Values -PropertyName 'FAMActionComboBox'
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2
     }
 
     end {
