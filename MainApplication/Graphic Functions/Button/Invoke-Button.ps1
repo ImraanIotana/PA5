@@ -149,7 +149,8 @@ function Invoke-Button {
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddButtonSizeToMainObject -Value { param([System.Collections.Hashtable]$Settings,[System.String]$SizeType)
             # Get the button size
             [System.Int32[]]$ButtonSize = switch ($SizeType) {
-                'Large'     { Get-GraphicalDimension -Button -Size -Large }
+                'Large'     { @($this.Settings.Button.LargeWidth, $this.Settings.Button.LargeHeight) }
+                #'Large'     { Get-GraphicalDimension -Button -Size -Large }
                 'Medium'    { Get-GraphicalDimension -Button -Size -Medium }
                 'Small'     { Get-GraphicalDimension -Button -Size -Small }
             }
