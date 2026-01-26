@@ -22,7 +22,7 @@
 #>
 ####################################################################################################
 
-function Get-GraphicalDimension {
+function Get-GraphicalDimensionOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The global ApplicationObject containing the Settings.')]
