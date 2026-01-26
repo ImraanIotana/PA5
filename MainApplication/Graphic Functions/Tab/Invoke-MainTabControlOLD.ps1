@@ -19,7 +19,7 @@
 #>
 ####################################################################################################
 
-function Invoke-MainTabControl {
+function Invoke-MainTabControlOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent object to which this tabcontrol will be added.')]
