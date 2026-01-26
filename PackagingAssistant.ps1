@@ -119,8 +119,8 @@ begin {
         
     function Import-PAModules {
         # Add the Module Directories to the Environment Variable
-        $ENV:PSModulePath += ";$PSScriptRoot"
-        #$ENV:PSModulePath += ";$($Global:ApplicationObject.WorkFolders.SharedModules);$($Global:ApplicationObject.WorkFolders.Modules)"
+        #$ENV:PSModulePath += ";$PSScriptRoot"
+        $ENV:PSModulePath += ";$($Global:ApplicationObject.WorkFolders.SharedModules);$($Global:ApplicationObject.WorkFolders.Modules);$($Global:ApplicationObject.WorkFolders.MainApplication)"
         # Import the PA Modules
         Import-Module -Name PASystemModule
         Import-Module -Name PAWriteModule
