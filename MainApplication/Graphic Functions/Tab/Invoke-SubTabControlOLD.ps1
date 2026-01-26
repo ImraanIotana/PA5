@@ -1,93 +1,67 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function creates the main tabcontrol.
+    This function creates the SubTabControl, which is added to a TabPage.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : -
-    External variables  : $Global:ApplicationObject, $Global:Form, $Global:TabControl
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Invoke-TabControl
+    Invoke-SubTabControl -ParentTabPage $Global:ParentTabPage
 .INPUTS
-    -
+    [System.Windows.Forms.TabPage]
+    [PSCustomObject]
 .OUTPUTS
-    This function returns no output.
+    This function returns no stream output.
 .NOTES
-    Version         : 2.0
-    Author          : Imraan Noormohamed
+    Version         : 5.7.0
+    Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Updated    : October 2023
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
 function Invoke-SubTabControlOLD {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true,HelpMessage='The Parent object to which this tabcontrol will be added.')]
-        [System.Windows.Forms.TabPage]
-        $ParentTabPage,
+        [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this tabcontrol will be added.')]
+        [System.Windows.Forms.TabPage]$ParentTabPage,
         
         [Parameter(Mandatory=$false,HelpMessage='ApplicationObject containing the Settings.')]
-        [PSCustomObject]
-        $ApplicationObject = $Global:ApplicationObject
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject
     )
 
     begin {
-        # Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Function
-            FunctionDetails     = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-            # Input
-            ParentTabPage       = $ParentTabPage
-            ApplicationObject   = $ApplicationObject
-            # Output
-            OutputObject        = New-Object System.Windows.Forms.TabControl
-        }
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Input
+        [System.Collections.Hashtable]$Settings         = $ApplicationObject.Settings
+
+        # Output
+        [System.Windows.Forms.TabControl]$OutputObject  = $null
 
         ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Create the sub tabcontrol
-            $this.CreateSubTabControl()
-        }
-
-        ####################################################################################################
-    
-        # Add the CreateSubTabControl method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateSubTabControl -Value {
-            try {
-                # Get the Settings
-                [System.Collections.Hashtable]$Settings = $this.ApplicationObject.Settings
-                # Write the message
-                Write-Verbose 'Setting the TabControl location...'
-                [System.Int32[]]$Location = @(0,0)
-                # Write the message
-                Write-Verbose 'Setting the TabControl size...'
-                # Set the Width of the tabcontrol
-                [System.Int32]$Width = $Settings.MainForm.Width - $Settings.MainTabControl.RightMargin
-                # Set the Height of the groupbox
-                [System.Int32]$Height = $Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin
-                # Set the Size
-                [System.Int32[]]$Size = @($Width, $Height)
-                # Create the sub tabcontrol
-                Write-Verbose 'Creating Sub TabControl...'
-                $this.OutputObject = New-TabControl -ParentTabPage $this.ParentTabPage -Location $Location -Size $Size
-            }
-            catch {
-                Write-FullError
-            }
-        }
     }
     
     process {
-        $Local:MainObject.Process()
+        try {
+            # Set the location
+            [System.Int32[]]$Location = @(0,0)
+            # Set the Width of the tabcontrol
+            [System.Int32]$Width = $Settings.MainForm.Width - $Settings.MainTabControl.RightMargin
+            # Set the Height of the tabcontrol
+            [System.Int32]$Height = $Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin
+            # Set the Size
+            [System.Int32[]]$Size = @($Width, $Height)
+            # Create the sub tabcontrol
+            $OutputObject = New-TabControl -ParentTabPage $ParentTabPage -Location $Location -Size $Size
+        }
+        catch {
+            Write-FullError
+        }
     }
 
     end {
         # Return the output
-        $Local:MainObject.OutputObject
+        $OutputObject
     }
 }
