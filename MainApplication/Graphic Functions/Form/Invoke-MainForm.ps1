@@ -74,7 +74,8 @@ function Invoke-MainForm {
                 # Set the properties
                 [System.String]$FormTitle       = ('{0} {1}' -f $ApplicationObject.Name, $ApplicationObject.Version)
                 [System.String]$FormIconPath    = Get-SharedAssetPath -AssetName MainApplicationIcon
-                [System.Int32[]]$FormSize       = Get-GraphicalDimension -Form -Size
+                #[System.Int32[]]$FormSize       = Get-GraphicalDimension -Form -Size
+                [System.Int32[]]$FormSize       = @($ApplicationObject.Settings.MainForm.Width, $ApplicationObject.Settings.MainForm.Height)
                 # Create the Global Main Form
                 Write-Verbose 'Creating the Global Main Form...'
                 [System.Windows.Forms.Form]$Global:MainForm = New-Form -Title $FormTitle -IconPath $FormIconPath -Size $FormSize
