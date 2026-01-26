@@ -23,7 +23,7 @@
 #>
 ####################################################################################################
 
-function Invoke-ButtonLine  {
+function Invoke-ButtonLineNEW  {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The array of hashtables containing the button properties.')]
