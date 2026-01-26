@@ -148,12 +148,12 @@ function Import-FeatureUpdates {
             }
         }
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $URLButtonProperties -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $URLButtonProperties -ParentGroupBox $ParentGroupBox -RowNumber 2
 
         # Create the Installation Folder TextBox
         [System.Windows.Forms.TextBox]$Global:SMFUInstallationFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'Installation Folder:' -PropertyName 'SMFUInstallationFolderTextBox'
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $InstallationFolderButtonProperties -ParentGroupBox $ParentGroupBox -RowNumber 5 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $InstallationFolderButtonProperties -ParentGroupBox $ParentGroupBox -RowNumber 5
     }
 
     end {

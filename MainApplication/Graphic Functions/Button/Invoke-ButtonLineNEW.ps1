@@ -153,8 +153,8 @@ function Invoke-ButtonLine  {
             }
             # Add the RowNumber or ColumnNumber based on the ParameterSetName
             switch ($PSCmdlet.ParameterSetName) {
-                'CreateButtonRow'       { $InvokeButtonParameters['RowNumber'] = $RowNumber ; $InvokeButtonParameters['ColumnNumber'] = $ButtonPropertyObject.ColumnNumber  }
-                'CreateButtonColumn'    { $InvokeButtonParameters['ColumnNumber'] = $ColumnNumber ; $InvokeButtonParameters['RowNumber'] = $ButtonPropertyObject.RowNumber  }
+                'CreateButtonRow'       { $InvokeButtonParameters['RowNumber'] = $RowNumber ; $InvokeButtonParameters['ColumnNumber'] = $ButtonPropertyObject.ColumnNumber }
+                'CreateButtonColumn'    { $InvokeButtonParameters['ColumnNumber'] = $ColumnNumber ; $InvokeButtonParameters['RowNumber'] = $ButtonPropertyObject.RowNumber }
             }
             # Invoke the Button
             Invoke-Button @InvokeButtonParameters

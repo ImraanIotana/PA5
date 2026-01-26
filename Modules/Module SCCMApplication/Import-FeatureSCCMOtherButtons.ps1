@@ -72,7 +72,7 @@ function Import-FeatureSCCMOtherButtons {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:SCCMSingleFunctionButtonsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $Buttons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $Buttons -ParentGroupBox $ParentGroupBox -RowNumber 1
     }
 
     end {

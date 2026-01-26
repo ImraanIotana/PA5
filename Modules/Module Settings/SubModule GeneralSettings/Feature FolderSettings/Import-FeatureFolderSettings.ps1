@@ -144,8 +144,8 @@ function Import-FeatureFolderSettings {
             )
 
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASFSOutputFolderTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASFSDSLFolderTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASFSOutputFolderTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2
+            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASFSDSLFolderTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 4
         }
     } 
     

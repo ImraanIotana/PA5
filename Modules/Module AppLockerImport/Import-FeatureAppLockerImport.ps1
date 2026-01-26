@@ -164,10 +164,10 @@ function Import-FeatureAppLockerImport {
         })
 
         # Create the buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $SmallButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $SideButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 5 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $ExtraActionButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 1 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $SmallButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $SideButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 5
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
+        Invoke-ButtonLine -ButtonPropertiesArray $ExtraActionButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 1
     }
 
     end {

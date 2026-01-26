@@ -127,7 +127,7 @@ function Import-FeatureAppLockerSettings {
             }
         }
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsTEST -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsTEST -ParentGroupBox $ParentGroupBox -RowNumber 2
 
         # Create the ALSAppLockerLDAPPRODTextBox
         [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox'
@@ -140,7 +140,7 @@ function Import-FeatureAppLockerSettings {
             }
         }
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsPROD -ParentGroupBox $ParentGroupBox -RowNumber 5 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsPROD -ParentGroupBox $ParentGroupBox -RowNumber 5
     }
 
     end {

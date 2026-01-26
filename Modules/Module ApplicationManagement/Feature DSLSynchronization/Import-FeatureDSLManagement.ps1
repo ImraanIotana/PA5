@@ -83,7 +83,7 @@ function Import-FeatureDSLManagement {
                 }
             )
             # Create the buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:DSApplicationIDComboBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber $DSApplicationIDComboBoxRow -AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $Global:DSApplicationIDComboBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber $DSApplicationIDComboBoxRow
 
         }
 

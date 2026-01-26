@@ -117,9 +117,9 @@ function Import-FeatureOmnissaDEMManagement {
         $Global:OmissaDEMManagementGroupbox | Add-Member -NotePropertyName DEMLogFolder -NotePropertyValue $DEMLogFolder
         # Create the ApplicationID ComboBox
         [System.Windows.Forms.ComboBox]$Global:ODMApplicationIDComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray (Get-DSLApplicationFolder -All -Basenames) -PropertyName 'ODMApplicationIDComboBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $SmallButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $RightButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 5 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 3 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $SmallButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $RightButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 5
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 3
     }
 
     end {

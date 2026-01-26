@@ -88,7 +88,7 @@ function Import-FeatureOmnissaDEMAllObjects {
         [System.Windows.Forms.GroupBox]$Global:OmissaDEMUserRegistryGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         $Global:OmissaDEMUserRegistryGroupbox | Add-Member -NotePropertyName CorrespondingRepository -NotePropertyValue $CorrespondingRepository
         # Create the action buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
     }
 
     end {

@@ -93,8 +93,8 @@ function Import-FeatureExtraFeatures {
         # Create the ComboBox
         [System.Windows.Forms.ComboBox]$Global:SIStartMenuItemsComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Folder or Shortcut:' -ContentArray (Get-StartMenuItems -AsComboboxList) -PropertyName 'SIStartMenuItemsComboBox'
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $LargeButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
+        Invoke-ButtonLine -ButtonPropertiesArray $LargeButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
     }
 
     end {

@@ -60,7 +60,7 @@ function Import-FeatureSynchronizationPresetsUpload {
             # Create the GroupBox
             [System.Windows.Forms.GroupBox]$Global:SPFolderGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupboxTitle -NumberOfRows $this.GroupboxNumberOfRows -Color $this.GroupboxColor -GroupBoxAbove $this.GroupBoxAbove
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $this.PresetButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $this.PresetButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
         }
 
         ####################################################################################################

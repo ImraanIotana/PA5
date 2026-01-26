@@ -106,8 +106,8 @@ function Import-FeatureSCCMApplication {
         # Create the Audit ComboBox
         [System.Windows.Forms.ComboBox]$Global:MSAApplicationComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray $DSLApplicationFolders -PropertyName 'MSAApplicationComboBox'
         # Create the buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $RightButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 3 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $RightButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 3
     }
 
     end {

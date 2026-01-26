@@ -62,7 +62,7 @@ function Import-FeatureSynchronizationPresetsOther {
             # Create the GroupBox
             [System.Windows.Forms.GroupBox]$Global:MDSLMFSPOGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $this.GroupboxColor -GroupBoxAbove $this.GroupBoxAbove
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $this.PresetButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $this.PresetButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
         }
 
         ####################################################################################################
@@ -105,7 +105,7 @@ function Import-FeatureSynchronizationPresetsOther {
         #[System.Windows.Forms.GroupBox]$Global:SPFolderGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         #$Global:OmissaDEMUserRegistryGroupbox | Add-Member -NotePropertyName CorrespondingRepository -NotePropertyValue $CorrespondingRepository
         # Create the action buttons
-        #Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+        #Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
         $Local:MainObject.Process()
     }
 

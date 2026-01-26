@@ -124,15 +124,15 @@ function Import-FeatureAppLockerCreation {
         [System.Windows.Forms.GroupBox]$Global:AppLockerCreationGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color
         # Create the ApplicationID ComboBox
         [System.Windows.Forms.ComboBox]$Global:ALCApplicationIDComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray (Get-DSLApplicationFolder -All -Basenames) -PropertyName 'ALCApplicationIDComboBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $ALCApplicationIDComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ALCApplicationIDComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
         # Create the FolderToScan TextBox
         [System.Windows.Forms.TextBox]$Global:ALCFolderToScanTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Medium -Type Input -Label 'Select Folder to scan:' -PropertyName 'ALIFolder1ToScanTextBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $ALCFolderToScanTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ALCFolderToScanTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
         # Create the ALIADGroupSIDTextBox
         [System.Windows.Forms.TextBox]$Global:ALCADGroupSIDTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 6 -SizeType Medium -Type Input -Label 'AD Group SID:' -PropertyName 'ALCADGroupSIDTextBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $ALCADGroupSIDTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 7 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ALCADGroupSIDTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 7
         # Create the action button
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 8 -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 8
     }
 
     end {
