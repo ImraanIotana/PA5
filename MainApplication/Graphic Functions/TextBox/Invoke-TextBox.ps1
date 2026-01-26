@@ -66,7 +66,7 @@ function Invoke-TextBox {
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Function
-            FunctionDetails = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
+            #FunctionDetails = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
             # Input
             Settings        = $ApplicationObject.Settings
             ParentGroupBox  = $ParentGroupBox
@@ -103,7 +103,6 @@ function Invoke-TextBox {
         # Add the AddTextBoxLocationToMainObject method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxLocationToMainObject -Value { param([System.Collections.Hashtable]$Settings,[System.Windows.Forms.GroupBox]$ParentGroupBox,[System.Int32]$RowNumber)
             # Write the message
-            #Write-Verbose 'Adding the TextBox Location to the Main Object...'
             # Set the TopLeftX of the textbox
             [System.Int32]$TextBoxTopLeftX = $ParentGroupBox.Location.X + $Settings.TextBox.LeftMargin
             # Set the TopLeftY of the textbox
@@ -115,10 +114,10 @@ function Invoke-TextBox {
         # Add the AddTextBoxSizeToMainObject method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxSizeToMainObject -Value { param([System.Collections.Hashtable]$Settings,[System.String]$SizeType)
             # Write the message
-            #Write-Verbose 'Adding the TextBox Size to the Main Object...'
             # Get the Width of the TextBox from the Global Settings
             [System.Int32]$Width = switch ($SizeType) {
-                'Large'     { Get-GraphicalDimension -TextBox -Width -Large }
+                'Large'     { $this.Settings.TextBox.LargeWidth }
+                #'Large'     { Get-GraphicalDimension -TextBox -Width -Large }
                 'Medium'    { Get-GraphicalDimension -TextBox -Width -Medium }
                 'Small'     { Get-GraphicalDimension -TextBox -Width -Small }
             }
@@ -131,7 +130,6 @@ function Invoke-TextBox {
         # Add the AddTextBoxFontToMainObject method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxFontToMainObject -Value { param([System.Collections.Hashtable]$Settings)
             # Write the message
-            #Write-Verbose 'Adding the TextBox Font to the Main Object...'
             # Get the Font from the Global Settings
             [System.Drawing.Font]$Font = $Settings.MainFont
             # Add the result to the main object
@@ -145,7 +143,6 @@ function Invoke-TextBox {
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateLabel -Value { param([System.Windows.Forms.GroupBox]$ParentGroupBox,[System.Int32]$RowNumber,[System.String]$LabelText)
             # Create the label
             if (Test-Object -IsPopulated $LabelText) {
-                #Write-Verbose 'Invoking a new label...'
                 Invoke-Label -ParentGroupBox $ParentGroupBox -Text $LabelText -RowNumber $RowNumber
             }
         }
@@ -153,14 +150,11 @@ function Invoke-TextBox {
         # Add the CreateTextBox method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateTextBox -Value {
             # Create the textbox
-            #Write-Verbose 'Invoking a new textbox...'
             $this.OutputObject = New-TextBox -ParentGroupBox $this.ParentGroupBox -Location $this.Location -Size $this.Size -Type $this.Type -TextColor $this.TextColor -Font $this.Font -PropertyName $this.PropertyName
         }
 
         ####################################################################################################
 
-        # Write the Begin message
-        #Write-Message -FunctionBegin -Details $Local:MainObject.FunctionDetails
     }
     
     process {
@@ -170,8 +164,6 @@ function Invoke-TextBox {
     end {
         # Return the output
         $Local:MainObject.OutputObject
-        # Write the End message
-        #Write-Message -FunctionEnd -Details $Local:MainObject.FunctionDetails
     }
 }
 

@@ -152,8 +152,6 @@ function Invoke-Button {
                 'Large'     { @($this.Settings.Button.LargeWidth, $this.Settings.Button.LargeHeight) }
                 'Medium'    { @($this.Settings.Button.MediumWidth, $this.Settings.Button.MediumHeight) }
                 'Small'     { @($this.Settings.Button.SmallWidth, $this.Settings.Button.SmallHeight) }
-                #'Medium'    { Get-GraphicalDimension -Button -Size -Medium }
-                #'Small'     { Get-GraphicalDimension -Button -Size -Small }
             }
             # Add the result to the main object
             Add-Member -InputObject $this -NotePropertyName Size -NotePropertyValue $ButtonSize
