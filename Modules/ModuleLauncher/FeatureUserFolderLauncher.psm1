@@ -41,38 +41,6 @@ function Import-FeatureUserFolderLauncher {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        ####################################################################################################
-        ### MAIN OBJECT ###
-
-        # Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Function
-            FunctionDetails         = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-            # Input
-            ParentTabPage           = $ParentTabPage
-            # Groupbox Handlers
-            GroupboxTitle           = [System.String]'User Folders'
-            GroupboxColor           = [System.String]'LightCyan'
-            GroupboxNumberOfRows    = [System.Int32]2
-            GroupBoxAbove           = $Global:SystemFolderLauncherGroupBox
-            # Handlers
-            AssetFolder             = [System.String]$PSScriptRoot
-        }
-
-        ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            [System.Windows.Forms.GroupBox]$Global:UserFolderLauncherGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupboxTitle -NumberOfRows $this.GroupboxNumberOfRows -Color $this.GroupboxColor -GroupBoxAbove $this.GroupBoxAbove
-            [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:UserFolderLauncherGroupBox
-            # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $this.UserFolderButtons() -ParentGroupBox $ParentGroupBox -RowNumber 1 -AssetFolder $this.AssetFolder
-        }
-
-        ####################################################################################################
-
         # Add the UserFolderButtons method
         [System.Collections.Hashtable[]]$UserFolderButtons = @(
             @{

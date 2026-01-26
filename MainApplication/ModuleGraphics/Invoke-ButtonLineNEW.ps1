@@ -1,26 +1,25 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function obtains MSIX information by extracting the Manifest file, and reading the properties.
+    This function creates a line of Buttons.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : Export-ManifestFromMSIX, Test-MSIXManifestProperty, Write-FullError
-    External variables  : $Global:MSIXUserSettingsTextBox, $Global:MSIXShortcutVisibilityTextBox, $Global:MSXICertificateEnvironmentTextBox, $Global:PackageDependencyTextBox
-    External variables  : $Global:ChangeMSIXUserSettingsComboBox, $Global:ChangeMSIXShortcutVisibilityComboBox, $Global:ChangeMSXICertificateEnvironmentComboBox
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Get-MSIXInformation -FilePath C:\Temp\Application.msix
+    Invoke-ButtonLine -ButtonPropertiesArray $MyRowOfActionButtons -ParentGroupBox $Global:ParentGroupBox -RowNumber 1
 .EXAMPLE
-    Get-MSIXInformation -FilePath "C:\Temp\AppXManifest.xml"
+    Invoke-ButtonLine -ButtonPropertiesArray $MyColumnOfActionButtons -ParentGroupBox $Global:ParentGroupBox -ColumnNumber 1
 .INPUTS
+    [System.Collections.Hashtable[]]
+    [System.Windows.Forms.GroupBox]
+    [System.Int32]
     [System.String]
 .OUTPUTS
-    This function returns no output.
+    This function returns no stream output.
 .NOTES
-    Version         : 4.0
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : June 2024
-    Last Updated    : June 2024
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
