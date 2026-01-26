@@ -24,7 +24,7 @@
 
 function Get-GraphicalDimension {
     [CmdletBinding()]
-    param (        
+    param (
         [Parameter(Mandatory=$false,HelpMessage='The global ApplicationObject containing the Settings.')]
         [PSCustomObject]
         $ApplicationObject = $Global:ApplicationObject,

@@ -27,7 +27,11 @@ function Invoke-MainTabControl {
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent object to which this tabcontrol will be added.')]
         [System.Windows.Forms.Form]
-        $ParentForm
+        $ParentForm,
+
+        [Parameter(Mandatory=$false,HelpMessage='The global ApplicationObject containing the Settings.')]
+        [PSCustomObject]
+        $ApplicationObject = $Global:ApplicationObject
     )
 
     begin {
@@ -36,9 +40,11 @@ function Invoke-MainTabControl {
     process {
         try {
             # Get the Location
-            [System.Int32[]]$Location   = Get-GraphicalDimension -MainTabControl -Location
+            [System.Int32[]]$Location   = @($ApplicationObject.Settings.MainTabControl.TopLeftX, $ApplicationObject.Settings.MainTabControl.TopLeftY)
+            #[System.Int32[]]$Location   = Get-GraphicalDimension -MainTabControl -Location
             # Get the Size
-            [System.Int32[]]$Size       = Get-GraphicalDimension -MainTabControl -Size
+            [System.Int32[]]$Size       = @($ApplicationObject.Settings.MainTabControl.Width, $ApplicationObject.Settings.MainTabControl.Height)
+            #[System.Int32[]]$Size       = Get-GraphicalDimension -MainTabControl -Size
 
             # Create the global tabcontrol
             [System.Windows.Forms.TabControl]$Global:MainTabControl = New-TabControl -ParentForm $ParentForm -Location $Location -Size $Size
