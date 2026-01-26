@@ -132,7 +132,33 @@ function Invoke-ButtonLine  {
     }
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+        # Create the Buttons
+        foreach ($ButtonPropertyObject in $ButtonPropertiesArray) {
+            # Set the image filename
+            [System.String]$ImageFileName = if ($ButtonPropertyObject.Image) { $ButtonPropertyObject.Image } else { '{0}.png' -f $ButtonPropertyObject.Text }
+            # Set the path to search for the image
+            [System.String]$FolderToSearch = if ($AssetFolder) { $AssetFolder } else { $Global:ApplicationObject.WorkFolders.SharedAssets }
+            # Get the image path
+            [System.String]$ImagePath = (Get-ChildItem -Path $FolderToSearch -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName
+            # Set the general parameters
+            [System.Collections.Hashtable]$InvokeButtonParameters = @{
+                ParentGroupBox  = $ParentGroupBox
+                PNGImagePath    = $ImagePath
+                Text            = $ButtonPropertyObject.Text
+                TextColor       = $ButtonPropertyObject.TextColor
+                SizeType        = $ButtonPropertyObject.SizeType
+                Function        = $ButtonPropertyObject.Function
+                ToolTip         = $ButtonPropertyObject.ToolTip
+            }
+            # Add the RowNumber or ColumnNumber based on the ParameterSetName
+            switch ($PSCmdlet.ParameterSetName) {
+                'CreateButtonRow'       { $InvokeButtonParameters['RowNumber'] = $RowNumber ; $InvokeButtonParameters['ColumnNumber'] = $ButtonPropertyObject.ColumnNumber  }
+                'CreateButtonColumn'    { $InvokeButtonParameters['ColumnNumber'] = $ColumnNumber ; $InvokeButtonParameters['RowNumber'] = $ButtonPropertyObject.RowNumber  }
+            }
+            # Invoke the Button
+            Invoke-Button @InvokeButtonParameters
+        }
     }
     
     end {
