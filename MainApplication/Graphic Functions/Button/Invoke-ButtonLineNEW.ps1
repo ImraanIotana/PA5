@@ -38,123 +38,34 @@ function Invoke-ButtonLine  {
         [Parameter(Mandatory=$true,ParameterSetName='CreateButtonColumn',HelpMessage='The ColumnNumber of the buttons')]
         [System.Int32]$ColumnNumber,
         
-        # This paramater is obsolete, but kept for backward compatibility
         [Parameter(Mandatory=$false,HelpMessage='The folder containing the button images')]
-        [System.String]$AssetFolder
+        [System.String]$AssetFolder = $Global:ApplicationObject.WorkFolders.SharedAssets
     )
     
     begin {
-        ####################################################################################################
-        ### MAIN OBJECT ###
-
-        # Create the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Function
-            FunctionDetails         = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-            # Input
-            ButtonPropertiesArray   = $ButtonPropertiesArray
-            ParentGroupBox          = $ParentGroupBox
-            RowNumber               = $RowNumber
-            ColumnNumber            = $ColumnNumber
-            AssetFolder             = $AssetFolder
-        }
-
-        ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Switch on the ParameterSetName
-            switch ($this.FunctionDetails[1]) {
-                'CreateButtonRow'       { $this.CreateButtonRowMethod($this.ButtonPropertiesArray, $this.ParentGroupBox, $this.RowNumber, $this.AssetFolder) }
-                'CreateButtonColumn'    { $this.CreateButtonColumnMethod($this.ButtonPropertiesArray, $this.ParentGroupBox, $this.ColumnNumber, $this.AssetFolder) }
-            }
-        }
-
-        ####################################################################################################
-        ### MAIN PROCESSING METHODS ###
-    
-        # Add the CreateButtonRowMethod method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateButtonRowMethod -Value {
-            # Set the input parameters
-            param([System.Collections.Hashtable[]]$ButtonPropertiesArray,[System.Windows.Forms.GroupBox]$ParentGroupBox,[System.Int32]$RowNumber,[System.String]$AssetFolder)
-            # Create the Buttons
-            $ButtonPropertiesArray | ForEach-Object {
-                # Set the image filename
-                [System.String]$ImageFileName = if ($_.Image) { $_.Image } else { '{0}.png' -f $_.Text }
-                # Get the image path
-                [System.String]$ImagePath = (Get-ChildItem -Path $AssetFolder -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName
-                # If the image if not found in the provided folder, then search the Shared Assets folder.
-                if (-Not($ImagePath)) {$ImagePath = (Get-ChildItem -Path $Global:ApplicationObject.WorkFolders.SharedAssets -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName}
-                # Set the parameters
-                [System.Collections.Hashtable]$Params = @{
-                    ParentGroupBox  = $ParentGroupBox
-                    Text            = $_.Text
-                    TextColor       = $_.TextColor
-                    RowNumber       = $RowNumber
-                    ColumnNumber    = $_.ColumnNumber
-                    SizeType        = $_.SizeType
-                    PNGImagePath    = $ImagePath
-                    Function        = $_.Function
-                    ToolTip         = $_.ToolTip
-                }
-                Invoke-Button @Params
-            }
-        }
-    
-        # Add the CreateButtonColumnMethod method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateButtonColumnMethod -Value {
-            # Set the input parameters
-            param([System.Collections.Hashtable[]]$ButtonPropertiesArray,[System.Windows.Forms.GroupBox]$ParentGroupBox,[System.Int32]$ColumnNumber,[System.String]$AssetFolder)
-            # Create the Buttons
-            $ButtonPropertiesArray | ForEach-Object {
-                # Set the image filename
-                [System.String]$ImageFileName = if ($_.Image) { $_.Image } else { '{0}.png' -f $_.Text }
-                # Get the image path
-                [System.String]$ImagePath = (Get-ChildItem -Path $AssetFolder -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName
-                # If the image if not found in the provided folder, then search the Shared Assets folder.
-                if (-Not($ImagePath)) {$ImagePath = (Get-ChildItem -Path $Global:ApplicationObject.WorkFolders.SharedAssets -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName}
-                # Set the parameters
-                [System.Collections.Hashtable]$Params = @{
-                    ParentGroupBox  = $ParentGroupBox
-                    Text            = $_.Text
-                    TextColor       = $_.TextColor
-                    RowNumber       = $_.RowNumber
-                    ColumnNumber    = $ColumnNumber
-                    SizeType        = $_.SizeType
-                    PNGImagePath    = $ImagePath
-                    Function        = $_.Function
-                    ToolTip         = $_.ToolTip
-                }
-                Invoke-Button @Params
-            }
-        }
     }
     
     process {
-        #$Local:MainObject.Process()
         # Create the Buttons
-        foreach ($ButtonPropertyObject in $ButtonPropertiesArray) {
+        foreach ($ButtonObject in $ButtonPropertiesArray) {
             # Set the image filename
-            [System.String]$ImageFileName = if ($ButtonPropertyObject.Image) { $ButtonPropertyObject.Image } else { '{0}.png' -f $ButtonPropertyObject.Text }
-            # Set the path to search for the image
-            [System.String]$FolderToSearch = if ($AssetFolder) { $AssetFolder } else { $Global:ApplicationObject.WorkFolders.SharedAssets }
+            [System.String]$ImageFileName = if ($ButtonObject.Image) { $ButtonObject.Image } else { "$($ButtonObject.Text).png" }
             # Get the image path
-            [System.String]$ImagePath = (Get-ChildItem -Path $FolderToSearch -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName
+            [System.String]$ImagePath = (Get-ChildItem -Path $AssetFolder -File -Filter $ImageFileName -Recurse -ErrorAction SilentlyContinue).FullName
             # Set the general parameters
             [System.Collections.Hashtable]$InvokeButtonParameters = @{
                 ParentGroupBox  = $ParentGroupBox
                 PNGImagePath    = $ImagePath
-                Text            = $ButtonPropertyObject.Text
-                TextColor       = $ButtonPropertyObject.TextColor
-                SizeType        = $ButtonPropertyObject.SizeType
-                Function        = $ButtonPropertyObject.Function
-                ToolTip         = $ButtonPropertyObject.ToolTip
+                Text            = $ButtonObject.Text
+                TextColor       = $ButtonObject.TextColor
+                SizeType        = $ButtonObject.SizeType
+                Function        = $ButtonObject.Function
+                ToolTip         = $ButtonObject.ToolTip
             }
             # Add the RowNumber or ColumnNumber based on the ParameterSetName
             switch ($PSCmdlet.ParameterSetName) {
-                'CreateButtonRow'       { $InvokeButtonParameters['RowNumber'] = $RowNumber ; $InvokeButtonParameters['ColumnNumber'] = $ButtonPropertyObject.ColumnNumber }
-                'CreateButtonColumn'    { $InvokeButtonParameters['ColumnNumber'] = $ColumnNumber ; $InvokeButtonParameters['RowNumber'] = $ButtonPropertyObject.RowNumber }
+                'CreateButtonRow'       { $InvokeButtonParameters['RowNumber'] = $RowNumber ; $InvokeButtonParameters['ColumnNumber'] = $ButtonObject.ColumnNumber }
+                'CreateButtonColumn'    { $InvokeButtonParameters['ColumnNumber'] = $ColumnNumber ; $InvokeButtonParameters['RowNumber'] = $ButtonObject.RowNumber }
             }
             # Invoke the Button
             Invoke-Button @InvokeButtonParameters
