@@ -1,24 +1,21 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function creates the Global Main TabControl.
+    This function creates the MainTabControl.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : Write-FullError
-    External variables  : $Global:MainTabControl
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Invoke-MainTabControl -ParentForm $Global:MainForm -ApplicationObject $Global:ApplicationObject
 .INPUTS
     [System.Windows.Forms.Form]
     [PSCustomObject]
 .OUTPUTS
-    This function returns no stream output. It creates the global variable named: $Global:MainTabControl
+    This function returns no stream output.
 .NOTES
-    Version         : 5.0.6
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : April 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -29,7 +26,7 @@ function Invoke-MainTabControl {
         [System.Windows.Forms.Form]
         $ParentForm,
 
-        [Parameter(Mandatory=$false,HelpMessage='The global ApplicationObject containing the Settings.')]
+        [Parameter(Mandatory=$false,HelpMessage='The Global ApplicationObject containing the Settings.')]
         [PSCustomObject]
         $ApplicationObject = $Global:ApplicationObject
     )
@@ -45,16 +42,6 @@ function Invoke-MainTabControl {
 
             # Create the MainTabControl
             [System.Windows.Forms.TabControl]$Global:MainTabControl = New-TabControl -ParentForm $ParentForm -Location $Location -Size $Size
-
-            <# Add the WriteImportMessageOLD method to the MainTabControl
-            Add-Member -InputObject $Global:MainTabControl -MemberType ScriptMethod -Name WriteImportMessageOLD -Value { param([System.String]$TabTitle,[System.String]$ModuleVersion)
-                Write-Host ('Importing Module {0} {1}' -f $TabTitle,$ModuleVersion) -ForegroundColor DarkGray
-            }#>
-
-            <# Add the WriteImportMessage method to the MainTabControl
-            Add-Member -InputObject $Global:MainTabControl -MemberType ScriptMethod -Name WriteImportMessage -Value { param([PSCustomObject]$Object)
-                Write-Host ('Importing Module {0} {1}' -f $Object.TabTitle,$Object.ModuleVersion) -ForegroundColor DarkGray
-            }#>
         }
         catch {
             Write-FullError
