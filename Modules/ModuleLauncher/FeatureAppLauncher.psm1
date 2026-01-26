@@ -131,8 +131,8 @@ function Import-FeatureAppLauncher {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:AppLauncherGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons  -ParentGroupBox $ParentGroupBox -RowNumber 1  -AssetFolder $PSScriptRoot
-        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons2 -ParentGroupBox $ParentGroupBox -RowNumber 3  -AssetFolder $PSScriptRoot
+        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons  -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $AppLauncherButtons2 -ParentGroupBox $ParentGroupBox -RowNumber 3
     }
 
     end {

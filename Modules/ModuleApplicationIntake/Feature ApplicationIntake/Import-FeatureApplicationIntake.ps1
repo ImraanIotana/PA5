@@ -85,11 +85,11 @@ function Import-FeatureApplicationIntake {
             # Create the Output TextBox
             [System.Windows.Forms.TextBox]$Global:AIApplicationIDTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 16 -SizeType $SizeType -Type Output -Label 'Application Name:' -PropertyName 'AIApplicationIDTextBox'
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $this.ApplicationIntakeButtons() -ParentGroupBox $ParentGroupBox -ColumnNumber 4 -AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $this.ApplicationIntakeButtons() -ParentGroupBox $ParentGroupBox -ColumnNumber 4 #-AssetFolder $PSScriptRoot
             #Invoke-ButtonLine -ButtonPropertiesArray $this.GetRegistryExportButtons() -ParentGroupBox $ParentGroupBox -ColumnNumber 5 -AssetFolder $this.AssetFolder
-            Invoke-ButtonLine -ButtonPropertiesArray $this.SmallButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 4 -AssetFolder $PSScriptRoot
-            Invoke-ButtonLine -ButtonPropertiesArray $this.GetEnterButtons() -ParentGroupBox $ParentGroupBox -ColumnNumber 2 -AssetFolder $PSScriptRoot
-            Invoke-ButtonLine -ButtonPropertiesArray $this.GetHelpButtons() -ParentGroupBox $ParentGroupBox -RowNumber 16 -AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $this.SmallButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 4 #-AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $this.GetEnterButtons() -ParentGroupBox $ParentGroupBox -ColumnNumber 2 #-AssetFolder $PSScriptRoot
+            Invoke-ButtonLine -ButtonPropertiesArray $this.GetHelpButtons() -ParentGroupBox $ParentGroupBox -RowNumber 16 #-AssetFolder $PSScriptRoot
         }
 
         ####################################################################################################
