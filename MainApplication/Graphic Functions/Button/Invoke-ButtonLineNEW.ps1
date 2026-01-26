@@ -26,26 +26,20 @@
 function Invoke-ButtonLine  {
     [CmdletBinding()]
     param (
-        #[Parameter(Mandatory=$true,ParameterSetName='CreateButtonRow',HelpMessage='An array of hashtables containing the button properties.')]
-        [Parameter(Mandatory=$true,HelpMessage='An array of hashtables containing the button properties.')]
+        [Parameter(Mandatory=$true,HelpMessage='The array of hashtables containing the button properties.')]
         [System.Collections.Hashtable[]]$ButtonPropertiesArray,
         
-        # The groupbox to which the buttons will be added
-        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonRow')]
-        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonColumn')]
+        [Parameter(Mandatory=$true,HelpMessage='The groupbox to which the buttons will be added.')]
         [System.Windows.Forms.GroupBox]$ParentGroupBox,
         
-        # The row number of the button
-        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonRow')]
+        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonRow',HelpMessage='The RowNumber of the buttons')]
         [System.Int32]$RowNumber,
         
-        # The column number of the button
-        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonColumn')]
+        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonColumn',HelpMessage='The ColumnNumber of the buttons')]
         [System.Int32]$ColumnNumber,
         
-        # The folder containing the button images
-        [Parameter(Mandatory=$false,ParameterSetName='CreateButtonRow')]
-        [Parameter(Mandatory=$false,ParameterSetName='CreateButtonColumn')]
+        # This paramater is obsolete, but kept for backward compatibility
+        [Parameter(Mandatory=$false,HelpMessage='The folder containing the button images')]
         [System.String]$AssetFolder
     )
     
