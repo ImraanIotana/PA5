@@ -19,7 +19,7 @@
 #>
 ####################################################################################################
 
-function New-TabPage {
+function New-TabPageNEW {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The TabControl to which this TabPage will be added.')]
