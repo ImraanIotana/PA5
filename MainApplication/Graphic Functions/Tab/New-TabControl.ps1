@@ -54,7 +54,7 @@ function New-TabControl {
         }
         
         # Output
-        [System.Windows.Forms.TabControl]$OutputObject = $null
+        [System.Windows.Forms.TabControl]$OutputObject = New-Object System.Windows.Forms.TabControl
 
 
         ####################################################################################################
