@@ -65,8 +65,6 @@ function Invoke-TextBox {
 
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
-            # Function
-            #FunctionDetails = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
             # Input
             Settings        = $ApplicationObject.Settings
             ParentGroupBox  = $ParentGroupBox
@@ -88,7 +86,7 @@ function Invoke-TextBox {
             # Set the location of the textbox
             $this.AddTextBoxLocationToMainObject($this.Settings,$this.ParentGroupBox,$this.RowNumber)
             # Set the size of the textbox
-            $this.AddTextBoxSizeToMainObject($this.Settings,$this.SizeType)
+            $this.AddTextBoxSizeToMainObject($this.SizeType)
             # Set the font of the textbox
             $this.AddTextBoxFontToMainObject($this.Settings)
             # Create the Label
@@ -112,17 +110,15 @@ function Invoke-TextBox {
         }
     
         # Add the AddTextBoxSizeToMainObject method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxSizeToMainObject -Value { param([System.Collections.Hashtable]$Settings,[System.String]$SizeType)
-            # Write the message
+        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxSizeToMainObject -Value { param([System.String]$SizeType)
             # Get the Width of the TextBox from the Global Settings
             [System.Int32]$Width = switch ($SizeType) {
                 'Large'     { $this.Settings.TextBox.LargeWidth }
-                #'Large'     { Get-GraphicalDimension -TextBox -Width -Large }
-                'Medium'    { Get-GraphicalDimension -TextBox -Width -Medium }
-                'Small'     { Get-GraphicalDimension -TextBox -Width -Small }
+                'Medium'    { $this.Settings.TextBox.MediumWidth }
+                'Small'     { $this.Settings.TextBox.SmallWidth }
             }
             # Set the Height of the textbox
-            [System.Int32]$Height = $this.Location.TextBoxTopLeftY + $Settings.TextBox.Height
+            [System.Int32]$Height = $this.Location.TextBoxTopLeftY + $this.Settings.TextBox.Height
             # Add the result to the main object
             Add-Member -InputObject $this -NotePropertyName Size -NotePropertyValue @($Width, $Height)
         }

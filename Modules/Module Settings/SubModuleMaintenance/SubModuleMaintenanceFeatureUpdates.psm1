@@ -63,7 +63,7 @@ function Import-FeatureUpdates {
             }
             @{
                 ColumnNumber    = 2
-                Text            = '...and Update'
+                Text            = 'Update'
                 Image           = 'update.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Download the file ans apply the update.'
