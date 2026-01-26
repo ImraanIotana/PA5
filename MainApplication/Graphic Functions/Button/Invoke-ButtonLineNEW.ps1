@@ -26,8 +26,8 @@
 function Invoke-ButtonLine  {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonRow',HelpMessage='An array of hashtables containing the button properties.')]
-        [Parameter(Mandatory=$true,ParameterSetName='CreateButtonColumn',HelpMessage='An array of hashtables containing the button properties.')]
+        #[Parameter(Mandatory=$true,ParameterSetName='CreateButtonRow',HelpMessage='An array of hashtables containing the button properties.')]
+        [Parameter(Mandatory=$true,HelpMessage='An array of hashtables containing the button properties.')]
         [System.Collections.Hashtable[]]$ButtonPropertiesArray,
         
         # The groupbox to which the buttons will be added
