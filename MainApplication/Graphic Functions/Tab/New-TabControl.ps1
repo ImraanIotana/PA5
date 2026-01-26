@@ -19,7 +19,7 @@
 #>
 ####################################################################################################
 
-function New-TabControl {
+function New-TabControlNEW {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,ParameterSetName='TabControlForParentForm',HelpMessage='The Parent Form to which this tabcontrol will be added.')]
@@ -56,43 +56,7 @@ function New-TabControl {
         # Output
         [System.Windows.Forms.TabControl]$OutputObject = New-Object System.Windows.Forms.TabControl
 
-
         ####################################################################################################
-        <# Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Function
-            FunctionDetails     = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-            # Input
-            ParentForm          = $ParentForm
-            ParentTabPage       = $ParentTabPage
-            Properties          = [System.Collections.Hashtable]@{
-                Location        = New-Object System.Drawing.Point($Location)
-                Size            = New-Object System.Drawing.Size($Size)
-            }
-            # TabControl object
-            TabControl          = New-Object System.Windows.Forms.TabControl
-        }
-
-        ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-        
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Set the Parent object
-            $ParentObject = switch ($this.FunctionDetails[1]) {
-                'TabControlForParentForm'       { $this.ParentForm }
-                'TabControlForParentTabPage'    { $this.ParentTabPage }
-            }
-            # Add the properties to the tabcobtrol object
-            Write-Verbose 'Creating new tabcontrol...'
-            $this.Properties.GetEnumerator() | ForEach-Object {
-                Write-Verbose ('Adding property ({0}) with value: {1}' -f $_.Name,$_.Value)
-                $this.TabControl.($_.Name) = $_.Value
-            }
-            # Add the tabcontrol to the parent object
-            Write-Verbose 'Adding the new tabcontrol to the parent form...'
-            $ParentObject.Controls.Add($this.TabControl)
-        }#>
     } 
     
     process {
