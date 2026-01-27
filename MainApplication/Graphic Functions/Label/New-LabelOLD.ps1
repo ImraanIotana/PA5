@@ -21,7 +21,7 @@
 #>
 ####################################################################################################
 
-function New-Label {
+function New-LabelOLD {
     [CmdletBinding()]
     param (
         # The Parent GroupBox to which this label will be added.
