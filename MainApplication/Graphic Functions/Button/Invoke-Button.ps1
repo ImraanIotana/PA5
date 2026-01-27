@@ -3,21 +3,22 @@
 .SYNOPSIS
     This function creates a new Button.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : -
-    External variables  : $Global:ApplicationObject
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Invoke-Button
+    Invoke-Button -ParentGroupBox $Global:GroupBox -Text 'Click Me' -RowNumber 2 -ColumnNumber 3 -SizeType 'Large' -Function $OnClickFunction -ToolTip 'This is a button.'
 .INPUTS
-    -
+    [PSCustomObject]
+    [System.Windows.Forms.GroupBox]
+    [System.String]
+    [System.Int32]
+    [System.EventHandler]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.0
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : February 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -25,57 +26,38 @@ function Invoke-Button {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Global ApplicationObject containing the Settings.')]
-        [PSCustomObject]
-        $ApplicationObject = $Global:ApplicationObject,
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
 
-        # The Parent GroupBox to which this button will be added.
-        [Parameter(Mandatory=$true)]
-        [System.Windows.Forms.GroupBox]
-        $ParentGroupBox,
+        [Parameter(Mandatory=$true,HelpMessage='The Parent GroupBox to which this button will be added.')]
+        [System.Windows.Forms.GroupBox]$ParentGroupBox,
 
-        # The text of the button.
-        [Parameter(Mandatory=$false)]
-        [System.String]
-        $Text,
+        [Parameter(Mandatory=$false,HelpMessage='The text of the button.')]
+        [System.String]$Text,
 
-        # The color of the text.
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,HelpMessage='The color of the text.')]
         [AllowEmptyString()]
-        [System.String]
-        $TextColor,
+        [System.String]$TextColor,
 
-        # The path of the image file in png format.
-        [Parameter(Mandatory = $false)]
+        [Parameter(Mandatory = $false,HelpMessage='The path of the image file in png format.')]
         [AllowEmptyString()]
-        [System.String]
-        $PNGImagePath,
+        [System.String]$PNGImagePath,
 
-        # The location of the button expressed in rownumber.
-        [Parameter(Mandatory=$false)]
-        [System.Int32]
-        $RowNumber = 1,
+        [Parameter(Mandatory=$false,HelpMessage='The location of the button expressed in rownumber.')]
+        [System.Int32]$RowNumber = 1,
 
-        # The location of the button expressed in columnnumber.
-        [Parameter(Mandatory=$false)]
-        [System.Int32]
-        $ColumnNumber = 1,
+        [Parameter(Mandatory=$false,HelpMessage='The location of the button expressed in columnnumber.')]
+        [System.Int32]$ColumnNumber = 1,
 
-        # The sizetype of the button (small, medium or large). This will influence the width and height.
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,HelpMessage='The size type of the button (Small, Medium or Large).')]
         [AllowEmptyString()]
         [ValidateSet('Small','Medium','Large')]
-        [System.String]
-        $SizeType = 'Medium',
+        [System.String]$SizeType = 'Medium',
 
-        # Function
-        [Parameter(Mandatory = $false)]
-        [System.EventHandler]
-        $Function,
+        [Parameter(Mandatory = $false,HelpMessage='The function to be invoked when the button is clicked.')]
+        [System.EventHandler]$Function,
 
-        # ToolTip
-        [Parameter(Mandatory = $false)]
-        [System.String]
-        $ToolTip
+        [Parameter(Mandatory = $false,HelpMessage='The ToolTip text of the button.')]
+        [System.String]$ToolTip
     )
 
     begin {
