@@ -56,7 +56,7 @@ function New-Button {
         ### MAIN PROPERTIES ###
 
         # Create a New Button
-        [SSystem.Windows.Forms.Button]$NewButton = New-Object System.Windows.Forms.Button
+        [System.Windows.Forms.Button]$NewButton = New-Object System.Windows.Forms.Button
 
         ####################################################################################################
         # Set the main object
