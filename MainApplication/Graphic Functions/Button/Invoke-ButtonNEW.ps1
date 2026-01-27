@@ -22,7 +22,7 @@
 #>
 ####################################################################################################
 
-function Invoke-Button {
+function Invoke-ButtonNEW {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Global ApplicationObject containing the Settings.')]
