@@ -3,52 +3,68 @@
 .SYNOPSIS
     This function creates a new Button.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. However, it is self-contained and does not refer to functions or variables that are in other files.
+    This function is self-contained and does not refer to functions, variables or classes, that are in other files.
 .EXAMPLE
-    New-Button -ParentGroupBox $MyGroupBox -Location (100,75) -Text 'Browse' -Size (50,50) -PNGImagePath 'C:\Demo\Star.png'
+    New-Button -ParentGroupBox $MyGroupBox -Location (100,75) -Text 'Browse' -Size (50,50) -PNGImagePath 'C:\Work\Image.png'
 .INPUTS
     [System.Windows.Forms.Groupbox]
-    [System.Int32[]]
     [System.String]
+    [System.Int32[]]
     [System.EventHandler]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.0
-    Author          : Imraan Iotana
+    Version         : 2.0
+    Author          : Imraan Noormohamed
     Creation Date   : October 2023
-    Last Update     : January 2026
+    Last Updated    : October 2023
 #>
 ####################################################################################################
 
-function New-Button {
+function New-ButtonORG {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true,HelpMessage='The Parent GroupBox to which this button will be added.')]
-        [System.Windows.Forms.Groupbox]$ParentGroupbox,
+        # The Parent GroupBox to which this button will be added.
+        [Parameter(Mandatory=$true)]
+        [System.Windows.Forms.Groupbox]
+        $ParentGroupbox,
 
-        [Parameter(Mandatory=$true,HelpMessage='The location of the button in X,Y coordinates.')]
-        [System.Int32[]]$Location,
+        # The coordinates of the button.
+        [Parameter(Mandatory=$true)]
+        [System.Int32[]]
+        $Location,
 
-        [Parameter(Mandatory = $true,HelpMessage='The size of the button in Width,Height format.')]
-        [System.Int32[]]$Size,
+        # The size of the button.
+        [Parameter(Mandatory = $true)]
+        [System.Int32[]]
+        $Size,
 
-        [Parameter(Mandatory=$false,HelpMessage='The text to be displayed on the button.')]
-        [System.String]$Text,
+        # The text of the button.
+        [Parameter(Mandatory=$false)]
+        [System.String]
+        $Text,
 
-        [Parameter(Mandatory=$false,HelpMessage='The color of the text on the button.')]
+        # The color of the text.
+        [Parameter(Mandatory=$false)]
         [AllowEmptyString()]
-        [System.String]$TextColor,
+        [System.String]
+        $TextColor,
 
-        [Parameter(Mandatory = $false,HelpMessage='The path of the PNG image to be displayed on the button.')]
+        # The path of the image file in png format.
+        [Parameter(Mandatory = $false)]
         [AllowEmptyString()]
-        [System.String]$PNGImagePath,
+        [System.String]
+        $PNGImagePath,
 
-        [Parameter(Mandatory = $false,HelpMessage='The tooltip text to be displayed when hovering over the button.')]
-        [System.String]$ToolTip,
+        # Function
+        [Parameter(Mandatory = $false)]
+        [System.EventHandler]
+        $Function,
 
-        [Parameter(Mandatory = $false,HelpMessage='The function to be executed when the button is clicked.')]
-        [System.EventHandler]$Function
+        # ToolTip
+        [Parameter(Mandatory = $false)]
+        [System.String]
+        $ToolTip
     )
 
     begin {
