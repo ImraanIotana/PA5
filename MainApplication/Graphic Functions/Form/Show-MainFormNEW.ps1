@@ -5,7 +5,7 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Show-Form -FormToShow $MyForm
+    Show-MainForm -FormToShow $MyForm
 .INPUTS
     [System.Windows.Forms.Form]
 .OUTPUTS
@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Show-Form {
+function Show-MainFormNEW {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='Form to show.')]
