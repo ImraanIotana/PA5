@@ -175,8 +175,14 @@ function Invoke-Button {
         [System.Int32]$ButtonTopLeftX = $Settings.ColumnNumber.($ColumnNumber)
         # Set the TopLeft Y-coordinate of the button
         [System.Int32]$ButtonTopLeftY = $Settings.TextBox.TopMargin + (($RowNumber - 1) * $Settings.TextBox.Height)
-
-        Write-Host "Coordinates for Button '$Text': X=$ButtonTopLeftX, Y=$ButtonTopLeftY"
+        
+        # Set the button size
+        [System.Int32[]]$ButtonSize = switch ($SizeType) {
+            'Large'     { @($Settings.Button.LargeWidth,    $Settings.Button.LargeHeight) }
+            'Medium'    { @($Settings.Button.MediumWidth,   $Settings.Button.MediumHeight) }
+            'Small'     { @($Settings.Button.SmallWidth,    $Settings.Button.SmallHeight) }
+        }
+        Write-Host "Creating button ($Text) at ($ButtonTopLeftX, $ButtonTopLeftY) with size $($ButtonSize -join 'x')"
     }
 
     end {
