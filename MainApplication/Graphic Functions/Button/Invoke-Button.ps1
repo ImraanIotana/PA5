@@ -173,6 +173,10 @@ function Invoke-Button {
 
         # Set the TopLeft X-coordinate of the button
         [System.Int32]$ButtonTopLeftX = $Settings.ColumnNumber.($ColumnNumber)
+        # Set the TopLeft Y-coordinate of the button
+        [System.Int32]$ButtonTopLeftY = $Settings.TextBox.TopMargin + (($RowNumber - 1) * $Settings.TextBox.Height)
+
+        Write-Host "Coordinates for Button '$Text': X=$ButtonTopLeftX, Y=$ButtonTopLeftY"
     }
 
     end {
