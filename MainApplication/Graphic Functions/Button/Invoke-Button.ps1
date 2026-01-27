@@ -171,18 +171,37 @@ function Invoke-Button {
     process {
         $Local:MainObject.Process()
 
+        # COORDINATES
         # Set the TopLeft X-coordinate of the button
         [System.Int32]$ButtonTopLeftX = $Settings.ColumnNumber.($ColumnNumber)
         # Set the TopLeft Y-coordinate of the button
         [System.Int32]$ButtonTopLeftY = $Settings.TextBox.TopMargin + (($RowNumber - 1) * $Settings.TextBox.Height)
         
+        # SIZE
         # Set the button size
         [System.Int32[]]$ButtonSize = switch ($SizeType) {
             'Large'     { @($Settings.Button.LargeWidth,    $Settings.Button.LargeHeight) }
             'Medium'    { @($Settings.Button.MediumWidth,   $Settings.Button.MediumHeight) }
             'Small'     { @($Settings.Button.SmallWidth,    $Settings.Button.SmallHeight) }
         }
-        Write-Host "Creating button ($Text) at ($ButtonTopLeftX, $ButtonTopLeftY) with size $($ButtonSize -join 'x')"
+
+        # PARAMETERS
+        # Set the parameters
+        [System.Collections.Hashtable]$NewButtonParameters = @{
+            ParentGroupBox  = $ParentGroupBox
+            Location        = @($ButtonTopLeftX, $ButtonTopLeftY)
+            TextColor       = $TextColor
+            Size            = $ButtonSize
+            PNGImagePath    = $PNGImagePath
+            Function        = $Function
+            ToolTip         = $ToolTip
+        }
+        # If the size is not small, then also add the text
+        if (-Not($SizeType -eq 'Small')) { $NewButtonParameters['Text'] = $Text }
+
+        # CREATION
+        # Create the button
+        New-Button @NewButtonParameters
     }
 
     end {
