@@ -52,6 +52,13 @@ function New-Button {
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Create a New Button
+        [SSystem.Windows.Forms.Button]$NewButton = New-Object System.Windows.Forms.Button
+
+        ####################################################################################################
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Function
@@ -146,7 +153,46 @@ function New-Button {
     } 
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+
+        # DIMENSIONS
+        # Add the Location
+        $NewButton.Location = New-Object System.Drawing.Point($Location)
+        # Add the Size
+        $NewButton.Size = New-Object System.Drawing.Point($Size)
+
+        # TEXT
+        # Add the Text
+        $NewButton.Text = $Text
+        # Add the Text Color
+        if ($TextColor) { $NewButton.ForeColor = $TextColor }
+        # Add the ToolTip
+        if ($ToolTip) {
+            $NewToolTipObject = New-Object System.Windows.Forms.ToolTip
+            $NewToolTipObject.SetToolTip($NewButton,$ToolTip)
+            # Add the ToolTip object to the Mouse Over action
+            $NewButton.Add_MouseEnter({ $NewToolTipObject })
+        }
+
+        # IMAGE
+        # Add the PNG Image
+        if ($PNGImagePath) {
+            $ButtonImage = [System.Drawing.Image]::FromFile($PNGImagePath)
+            $NewButton.Image = $ButtonImage
+            # If both an image and text are passed thru, add a space before the text for better spacing. And set the TextImageRelation
+            if ($Text) { $NewButton.Text = " $Text" ; $NewButton.TextImageRelation = 'ImageBeforeText' }
+        }
+
+        # CURSOR
+        # Change the cursor to a hand when hovering over the button
+        $NewButton.Cursor = [System.Windows.Forms.Cursors]::Hand
+
+        # FUNCTION
+        # Add the function to the button
+        if ($Function) { $NewButton.Add_Click($Function) }
+
+        # ADD BUTTON TO PARENT
+        $ParentGroupbox.Controls.Add($NewButton)
     }
 
     end {
