@@ -249,7 +249,7 @@ function Get-ApplicationUpdate {
             [System.String]$UpdateScriptContent = @'
             # Start the update process
             Write-Host "Starting the update process..." -ForegroundColor Cyan
-            Start-Sleep -Seconds 5
+            Start-Sleep -Seconds 3
 
             # Extract the update file
             Write-Host 'Extracting the update file to folder... ($OutputFolder)' -ForegroundColor Yellow
