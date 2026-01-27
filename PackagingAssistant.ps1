@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.0101'
+        Version                     = [System.String]'5.7.0.0102'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -178,7 +178,8 @@ process {
     # Build the Form
     try {
         # Build the Global Main Form (Name: $Global:MainForm)
-        Invoke-MainForm -Create -ApplicationObject $Global:ApplicationObject
+        #Invoke-MainForm -Create -ApplicationObject $Global:ApplicationObject
+        Invoke-MainForm
         # Add the dimensions of the graphical child objects to the Settings
         Add-GraphicalDimensionsToSettings -ApplicationObject $Global:ApplicationObject
         # Build the Global Main Tabcontrol (Name: $Global:MainTabControl)
