@@ -169,7 +169,7 @@ function Invoke-Button {
     }
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
 
         # COORDINATES
         # Set the TopLeft X-coordinate of the button
