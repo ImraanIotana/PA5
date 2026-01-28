@@ -56,8 +56,6 @@ function Add-GraphicalDimensionsToSettings {
             [System.Collections.Hashtable]$Settings = $this.Settings
 
             # Add the dimensions to the Global Settings
-            # TabControl
-            #$this.AddMainTabControlDimensionsToGlobalSettings($Settings)
             # GroupBox
             $this.AddGroupBoxWidthToGlobalSettings($Settings)
             $this.AddGroupBoxHeightToGlobalSettings($Settings)
@@ -70,24 +68,6 @@ function Add-GraphicalDimensionsToSettings {
             $this.AddColumnNumbersToGlobalSettings($Settings)
         }
 
-        ####################################################################################################
-        ### TABCONTROL
-    
-        # Add the AddMainTabControlDimensionsToGlobalSettings method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddMainTabControlDimensionsToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
-            #Write-Verbose 'Adding the Main TabControl location and size to the Global Settings...'
-            # Add the Main TabControl TopLeft Location to the global settings
-            [System.Int32]$MainTabControlTopLeftX = $Settings.MainTabControl.LeftMargin
-            [System.Int32]$MainTabControlTopLeftY = $Settings.MainTabControl.TopMargin
-            $Settings.MainTabControl.Add('TopLeftX', $MainTabControlTopLeftX)
-            $Settings.MainTabControl.Add('TopLeftY', $MainTabControlTopLeftY)
-            # Add the Main TabControl Size to the global settings
-            [System.Int32]$MainTabControlWidth = ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin)
-            [System.Int32]$MainTabControlHeight = ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin)
-            $Settings.MainTabControl.Add('Width', $MainTabControlWidth)
-            $Settings.MainTabControl.Add('Height', $MainTabControlHeight)
-        }
 
         ####################################################################################################
         ### GROUPBOX
@@ -207,16 +187,12 @@ function Add-GraphicalDimensionsToSettings {
     process {
 
         # TABCONTROL
-        # Add the Main TabControl TopLeft Location to the global settings
-        #[System.Int32]$MainTabControlTopLeftX = $Settings.MainTabControl.LeftMargin
-        #[System.Int32]$MainTabControlTopLeftY = $Settings.MainTabControl.TopMargin
+        # Add the MainTabControl Location
         $Settings.MainTabControl.Add('TopLeftX', $Settings.MainTabControl.LeftMargin)
         $Settings.MainTabControl.Add('TopLeftY', $Settings.MainTabControl.TopMargin)
-        # Add the Main TabControl Size to the global settings
-        [System.Int32]$MainTabControlWidth = ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin)
-        [System.Int32]$MainTabControlHeight = ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin)
-        $Settings.MainTabControl.Add('Width', $MainTabControlWidth)
-        $Settings.MainTabControl.Add('Height', $MainTabControlHeight)
+        # Add the MainTabControl Size
+        $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin))
+        $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin))
 
 
         #region PROCESS
