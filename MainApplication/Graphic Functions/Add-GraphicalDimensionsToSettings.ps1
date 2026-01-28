@@ -30,6 +30,13 @@ function Add-GraphicalDimensionsToSettings {
 
     begin {
         ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Input
+        [System.Collections.Hashtable]$Settings = $ApplicationObject.Settings
+
+        ####################################################################################################
+        ####################################################################################################
         ### MAIN OBJECT ###
 
         # Set the main object
@@ -50,7 +57,7 @@ function Add-GraphicalDimensionsToSettings {
 
             # Add the dimensions to the Global Settings
             # TabControl
-            $this.AddMainTabControlDimensionsToGlobalSettings($Settings)
+            #$this.AddMainTabControlDimensionsToGlobalSettings($Settings)
             # GroupBox
             $this.AddGroupBoxWidthToGlobalSettings($Settings)
             $this.AddGroupBoxHeightToGlobalSettings($Settings)
@@ -195,19 +202,29 @@ function Add-GraphicalDimensionsToSettings {
 
         ####################################################################################################
 
-        # Write the Begin message
-        #Write-Message -FunctionBegin -Details $Local:MainObject.FunctionDetails
     }
     
     process {
+
+        # TABCONTROL
+        # Add the Main TabControl TopLeft Location to the global settings
+        #[System.Int32]$MainTabControlTopLeftX = $Settings.MainTabControl.LeftMargin
+        #[System.Int32]$MainTabControlTopLeftY = $Settings.MainTabControl.TopMargin
+        $Settings.MainTabControl.Add('TopLeftX', $Settings.MainTabControl.LeftMargin)
+        $Settings.MainTabControl.Add('TopLeftY', $Settings.MainTabControl.TopMargin)
+        # Add the Main TabControl Size to the global settings
+        [System.Int32]$MainTabControlWidth = ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin)
+        [System.Int32]$MainTabControlHeight = ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin)
+        $Settings.MainTabControl.Add('Width', $MainTabControlWidth)
+        $Settings.MainTabControl.Add('Height', $MainTabControlHeight)
+
+
         #region PROCESS
         $Local:MainObject.Process()
         #endregion PROCESS
     }
 
     end {
-        # Write the End message
-        #Write-Message -FunctionEnd -Details $Local:MainObject.FunctionDetails
     }
 }
 
