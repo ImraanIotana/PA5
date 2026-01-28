@@ -224,7 +224,7 @@ function Invoke-ComboBox {
 
             # CONTENT
             # # Add the content to the ComboBox
-            if (($null -eq $ContentArray) -or ($ContentArray.Count -eq 0)) { Return } else { $ContentArray | ForEach-Object { $NewComboBox.Items.Add($_) | Out-Null } }
+            if (($null -eq $ContentArray) -or ($ContentArray.Count -eq 0)) { Write-Verbose 'No content will be added.' } else { $ContentArray | ForEach-Object { $NewComboBox.Items.Add($_) | Out-Null } }
             # Set the SelectedIndex
             $NewComboBox.SelectedIndex = $SelectedIndex
 
