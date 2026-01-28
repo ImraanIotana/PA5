@@ -3,21 +3,18 @@
 .SYNOPSIS
     This function creates a new ComboBox.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : -
-    External variables  : $Global:ApplicationObject
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Invoke-ComboBox
 .INPUTS
     -
 .OUTPUTS
-    This function returns no output.
+    This function returns no stream output.
 .NOTES
-    Version         : 2.0
-    Author          : Imraan Noormohamed
+    Version         : 5.7.0
+    Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Updated    : October 2023
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -25,35 +22,24 @@ function Invoke-ComboBox {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Global ApplicationObject containing the Settings.')]
-        [PSCustomObject]
-        $ApplicationObject = $Global:ApplicationObject,
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
 
-        # The Parent GroupBox to which this ComboBox will be added.
-        [Parameter(Mandatory=$true)]
-        [System.Windows.Forms.GroupBox]
-        $ParentGroupBox,
+        [Parameter(Mandatory=$true,HelpMessage='The Parent GroupBox to which this ComboBox will be added.')]
+        [System.Windows.Forms.GroupBox]$ParentGroupBox,
 
-        # The location of the ComboBox expressed in rownumber.
-        [Parameter(Mandatory=$false)]
-        [System.Int32]
-        $RowNumber = 1,
+        [Parameter(Mandatory=$false,HelpMessage='The location of the ComboBox expressed in rownumber.')]
+        [System.Int32]$RowNumber = 1,
 
-        # The sizetype of the ComboBox (small, medium or large). This will influence the width.
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,HelpMessage='The sizetype of the ComboBox, this will influence the width.')]
         [ValidateSet('Small','Medium','Large')]
-        [System.String]
-        $SizeType = 'Large',
+        [System.String]$SizeType = 'Large',
 
-        # The type of ComboBox (input or output). This will influence the background color, and the readonly property.
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,HelpMessage='The type of ComboBox, this will influence the background color, and the readonly property.')]
         [ValidateSet('Input','Output')]
-        [System.String]
-        $Type = 'Input',
+        [System.String]$Type = 'Input',
 
-        # The array of strings that will be displayed in the ComboBox
-        [Parameter(Mandatory=$false)]
-        [System.String[]]
-        $ContentArray,
+        [Parameter(Mandatory=$false,HelpMessage='The array of strings that will be displayed in the ComboBox.')]
+        [System.String[]]$ContentArray,
 
         # SelectedIndex
         [Parameter(Mandatory=$false)]
