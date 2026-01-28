@@ -56,10 +56,8 @@ function Add-GraphicalDimensionsToSettings {
             [System.Collections.Hashtable]$Settings = $this.Settings
 
             # Add the dimensions to the Global Settings
-            # GroupBox
-            #$this.AddGroupBoxHeightToGlobalSettings($Settings)
             # TextBox
-            $this.AddTextBoxWidthsToGlobalSettings($Settings)
+            #$this.AddTextBoxWidthsToGlobalSettings($Settings)
             # Button
             $this.AddButtonWidthsToGlobalSettings($Settings)
             $this.AddButtonHeightsToGlobalSettings($Settings)
@@ -67,26 +65,6 @@ function Add-GraphicalDimensionsToSettings {
             $this.AddColumnNumbersToGlobalSettings($Settings)
         }
 
-
-        ####################################################################################################
-        ### GROUPBOX
-
-        # Add the AddGroupBoxHeightToGlobalSettings method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddGroupBoxHeightToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
-            #Write-Verbose 'Adding the GroupboxHeightTable to the Global Settings...'
-            # Create the GroupboxHeightTable
-            [System.Collections.Hashtable]$GroupboxHeightTable =@{}
-            # Add the Heights of the GroupBox to the GroupboxHeightTable
-            [System.Int32[]]$NumberOfRowsArray = @(1..20)
-            foreach ($NumberOfRows in $NumberOfRowsArray) {
-                [System.Int32]$GroupboxHeight = if ($NumberOfRows -eq 1) { ($NumberOfRows * $Settings.GroupBox.RowHeight) + $Settings.GroupBox.OneRowMargin } else { $NumberOfRows * $Settings.GroupBox.RowHeight }
-                Write-Verbose ('Adding the GroupboxHeight ({0}) for the number of rows ({1}) to the Global Settings...' -f $GroupboxHeight,$NumberOfRows)
-                $GroupboxHeightTable.Add($NumberOfRows,$GroupboxHeight)
-            }
-            # Add the GroupboxHeightTable to the global settings
-            $Settings.GroupBox.Add('HeightTable',$GroupboxHeightTable)
-        }
 
         ####################################################################################################
         ### TEXTBOX
@@ -172,10 +150,12 @@ function Add-GraphicalDimensionsToSettings {
     }
     
     process {
-        # TABCONTROL
+        # TABCONTROL LOCATION
         # Add the MainTabControl Location
         $Settings.MainTabControl.Add('TopLeftX', $Settings.MainTabControl.LeftMargin)
         $Settings.MainTabControl.Add('TopLeftY', $Settings.MainTabControl.TopMargin)
+
+        # TABCONTROL SIZE
         # Add the MainTabControl Size
         $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin) )
         $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin) )
@@ -200,10 +180,21 @@ function Add-GraphicalDimensionsToSettings {
         # Add the GroupboxHeightTable
         $Settings.GroupBox.Add('HeightTable',$GroupboxHeightTable)
 
-
-        # SUBTAB GROUPBOX
+        # SUBTAB GROUPBOX WIDTH
         # Add the Width of the SubTabGroupbox
-        $Settings.GroupBox.Add('SubTabGroupboxWidth', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin - $Settings.GroupBox.SubTabMargin) )
+        $Settings.GroupBox.Add('SubTabGroupboxWidth', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin - $Settings.GroupBox.SubTabMargin - 2) )
+
+        # TEXTBOX WIDTH
+        # Add the width of the Large textbox
+        [System.Int32]$TextBoxLargeWidth = $Settings.GroupBox.Width - $Settings.TextBox.LeftMargin - $Settings.TextBox.RightMargin
+        $Settings.TextBox.Add('LargeWidth',$TextBoxLargeWidth)
+        # Add the width of the Medium textbox
+        $Settings.TextBox.Add('MediumWidth', (($TextBoxLargeWidth * 0.8) - 3) )
+        # Add the width of the Small textbox
+        $Settings.TextBox.Add('SmallWidth', (($TextBoxLargeWidth * 0.6) - 3) )
+
+
+
 
 
         #region PROCESS
