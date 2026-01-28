@@ -77,6 +77,7 @@ function Invoke-GroupBox {
         [System.Int32[]]$Size = @($Width, $Height)
 
         # ADD PROPERTIES
+        # Add the properties to the GroupBox
         $NewGroupBox.Text       = $Title
         $NewGroupBox.ForeColor  = $Color
         $NewGroupBox.Location   = New-Object System.Drawing.Point($Location)
