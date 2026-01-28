@@ -52,6 +52,17 @@ function Invoke-ComboBox {
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Input
+        [System.Collections.Hashtable]$Settings     = $ApplicationObject.Settings
+
+        # Create a New ComboBox
+        [System.Windows.Forms.ComboBox]$NewComboBox = New-Object System.Windows.Forms.ComboBox
+
+        ####################################################################################################
+
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Function
@@ -170,23 +181,36 @@ function Invoke-ComboBox {
                 # Write the error
                 Write-FullError
             }
-        }#>
+        }
 
-        ####################################################################################################
-
-        # Write the Begin message
-        #Write-Message -FunctionBegin -Details $Local:MainObject.FunctionDetails
+        #############################################################################
     }
     
     process {
         $Local:MainObject.Process()
+
+        # LOCATION
+        # Set the Location of the ComboBox
+        [System.Int32]$ComboBoxTopLeftX = $ParentGroupBox.Location.X + $Settings.TextBox.LeftMargin
+        [System.Int32]$ComboBoxTopLeftY = $Settings.TextBox.TopMargin + (($RowNumber - 1) * $Settings.TextBox.Height)
+        [System.Int32[]]$Location       = @($ComboBoxTopLeftX, $ComboBoxTopLeftY)
+        $NewComboBox.Location           = New-Object System.Drawing.Point($Location)
+
+        # SIZE
+        # Set the Size of the ComboBox
+        [System.Int32]$Width = switch ($SizeType) {
+            'Large'     { $Settings.TextBox.LargeWidth }
+            'Medium'    { $Settings.TextBox.MediumWidth }
+            'Small'     { $Settings.TextBox.SmallWidth }
+        }
+        [System.Int32]$Height   = $ComboBoxTopLeftY + $Settings.TextBox.Height
+        $NewComboBox.Size       = New-Object System.Drawing.Size($Size)
+
     }
 
     end {
         # Return the output
         $Local:MainObject.ComboBox
-        # Write the End message
-        #Write-Message -FunctionEnd -Details $Local:MainObject.FunctionDetails
     }
 }
 
