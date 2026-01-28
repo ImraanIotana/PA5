@@ -5,11 +5,14 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Invoke-ComboBox
+    Invoke-ComboBox -ParentGroupBox $MyGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select:' -ContentArray ('One','Two','Three') -PropertyName 'UserChoice'
 .INPUTS
-    -
+    [PSCustomObject]
+    [System.Windows.Forms.GroupBox]
+    [System.Int32]
+    [System.String]
 .OUTPUTS
-    This function returns no stream output.
+    [System.Windows.Forms.ComboBox]
 .NOTES
     Version         : 5.7.0
     Author          : Imraan Iotana
@@ -62,133 +65,9 @@ function Invoke-ComboBox {
         [System.Windows.Forms.ComboBox]$NewComboBox = New-Object System.Windows.Forms.ComboBox
 
         ####################################################################################################
-
-        # Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Function
-            FunctionDetails = [System.String[]]@($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-            # ComboBox object
-            ComboBox            = New-Object System.Windows.Forms.ComboBox
-            # Input
-            Settings            = $ApplicationObject.Settings
-            ParentGroupBox      = $ParentGroupBox
-            RowNumber           = $RowNumber
-            SizeType            = $SizeType
-            Type                = $Type
-            ContentArray        = $ContentArray
-            SelectedIndex       = $SelectedIndex
-            Label               = $Label
-            PropertyName        = $PropertyName
-        }
-
-        ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Set the location of the ComboBox
-            $this.SetComboBoxLocation()
-            # Set the size of the ComboBox
-            $this.SetComboBoxSize()
-            # Set the font of the ComboBox
-            $this.SetComboBoxFont()
-            # Create the ComboBox
-            $this.CreateComboBox()
-            # Add the content to the combobox
-            $this.AddContentToCombox($this.ComboBox,$this.ContentArray)
-            # Set the SelectedIndex
-            $this.SetSelectedIndex()
-            # Create the label
-            $this.CreateLabel()
-        }
-
-        ####################################################################################################
-    
-        # Add the SetComboBoxLocation method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name SetComboBoxLocation -Value {
-            # Set the TopLeftX of the ComboBox
-            [System.Int32]$ComboBoxTopLeftX = $this.ParentGroupBox.Location.X + $this.Settings.TextBox.LeftMargin
-            # Set the TopLeftY of the ComboBox
-            [System.Int32]$ComboBoxTopLeftY = $this.Settings.TextBox.TopMargin + (($this.RowNumber - 1) * $this.Settings.TextBox.Height)
-            # Add the result to the main object
-            Add-Member -InputObject $this -NotePropertyName Location -NotePropertyValue @($ComboBoxTopLeftX, $ComboBoxTopLeftY)
-        }
-    
-        # Add the SetComboBoxSize method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name SetComboBoxSize -Value {
-            # Set the Width of the ComboBox
-            [System.Int32]$Width = switch ($this.SizeType) {
-                'Large'     { $this.Settings.TextBox.LargeWidth }
-                'Medium'    { $this.Settings.TextBox.MediumWidth }
-                'Small'     { $this.Settings.TextBox.SmallWidth }
-            }
-            # Set the Height of the ComboBox
-            [System.Int32]$Height = $this.Location.ComboBoxTopLeftY + $this.Settings.TextBox.Height
-            # Add the result to the main object
-            Add-Member -InputObject $this -NotePropertyName Size -NotePropertyValue @($Width, $Height)
-        }
-    
-        # Add the SetComboBoxFont method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name SetComboBoxFont -Value {
-            # Set the font of the ComboBox
-            [System.Drawing.Font]$Font = $this.Settings.MainFont
-            # Add the result to the main object
-            Add-Member -InputObject $this -NotePropertyName Font -NotePropertyValue $Font
-        }
-
-        ####################################################################################################
-    
-        # Add the CreateComboBox method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateComboBox -Value {
-            # Create the ComboBox
-            $this.ComboBox = New-ComboBox -ParentGroupBox $this.ParentGroupBox -Location $this.Location -Size $this.Size -Type $this.Type -Font $this.Font -PropertyName $this.PropertyName
-        }
-    
-        # Add the CreateLabel method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name CreateLabel -Value {
-            # Create the label
-            if ($this.Label) {
-                #Write-Verbose 'Invoking a new label...'
-                Invoke-Label -ParentGroupBox $this.ParentGroupBox -Text $this.Label -RowNumber $this.RowNumber
-            }
-        }
-
-        ####################################################################################################
-
-        # Add the AddContentToCombox method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddContentToCombox -Value { param([System.Windows.Forms.ComboBox]$ComboBox,[System.String[]]$ContentArray)
-            try {
-                # if the content array is empty, write the message and return
-                if (($null -eq $ContentArray) -or ($ContentArray.Count -eq 0)) { Write-Verbose 'The content array is empty. No values will be added to the combobox.' ; Return }
-                # Add the content to the combobox
-                $ContentArray | ForEach-Object {
-                    $ComboBox.Items.Add($_) | Out-Null
-                }
-            }
-            catch {
-                # Write the error
-                Write-FullError
-            }
-        }
-
-        # Add the SetSelectedIndex method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name SetSelectedIndex -Value {
-            try {
-                # Set the SelectedIndex
-                $this.ComboBox.SelectedIndex = $this.SelectedIndex
-            }
-            catch {
-                # Write the error
-                Write-FullError
-            }
-        }
-
-        #############################################################################
     }
     
     process {
-        #$Local:MainObject.Process()
-
         try {
             # LOCATION
             # Set the Location of the ComboBox
@@ -251,10 +130,10 @@ function Invoke-ComboBox {
 
     end {
         # Return the output
-        #$Local:MainObject.ComboBox
         $NewComboBox
     }
 }
 
-
+### END OF SCRIPT
+####################################################################################################
 

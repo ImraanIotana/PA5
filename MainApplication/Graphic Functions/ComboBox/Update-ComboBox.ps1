@@ -3,10 +3,7 @@
 .SYNOPSIS
     This function updates a ComboBox with a new array of strings.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : Invoke-ClipBoard, Write-FullError
-    External variables  : -
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Update-ComboBox -ComboBox $MyComboBox -NewContent @('NewValue1','NewValue2','NewValue3')
 .INPUTS
@@ -16,10 +13,10 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.2.6
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : September 2024
-    Last Update     : May 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -27,16 +24,13 @@ function Update-ComboBox {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The ComboBox to update.')]
-        [System.Windows.Forms.ComboBox]
-        $ComboBox,
+        [System.Windows.Forms.ComboBox]$ComboBox,
 
         [Parameter(Mandatory=$true,HelpMessage='The new content of the ComboBox.')]
-        [System.String[]]
-        $NewContent,
+        [System.String[]]$NewContent,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for sorting the content.')]
-        [System.Management.Automation.SwitchParameter]
-        $SortContent
+        [System.Management.Automation.SwitchParameter]$SortContent
     )
     
     begin {
@@ -87,7 +81,34 @@ function Update-ComboBox {
     }
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+
+        try {
+            # SORTING
+            # Sort the content
+            #[System.String[]]$ContentToUse = if ($SortContent.IsPresent) { $NewContent | Sort-Object } else { $NewContent }
+            [System.String[]]$ContentToUse = $NewContent | Sort-Object:$SortContent
+
+
+            # CLEAR
+            # Clear the ComboBox items
+            $ComboBox.Items.Clear()
+
+            # UPDATE
+            # Update the ComboBox content
+            #foreach ($Item in $ContentToUse) { $ComboBox.Items.Add($Item) | Out-Null }
+            $ContentToUse.ForEach({ $ComboBox.Items.Add($_) | Out-Null })
+
+            # Clear the text
+            #Invoke-ClipBoard -ClearBox $ComboBox -HideConfirmation
+            $ComboBox.SelectedIndex = -1
+            # Write the message
+            Write-Line 'The content has been refreshed.'
+        }
+        catch {
+            Write-FullError
+        }
+
     }
     
     end {
