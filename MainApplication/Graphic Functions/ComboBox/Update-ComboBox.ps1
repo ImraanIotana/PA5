@@ -72,7 +72,7 @@ function Update-ComboBox {
                 # Clear the text
                 Invoke-ClipBoard -ClearBox $ComboBoxToUpdate -HideConfirmation
                 # Write the message
-                Write-Host 'The content has been refreshed.' -ForegroundColor DarkGray
+                Write-Host 'UpdateComboBoxContent: The content has been refreshed.' -ForegroundColor DarkGray
             }
             catch {
                 Write-FullError
@@ -100,7 +100,7 @@ function Update-ComboBox {
             #Invoke-ClipBoard -ClearBox $ComboBox -HideConfirmation
             $ComboBox.SelectedIndex = -1
             # Write the message
-            Write-Line 'The content has been refreshed.'
+            Write-Line 'process: The content has been refreshed.'
         }
         catch {
             Write-FullError
