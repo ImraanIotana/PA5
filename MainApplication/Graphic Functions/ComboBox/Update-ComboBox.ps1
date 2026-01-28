@@ -86,9 +86,7 @@ function Update-ComboBox {
         try {
             # SORTING
             # Sort the content
-            #[System.String[]]$ContentToUse = if ($SortContent.IsPresent) { $NewContent | Sort-Object } else { $NewContent }
-            [System.String[]]$ContentToUse = $NewContent | Sort-Object:$SortContent
-
+            [System.String[]]$ContentToUse = if ($SortContent.IsPresent) { $NewContent | Sort-Object } else { $NewContent }
 
             # CLEAR
             # Clear the ComboBox items
@@ -96,7 +94,6 @@ function Update-ComboBox {
 
             # UPDATE
             # Update the ComboBox content
-            #foreach ($Item in $ContentToUse) { $ComboBox.Items.Add($Item) | Out-Null }
             $ContentToUse.ForEach({ $ComboBox.Items.Add($_) | Out-Null })
 
             # Clear the text
