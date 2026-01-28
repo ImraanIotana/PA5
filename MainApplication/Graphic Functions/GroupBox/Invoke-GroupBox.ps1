@@ -146,7 +146,8 @@ function Invoke-GroupBox {
         # Set the Size of the GroupBox
         [System.Int32]$Width = if ($OnSubTab.IsPresent) { $Settings.GroupBox.SubTabGroupboxWidth } else { $Settings.GroupBox.Width }
         [System.Int32]$Height = $Settings.GroupBox.HeightTable.($NumberOfRows)
-                
+        
+
     }
 
     end {
