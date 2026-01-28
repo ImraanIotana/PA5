@@ -146,13 +146,17 @@ function Invoke-GroupBox {
         # Set the Size of the GroupBox
         [System.Int32]$Width = if ($OnSubTab.IsPresent) { $Settings.GroupBox.SubTabGroupboxWidth } else { $Settings.GroupBox.Width }
         [System.Int32]$Height = $Settings.GroupBox.HeightTable.($NumberOfRows)
-        
+        [System.Int32[]]$Size = @($Width, $Height)
 
+        # CREATION
+        # Create the GroupBox
+        $NewGroupBox = New-GroupBox -ParentTabPage $ParentTabPage -Location $Location -Size $Size -Title $Title -Color $Color
     }
 
     end {
         # Return the output
-        $Local:MainObject.OutputObject
+        #$Local:MainObject.OutputObject
+        $NewGroupBox
     }
 }
 
