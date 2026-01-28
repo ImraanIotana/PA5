@@ -56,8 +56,6 @@ function Add-GraphicalDimensionsToSettings {
             [System.Collections.Hashtable]$Settings = $this.Settings
 
             # Add the dimensions to the Global Settings
-            # TextBox
-            #$this.AddTextBoxWidthsToGlobalSettings($Settings)
             # Button
             $this.AddButtonWidthsToGlobalSettings($Settings)
             $this.AddButtonHeightsToGlobalSettings($Settings)
@@ -65,25 +63,6 @@ function Add-GraphicalDimensionsToSettings {
             $this.AddColumnNumbersToGlobalSettings($Settings)
         }
 
-
-        ####################################################################################################
-        ### TEXTBOX
-
-        # Add the AddTextBoxWidthsToGlobalSettings method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddTextBoxWidthsToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
-            #Write-Verbose 'Adding the TextBox widths to the Global Settings...'
-            # Set the width of the Large textbox
-            [System.Int32]$TextBoxLargeWidth = $Settings.GroupBox.Width - $Settings.TextBox.LeftMargin - $Settings.TextBox.RightMargin
-            # Set the width of the Medium textbox
-            [System.Int32]$TextBoxMediumWidth = ($TextBoxLargeWidth * 0.8) - 3
-            # Set the width of the Small textbox
-            [System.Int32]$TextBoxSmallWidth = ($TextBoxLargeWidth * 0.6) - 3
-            # Add the result to the global settings
-            $Settings.TextBox.Add('LargeWidth',$TextBoxLargeWidth)
-            $Settings.TextBox.Add('MediumWidth',$TextBoxMediumWidth)
-            $Settings.TextBox.Add('SmallWidth',$TextBoxSmallWidth)
-        }
 
         ####################################################################################################
         ### BUTTONS
@@ -193,7 +172,14 @@ function Add-GraphicalDimensionsToSettings {
         # Add the width of the Small textbox
         $Settings.TextBox.Add('SmallWidth', (($TextBoxLargeWidth * 0.6) - 3) )
 
-
+        # BUTTON WIDTH
+        # Add the width of the Large Button
+        [System.Int32]$ButtonLargeWidth = $Settings.TextBox.LargeWidth / 5
+        $Settings.Button.Add('LargeWidth', $ButtonLargeWidth)
+        # Add the width of the Medium Button (same as Large)
+        $Settings.Button.Add('MediumWidth', $ButtonLargeWidth)
+        # Add the width of the Small Button
+        $Settings.Button.Add('SmallWidth', ($ButtonLargeWidth / 3) )
 
 
 
