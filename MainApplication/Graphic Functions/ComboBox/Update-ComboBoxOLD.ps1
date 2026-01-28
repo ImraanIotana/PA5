@@ -20,7 +20,7 @@
 #>
 ####################################################################################################
 
-function Update-ComboBox {
+function Update-ComboBoxOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The ComboBox to update.')]

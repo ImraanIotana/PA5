@@ -21,7 +21,7 @@
 #>
 ####################################################################################################
 
-function Invoke-ComboBox {
+function Invoke-ComboBoxOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Global ApplicationObject containing the Settings.')]
