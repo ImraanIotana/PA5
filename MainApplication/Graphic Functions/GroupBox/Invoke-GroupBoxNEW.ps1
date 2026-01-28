@@ -25,7 +25,7 @@
 #>
 ####################################################################################################
 
-function Invoke-GroupBox {
+function Invoke-GroupBoxNEW {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
@@ -68,13 +68,13 @@ function Invoke-GroupBox {
         # Set the Location of the GroupBox
         [System.Int32]$GroupboxTopLeftX = $Settings.MainTabControl.TopLeftX
         [System.Int32]$GroupboxTopLeftY = if ($GroupBoxAbove) { $GroupBoxAbove.Location.Y + $GroupBoxAbove.Height + $Settings.GroupBox.BetweenMargin } else { $Settings.MainTabControl.TopLeftY }
-        [System.Int32[]]$Location = @($GroupboxTopLeftX, $GroupboxTopLeftY)
+        [System.Int32[]]$Location       = @($GroupboxTopLeftX, $GroupboxTopLeftY)
 
         # SIZE
         # Set the Size of the GroupBox
-        [System.Int32]$Width = if ($OnSubTab.IsPresent) { $Settings.GroupBox.SubTabGroupboxWidth } else { $Settings.GroupBox.Width }
-        [System.Int32]$Height = $Settings.GroupBox.HeightTable.($NumberOfRows)
-        [System.Int32[]]$Size = @($Width, $Height)
+        [System.Int32]$Width    = if ($OnSubTab.IsPresent) { $Settings.GroupBox.SubTabGroupboxWidth } else { $Settings.GroupBox.Width }
+        [System.Int32]$Height   = $Settings.GroupBox.HeightTable.($NumberOfRows)
+        [System.Int32[]]$Size   = @($Width, $Height)
 
         # ADD PROPERTIES
         # Add the properties to the GroupBox
@@ -86,10 +86,6 @@ function Invoke-GroupBox {
         # ADD TO PARENT
         # Add the Groupbox to the ParentTabPage
         $ParentTabPage.Controls.Add($NewGroupBox)
-
-        # CREATION
-        # Create the GroupBox
-        #$NewGroupBox = New-GroupBox -ParentTabPage $ParentTabPage -Location $Location -Size $Size -Title $Title -Color $Color
     }
 
     end {
