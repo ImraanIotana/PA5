@@ -137,12 +137,16 @@ function Invoke-GroupBox {
         #$Local:MainObject.Process()
         
         # LOCATION
-        # Set the TopLeftX of the GroupBox
+        # Set the Location of the GroupBox
         [System.Int32]$GroupboxTopLeftX = $Settings.MainTabControl.TopLeftX
-        # Set the TopLeftY of the GroupBox
         [System.Int32]$GroupboxTopLeftY = if ($GroupBoxAbove) { $GroupBoxAbove.Location.Y + $GroupBoxAbove.Height + $Settings.GroupBox.BetweenMargin } else { $Settings.MainTabControl.TopLeftY }
-        # Set the Location
         [System.Int32[]]$Location = @($GroupboxTopLeftX, $GroupboxTopLeftY)
+
+        # SIZE
+        # Set the Size of the GroupBox
+        [System.Int32]$Width = if ($OnSubTab.IsPresent) { $Settings.GroupBox.SubTabGroupboxWidth } else { $Settings.GroupBox.Width }
+        [System.Int32]$Height = $Settings.GroupBox.HeightTable.($NumberOfRows)
+                
     }
 
     end {
