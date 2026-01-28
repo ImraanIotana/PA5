@@ -94,11 +94,10 @@ function Import-FeatureHelp {
                     ColumnNumber    = 5
                     Text            = 'Version History'
                     SizeType        = 'Medium'
-                    #Function        = { Invoke-Item -Path (Get-SharedAssetPath -AssetName VersionHistoryFile) }
                     Function        = {
                         [System.String]$NotepadExePath = (Get-Command -Name notepad).Source
                         [System.String]$VersionHistoryFilePath = Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md'
-                        Start-Process -FilePath $NotepadExePath -ArgumentList $VersionHistoryFilePath
+                        Start-Process -FilePath ((Get-Command -Name notepad).Source) -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md')
                     }
                 }
             )
