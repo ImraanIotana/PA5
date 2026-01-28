@@ -54,33 +54,11 @@ function Add-GraphicalDimensionsToSettings {
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Get the Global Settings
             [System.Collections.Hashtable]$Settings = $this.Settings
-
-            # Add the dimensions to the Global Settings
-            # Button
-            #$this.AddButtonHeightsToGlobalSettings($Settings)
             # Column
             $this.AddColumnNumbersToGlobalSettings($Settings)
         }
 
 
-        ####################################################################################################
-        ### BUTTONS
-    
-    
-        # Add the AddButtonHeightsToGlobalSettings method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddButtonHeightsToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
-            #Write-Verbose 'Adding the Button height to the Global Settings...'
-            [System.Int32]$TextBoxHeight    = $Settings.TextBox.Height
-            # Set the height of the button
-            [System.Int32]$ButtonLargeHeight    = $TextBoxHeight * 2
-            [System.Int32]$ButtonMediumHeight   = $TextBoxHeight - 3
-            [System.Int32]$ButtonSmallHeight    = $ButtonMediumHeight
-            # Add the result to the global settings
-            $Settings.Button.Add('LargeHeight', $ButtonLargeHeight)
-            $Settings.Button.Add('MediumHeight', $ButtonMediumHeight)
-            $Settings.Button.Add('SmallHeight', $ButtonSmallHeight)
-        }
 
         ####################################################################################################
         ### COLUMNS
@@ -178,6 +156,28 @@ function Add-GraphicalDimensionsToSettings {
         # Add the height of the Small Button (same as Medium)
         $Settings.Button.Add('SmallHeight', $ButtonMediumHeight)
 
+
+        # COLUMNNUMBERS
+        # Get the values
+        [System.Int32]$MainTabControlLocationX  = $Settings.MainTabControl.Location.X
+        [System.Int32]$LabelLeftMargin          = $Settings.Label.LeftMargin
+        [System.Int32]$TextBoxLeftMargin        = $Settings.TextBox.LeftMargin
+        [System.Int32]$ButtonMediumWidth        = $Settings.Button.MediumWidth
+        # Set the Array
+        [System.Collections.ArrayList]$ColumnNumbersLocationXArray = New-Object System.Collections.ArrayList
+        # Set the ColumnNumbers and their X location
+        # Column 0 is the location underneath the Label
+        [void]$ColumnNumbersLocationXArray.Add($LabelLeftMargin) # Column and Index 0
+        # Column 1 is the first location underneath the TextBox
+        [void]$ColumnNumbersLocationXArray.Add(($MainTabControlLocationX + $LabelLeftMargin + $TextBoxLeftMargin)) # Column and Index 1
+        # Columns 2-5 are the following locations underneath the TextBox
+        @(1..4) | ForEach-Object { [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[$_] + $ButtonMediumWidth) } # Column and Index 2-5
+        # Column 6 is only used for the small buttons
+        [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[5] + ($ButtonMediumWidth * 1/3 )) # Column and Index 6
+        [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
+        [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
+        # Add the results to the Global Settings
+        @(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
 
 
         #region PROCESS
