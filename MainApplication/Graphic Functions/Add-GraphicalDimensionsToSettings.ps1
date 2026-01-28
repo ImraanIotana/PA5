@@ -57,8 +57,7 @@ function Add-GraphicalDimensionsToSettings {
 
             # Add the dimensions to the Global Settings
             # Button
-            #$this.AddButtonWidthsToGlobalSettings($Settings)
-            $this.AddButtonHeightsToGlobalSettings($Settings)
+            #$this.AddButtonHeightsToGlobalSettings($Settings)
             # Column
             $this.AddColumnNumbersToGlobalSettings($Settings)
         }
@@ -67,19 +66,6 @@ function Add-GraphicalDimensionsToSettings {
         ####################################################################################################
         ### BUTTONS
     
-        # Add the AddButtonWidthsToGlobalSettings method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddButtonWidthsToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
-            #Write-Verbose 'Adding the Button width to the Global Settings...'
-            # Set the width of the button
-            [System.Int32]$ButtonLargeWidth     = $Settings.TextBox.LargeWidth / 5
-            [System.Int32]$ButtonMediumWidth    = $ButtonLargeWidth
-            [System.Int32]$ButtonSmallWidth     = $ButtonMediumWidth / 3
-            # Add the result to the global settings
-            $Settings.Button.Add('LargeWidth', $ButtonLargeWidth)
-            $Settings.Button.Add('MediumWidth', $ButtonMediumWidth)
-            $Settings.Button.Add('SmallWidth', $ButtonSmallWidth)
-        }
     
         # Add the AddButtonHeightsToGlobalSettings method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddButtonHeightsToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
@@ -180,6 +166,17 @@ function Add-GraphicalDimensionsToSettings {
         $Settings.Button.Add('MediumWidth', $ButtonLargeWidth)
         # Add the width of the Small Button
         $Settings.Button.Add('SmallWidth', ($ButtonLargeWidth / 3) )
+
+        # BUTTON HEIGHT
+        # Add the height of the Large Button
+        [System.Int32]$TextBoxHeight        = $Settings.TextBox.Height
+        [System.Int32]$ButtonLargeHeight    = $TextBoxHeight * 2
+        $Settings.Button.Add('LargeHeight', $ButtonLargeHeight)
+        # Add the height of the Medium Button
+        [System.Int32]$ButtonMediumHeight   = $TextBoxHeight - 3
+        $Settings.Button.Add('MediumHeight', $ButtonMediumHeight)
+        # Add the height of the Small Button (same as Medium)
+        $Settings.Button.Add('SmallHeight', $ButtonMediumHeight)
 
 
 
