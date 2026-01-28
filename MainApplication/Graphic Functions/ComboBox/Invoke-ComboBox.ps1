@@ -42,7 +42,7 @@ function Invoke-ComboBox {
         [System.String[]]$ContentArray,
 
         # SelectedIndex
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,HelpMessage='')]
         [System.Int32]
         $SelectedIndex = -1,
 
