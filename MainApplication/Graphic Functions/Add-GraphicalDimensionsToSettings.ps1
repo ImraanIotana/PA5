@@ -158,7 +158,7 @@ function Add-GraphicalDimensionsToSettings {
 
 
         # COLUMNNUMBERS
-        # Get the values
+        <# Get the values
         [System.Int32]$MainTabControlLocationX  = $Settings.MainTabControl.Location.X
         [System.Int32]$LabelLeftMargin          = $Settings.Label.LeftMargin
         [System.Int32]$TextBoxLeftMargin        = $Settings.TextBox.LeftMargin
@@ -177,7 +177,7 @@ function Add-GraphicalDimensionsToSettings {
         [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
         [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
         # Add the results to the Global Settings
-        @(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
+        @(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }#>
 
 
         #region PROCESS
