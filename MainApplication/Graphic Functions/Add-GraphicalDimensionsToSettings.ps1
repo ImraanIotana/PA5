@@ -57,7 +57,7 @@ function Add-GraphicalDimensionsToSettings {
 
             # Add the dimensions to the Global Settings
             # Button
-            $this.AddButtonWidthsToGlobalSettings($Settings)
+            #$this.AddButtonWidthsToGlobalSettings($Settings)
             $this.AddButtonHeightsToGlobalSettings($Settings)
             # Column
             $this.AddColumnNumbersToGlobalSettings($Settings)
