@@ -57,8 +57,7 @@ function Add-GraphicalDimensionsToSettings {
 
             # Add the dimensions to the Global Settings
             # GroupBox
-            #$this.AddGroupBoxWidthToGlobalSettings($Settings)
-            $this.AddGroupBoxHeightToGlobalSettings($Settings)
+            #$this.AddGroupBoxHeightToGlobalSettings($Settings)
             # TextBox
             $this.AddTextBoxWidthsToGlobalSettings($Settings)
             # Button
@@ -71,19 +70,7 @@ function Add-GraphicalDimensionsToSettings {
 
         ####################################################################################################
         ### GROUPBOX
-    
-        # Add the AddGroupBoxWidthToGlobalSettings method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddGroupBoxWidthToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
-            # Write the message
-            #Write-Verbose 'Adding the Groupbox widths to the Global Settings...'
-            # Set the Widths of the groupbox
-            [System.Int32]$GroupboxWidth        = $Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin
-            [System.Int32]$SubTabGroupboxWidth  = $Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin - $Settings.GroupBox.SubTabMargin
-            # Add the results to the global settings
-            $Settings.GroupBox.Add('Width',$GroupboxWidth)
-            $Settings.GroupBox.Add('SubTabGroupboxWidth',$SubTabGroupboxWidth)
-        }
-    
+
         # Add the AddGroupBoxHeightToGlobalSettings method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name AddGroupBoxHeightToGlobalSettings -Value { param([System.Collections.Hashtable]$Settings)
             # Write the message
@@ -193,9 +180,26 @@ function Add-GraphicalDimensionsToSettings {
         $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin) )
         $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin) )
 
-        # GROUPBOX
+        # GROUPBOX WIDTH
         # Add the Width of the GroupBox
         $Settings.GroupBox.Add('Width', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin) )
+
+        # GROUPBOX HEIGHT
+        # Create the GroupboxHeightTable
+        [System.Collections.Hashtable]$GroupboxHeightTable =@{}
+        # Add the Heights of the GroupBox to the GroupboxHeightTable
+        [System.Int32[]]$NumberOfRowsArray = @(1..20)
+        foreach ($NumberOfRows in $NumberOfRowsArray) {
+            [System.Int32]$GroupboxHeight = if ($NumberOfRows -eq 1) {
+                ($NumberOfRows * $Settings.GroupBox.RowHeight) + $Settings.GroupBox.OneRowMargin
+            } else {
+                $NumberOfRows * $Settings.GroupBox.RowHeight
+            }
+            $GroupboxHeightTable.Add($NumberOfRows,$GroupboxHeight)
+        }
+        # Add the GroupboxHeightTable
+        $Settings.GroupBox.Add('HeightTable',$GroupboxHeightTable)
+
 
         # SUBTAB GROUPBOX
         # Add the Width of the SubTabGroupbox
