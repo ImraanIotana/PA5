@@ -55,7 +55,7 @@ function Add-GraphicalDimensionsToSettings {
             # Get the Global Settings
             [System.Collections.Hashtable]$Settings = $this.Settings
             # Column
-            $this.AddColumnNumbersToGlobalSettings($Settings)
+            #$this.AddColumnNumbersToGlobalSettings($Settings)
         }
 
 
@@ -183,7 +183,7 @@ function Add-GraphicalDimensionsToSettings {
             [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
             [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
             # Add the results to the Global Settings
-            #@(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
+            @(0..7) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
         }
         catch {
             Write-FullError
