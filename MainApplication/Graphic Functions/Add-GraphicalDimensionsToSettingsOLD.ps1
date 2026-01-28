@@ -21,11 +21,12 @@
 #>
 ####################################################################################################
 
-function Add-GraphicalDimensionsToSettings {
+function Add-GraphicalDimensionsToSettingsOLD {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$false,HelpMessage='The Global ApplicationObject containing the Settings.')]
-        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject
+        [Parameter(Mandatory=$true,HelpMessage='The Global ApplicationObject containing the Settings.')]
+        [PSCustomObject]
+        $ApplicationObject
     )
 
     begin {

@@ -180,7 +180,7 @@ process {
         # Build the Global Main Form (Name: $Global:MainForm)
         Invoke-MainForm
         # Add the dimensions of the graphical child objects to the Settings
-        Add-GraphicalDimensionsToSettings -ApplicationObject $Global:ApplicationObject
+        Add-GraphicalDimensionsToSettings #-ApplicationObject $Global:ApplicationObject
         # Build the Global Main Tabcontrol (Name: $Global:MainTabControl)
         Invoke-MainTabControl -ParentForm $Global:MainForm
 
