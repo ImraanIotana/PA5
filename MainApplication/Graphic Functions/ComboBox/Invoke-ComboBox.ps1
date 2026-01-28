@@ -187,30 +187,72 @@ function Invoke-ComboBox {
     }
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
 
-        # LOCATION
-        # Set the Location of the ComboBox
-        [System.Int32]$ComboBoxTopLeftX = $ParentGroupBox.Location.X + $Settings.TextBox.LeftMargin
-        [System.Int32]$ComboBoxTopLeftY = $Settings.TextBox.TopMargin + (($RowNumber - 1) * $Settings.TextBox.Height)
-        [System.Int32[]]$Location       = @($ComboBoxTopLeftX, $ComboBoxTopLeftY)
-        $NewComboBox.Location           = New-Object System.Drawing.Point($Location)
+        try {
+            # LOCATION
+            # Set the Location of the ComboBox
+            [System.Int32]$ComboBoxTopLeftX = $ParentGroupBox.Location.X + $Settings.TextBox.LeftMargin
+            [System.Int32]$ComboBoxTopLeftY = $Settings.TextBox.TopMargin + (($RowNumber - 1) * $Settings.TextBox.Height)
+            [System.Int32[]]$Location       = @($ComboBoxTopLeftX, $ComboBoxTopLeftY)
+            $NewComboBox.Location           = New-Object System.Drawing.Point($Location)
+    
+            # SIZE
+            # Set the Size of the ComboBox
+            [System.Int32]$Width = switch ($SizeType) {
+                'Large'     { $Settings.TextBox.LargeWidth }
+                'Medium'    { $Settings.TextBox.MediumWidth }
+                'Small'     { $Settings.TextBox.SmallWidth }
+            }
+            [System.Int32]$Height   = $ComboBoxTopLeftY + $Settings.TextBox.Height
+            $NewComboBox.Size       = New-Object System.Drawing.Size($Width, $Height)
 
-        # SIZE
-        # Set the Size of the ComboBox
-        [System.Int32]$Width = switch ($SizeType) {
-            'Large'     { $Settings.TextBox.LargeWidth }
-            'Medium'    { $Settings.TextBox.MediumWidth }
-            'Small'     { $Settings.TextBox.SmallWidth }
+    
+            # FONT
+            # Set the font of the ComboBox
+            $NewComboBox.Font = $Settings.MainFont
+
+            # COLORS
+            # Set the ForeColor
+            $NewComboBox.ForeColor = 'Black'
+            # Set the BackColor
+            [System.String]$BackColor = switch ($Type) {
+                'Input'     { 'White' }
+                'Output'    { 'Beige' }
+            }
+            $NewComboBox.BackColor = $BackColor
+
+            # CONTENT
+            # # Add the content to the ComboBox
+            if (($null -eq $ContentArray) -or ($ContentArray.Count -eq 0)) { Return } else { $ContentArray | ForEach-Object { $NewComboBox.Items.Add($_) | Out-Null } }
+            # Set the SelectedIndex
+            $NewComboBox.SelectedIndex = $SelectedIndex
+
+            # INTERACTION WITH REGISTRY
+            if ($PropertyName) {
+                # Add the propertyname
+                $NewComboBox | Add-Member -MemberType NoteProperty -Name PropertyName -Value $PropertyName
+                # Make it interact with the registry
+                $NewComboBox.Text = Invoke-RegistrySettings -Read -PropertyName $NewComboBox.PropertyName
+                $NewComboBox.Add_SelectedIndexChanged([System.EventHandler]{ param($ComboBox=$NewComboBox) Invoke-RegistrySettings -Write -PropertyName $ComboBox.PropertyName -PropertyValue $ComboBox.Text })
+            }
+
+            # ADD TO PARENT
+            # Add the ComboBox to the ParentGroupBox
+            $ParentGroupBox.Controls.Add($NewComboBox)
+            # Create the label
+            if ($Label) { Invoke-Label -ParentGroupBox $ParentGroupBox -Text $Label -RowNumber $RowNumber }
         }
-        [System.Int32]$Height   = $ComboBoxTopLeftY + $Settings.TextBox.Height
-        $NewComboBox.Size       = New-Object System.Drawing.Size($Size)
+        catch {
+            Write-FullError
+        }
 
     }
 
     end {
         # Return the output
-        $Local:MainObject.ComboBox
+        #$Local:MainObject.ComboBox
+        $NewComboBox
     }
 }
 
