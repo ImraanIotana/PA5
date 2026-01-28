@@ -158,7 +158,7 @@ function Add-GraphicalDimensionsToSettings {
 
 
         # COLUMNNUMBERS
-        <# Get the values
+        # Get the values
         [System.Int32]$MainTabControlLocationX  = $Settings.MainTabControl.Location.X
         [System.Int32]$LabelLeftMargin          = $Settings.Label.LeftMargin
         [System.Int32]$TextBoxLeftMargin        = $Settings.TextBox.LeftMargin
@@ -171,13 +171,13 @@ function Add-GraphicalDimensionsToSettings {
         # Column 1 is the first location underneath the TextBox
         [void]$ColumnNumbersLocationXArray.Add(($MainTabControlLocationX + $LabelLeftMargin + $TextBoxLeftMargin)) # Column and Index 1
         # Columns 2-5 are the following locations underneath the TextBox
-        @(1..4) | ForEach-Object { [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[$_] + $ButtonMediumWidth) } # Column and Index 2-5
+        #@(1..4) | ForEach-Object { [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[$_] + $ButtonMediumWidth) } # Column and Index 2-5
         # Column 6 is only used for the small buttons
-        [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[5] + ($ButtonMediumWidth * 1/3 )) # Column and Index 6
-        [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
-        [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
+        #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[5] + ($ButtonMediumWidth * 1/3 )) # Column and Index 6
+        #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
+        #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
         # Add the results to the Global Settings
-        @(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }#>
+        #@(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
 
 
         #region PROCESS
