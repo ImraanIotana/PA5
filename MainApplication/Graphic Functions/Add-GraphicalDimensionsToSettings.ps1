@@ -57,7 +57,7 @@ function Add-GraphicalDimensionsToSettings {
 
             # Add the dimensions to the Global Settings
             # GroupBox
-            $this.AddGroupBoxWidthToGlobalSettings($Settings)
+            #$this.AddGroupBoxWidthToGlobalSettings($Settings)
             $this.AddGroupBoxHeightToGlobalSettings($Settings)
             # TextBox
             $this.AddTextBoxWidthsToGlobalSettings($Settings)
@@ -185,14 +185,21 @@ function Add-GraphicalDimensionsToSettings {
     }
     
     process {
-
         # TABCONTROL
         # Add the MainTabControl Location
         $Settings.MainTabControl.Add('TopLeftX', $Settings.MainTabControl.LeftMargin)
         $Settings.MainTabControl.Add('TopLeftY', $Settings.MainTabControl.TopMargin)
         # Add the MainTabControl Size
-        $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin))
-        $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin))
+        $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin) )
+        $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin) )
+
+        # GROUPBOX
+        # Add the Width of the GroupBox
+        $Settings.GroupBox.Add('Width', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin) )
+
+        # SUBTAB GROUPBOX
+        # Add the Width of the SubTabGroupbox
+        $Settings.GroupBox.Add('SubTabGroupboxWidth', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin - $Settings.GroupBox.SubTabMargin) )
 
 
         #region PROCESS
