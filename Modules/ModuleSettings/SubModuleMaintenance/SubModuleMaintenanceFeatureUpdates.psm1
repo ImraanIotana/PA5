@@ -277,8 +277,8 @@ function Get-ApplicationUpdate {
 
             # Final message
             Write-Host "Update process completed successfully!" -ForegroundColor Green
-            Write-Host "This window will close in 3 seconds..." -ForegroundColor Green
-            Start-Sleep -Seconds 3
+            Write-Host "This window will close in 2 seconds..." -ForegroundColor Green
+            Start-Sleep -Seconds 2
 
             # Remove the update script itself
             Start-Process powershell.exe -ArgumentList 'Write-Host "Removing the update script..." -ForegroundColor Yellow ; Start-Sleep 1 ; Remove-Item -Path $UpdateScriptFilePath -Force'
