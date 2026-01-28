@@ -93,91 +93,101 @@ function Add-GraphicalDimensionsToSettings {
     }
     
     process {
-        # TABCONTROL LOCATION
-        # Add the MainTabControl Location
-        $Settings.MainTabControl.Add('TopLeftX', $Settings.MainTabControl.LeftMargin)
-        $Settings.MainTabControl.Add('TopLeftY', $Settings.MainTabControl.TopMargin)
+        try {
+            # TABCONTROL LOCATION
+            # Add the MainTabControl Location
+            $Settings.MainTabControl.Add('TopLeftX', $Settings.MainTabControl.LeftMargin)
+            $Settings.MainTabControl.Add('TopLeftY', $Settings.MainTabControl.TopMargin)
 
-        # TABCONTROL SIZE
-        # Add the MainTabControl Size
-        $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin) )
-        $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin) )
+            # TABCONTROL SIZE
+            # Add the MainTabControl Size
+            $Settings.MainTabControl.Add('Width', ($Settings.MainForm.Width - $Settings.MainTabControl.RightMargin) )
+            $Settings.MainTabControl.Add('Height', ($Settings.MainForm.Height - $Settings.MainTabControl.BottomMargin) )
 
-        # GROUPBOX WIDTH
-        # Add the Width of the GroupBox
-        $Settings.GroupBox.Add('Width', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin) )
+            # GROUPBOX WIDTH
+            # Add the Width of the GroupBox
+            $Settings.GroupBox.Add('Width', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin) )
 
-        # GROUPBOX HEIGHT
-        # Create the GroupboxHeightTable
-        [System.Collections.Hashtable]$GroupboxHeightTable =@{}
-        # Add the Heights of the GroupBox to the GroupboxHeightTable
-        [System.Int32[]]$NumberOfRowsArray = @(1..20)
-        foreach ($NumberOfRows in $NumberOfRowsArray) {
-            [System.Int32]$GroupboxHeight = if ($NumberOfRows -eq 1) {
-                ($NumberOfRows * $Settings.GroupBox.RowHeight) + $Settings.GroupBox.OneRowMargin
-            } else {
-                $NumberOfRows * $Settings.GroupBox.RowHeight
+            # GROUPBOX HEIGHT
+            # Create the GroupboxHeightTable
+            [System.Collections.Hashtable]$GroupboxHeightTable =@{}
+            # Add the Heights of the GroupBox to the GroupboxHeightTable
+            [System.Int32[]]$NumberOfRowsArray = @(1..20)
+            foreach ($NumberOfRows in $NumberOfRowsArray) {
+                [System.Int32]$GroupboxHeight = if ($NumberOfRows -eq 1) {
+                    ($NumberOfRows * $Settings.GroupBox.RowHeight) + $Settings.GroupBox.OneRowMargin
+                } else {
+                    $NumberOfRows * $Settings.GroupBox.RowHeight
+                }
+                $GroupboxHeightTable.Add($NumberOfRows,$GroupboxHeight)
             }
-            $GroupboxHeightTable.Add($NumberOfRows,$GroupboxHeight)
+            # Add the GroupboxHeightTable
+            $Settings.GroupBox.Add('HeightTable',$GroupboxHeightTable)
+
+            # SUBTAB GROUPBOX WIDTH
+            # Add the Width of the SubTabGroupbox
+            $Settings.GroupBox.Add('SubTabGroupboxWidth', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin - $Settings.GroupBox.SubTabMargin - 2) )
+
+            # TEXTBOX WIDTH
+            # Add the width of the Large textbox
+            [System.Int32]$TextBoxLargeWidth = $Settings.GroupBox.Width - $Settings.TextBox.LeftMargin - $Settings.TextBox.RightMargin
+            $Settings.TextBox.Add('LargeWidth',$TextBoxLargeWidth)
+            # Add the width of the Medium textbox
+            $Settings.TextBox.Add('MediumWidth', (($TextBoxLargeWidth * 0.8) - 3) )
+            # Add the width of the Small textbox
+            $Settings.TextBox.Add('SmallWidth', (($TextBoxLargeWidth * 0.6) - 3) )
+
+            # BUTTON WIDTH
+            # Add the width of the Large Button
+            [System.Int32]$ButtonLargeWidth = $Settings.TextBox.LargeWidth / 5
+            $Settings.Button.Add('LargeWidth', $ButtonLargeWidth)
+            # Add the width of the Medium Button (same as Large)
+            $Settings.Button.Add('MediumWidth', $ButtonLargeWidth)
+            # Add the width of the Small Button
+            $Settings.Button.Add('SmallWidth', ($ButtonLargeWidth / 3) )
+
+            # BUTTON HEIGHT
+            # Add the height of the Large Button
+            [System.Int32]$TextBoxHeight        = $Settings.TextBox.Height
+            [System.Int32]$ButtonLargeHeight    = $TextBoxHeight * 2
+            $Settings.Button.Add('LargeHeight', $ButtonLargeHeight)
+            # Add the height of the Medium Button
+            [System.Int32]$ButtonMediumHeight   = $TextBoxHeight - 3
+            $Settings.Button.Add('MediumHeight', $ButtonMediumHeight)
+            # Add the height of the Small Button (same as Medium)
+            $Settings.Button.Add('SmallHeight', $ButtonMediumHeight)
         }
-        # Add the GroupboxHeightTable
-        $Settings.GroupBox.Add('HeightTable',$GroupboxHeightTable)
-
-        # SUBTAB GROUPBOX WIDTH
-        # Add the Width of the SubTabGroupbox
-        $Settings.GroupBox.Add('SubTabGroupboxWidth', ($Settings.MainTabControl.Width - $Settings.GroupBox.RightMargin - $Settings.GroupBox.SubTabMargin - 2) )
-
-        # TEXTBOX WIDTH
-        # Add the width of the Large textbox
-        [System.Int32]$TextBoxLargeWidth = $Settings.GroupBox.Width - $Settings.TextBox.LeftMargin - $Settings.TextBox.RightMargin
-        $Settings.TextBox.Add('LargeWidth',$TextBoxLargeWidth)
-        # Add the width of the Medium textbox
-        $Settings.TextBox.Add('MediumWidth', (($TextBoxLargeWidth * 0.8) - 3) )
-        # Add the width of the Small textbox
-        $Settings.TextBox.Add('SmallWidth', (($TextBoxLargeWidth * 0.6) - 3) )
-
-        # BUTTON WIDTH
-        # Add the width of the Large Button
-        [System.Int32]$ButtonLargeWidth = $Settings.TextBox.LargeWidth / 5
-        $Settings.Button.Add('LargeWidth', $ButtonLargeWidth)
-        # Add the width of the Medium Button (same as Large)
-        $Settings.Button.Add('MediumWidth', $ButtonLargeWidth)
-        # Add the width of the Small Button
-        $Settings.Button.Add('SmallWidth', ($ButtonLargeWidth / 3) )
-
-        # BUTTON HEIGHT
-        # Add the height of the Large Button
-        [System.Int32]$TextBoxHeight        = $Settings.TextBox.Height
-        [System.Int32]$ButtonLargeHeight    = $TextBoxHeight * 2
-        $Settings.Button.Add('LargeHeight', $ButtonLargeHeight)
-        # Add the height of the Medium Button
-        [System.Int32]$ButtonMediumHeight   = $TextBoxHeight - 3
-        $Settings.Button.Add('MediumHeight', $ButtonMediumHeight)
-        # Add the height of the Small Button (same as Medium)
-        $Settings.Button.Add('SmallHeight', $ButtonMediumHeight)
+        catch {
+            Write-FullError
+        }
 
 
         # COLUMNNUMBERS
-        # Get the values
-        [System.Int32]$MainTabControlLocationX  = $Settings.MainTabControl.Location.X
-        [System.Int32]$LabelLeftMargin          = $Settings.Label.LeftMargin
-        [System.Int32]$TextBoxLeftMargin        = $Settings.TextBox.LeftMargin
-        [System.Int32]$ButtonMediumWidth        = $Settings.Button.MediumWidth
-        # Set the Array
-        [System.Collections.ArrayList]$ColumnNumbersLocationXArray = New-Object System.Collections.ArrayList
-        # Set the ColumnNumbers and their X location
-        # Column 0 is the location underneath the Label
-        [void]$ColumnNumbersLocationXArray.Add($LabelLeftMargin) # Column and Index 0
-        # Column 1 is the first location underneath the TextBox
-        [void]$ColumnNumbersLocationXArray.Add(($MainTabControlLocationX + $LabelLeftMargin + $TextBoxLeftMargin)) # Column and Index 1
-        # Columns 2-5 are the following locations underneath the TextBox
-        #@(1..4) | ForEach-Object { [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[$_] + $ButtonMediumWidth) } # Column and Index 2-5
-        # Column 6 is only used for the small buttons
-        #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[5] + ($ButtonMediumWidth * 1/3 )) # Column and Index 6
-        #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
-        #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
-        # Add the results to the Global Settings
-        #@(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
+        try {
+            # Get the values
+            [System.Int32]$MainTabControlLocationX  = $Settings.MainTabControl.Location.X
+            [System.Int32]$LabelLeftMargin          = $Settings.Label.LeftMargin
+            [System.Int32]$TextBoxLeftMargin        = $Settings.TextBox.LeftMargin
+            [System.Int32]$ButtonMediumWidth        = $Settings.Button.MediumWidth
+            # Set the Array
+            [System.Collections.ArrayList]$ColumnNumbersLocationXArray = New-Object System.Collections.ArrayList
+            # Set the ColumnNumbers and their X location
+            # Column 0 is the location underneath the Label
+            [void]$ColumnNumbersLocationXArray.Add($LabelLeftMargin) # Column and Index 0
+            # Column 1 is the first location underneath the TextBox
+            [void]$ColumnNumbersLocationXArray.Add(($MainTabControlLocationX + $LabelLeftMargin + $TextBoxLeftMargin)) # Column and Index 1
+            # Columns 2-5 are the following locations underneath the TextBox
+            @(1..4) | ForEach-Object { [void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[$_] + $ButtonMediumWidth) } # Column and Index 2-5
+            # Column 6 is only used for the small buttons
+            #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[5] + ($ButtonMediumWidth * 1/3 )) # Column and Index 6
+            #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[6] + ($ButtonMediumWidth * 1/3 )) # Column and Index 7
+            #[void]$ColumnNumbersLocationXArray.Add($ColumnNumbersLocationXArray[7] + ($ButtonMediumWidth * 1/3 )) # Column and Index 8
+            # Add the results to the Global Settings
+            #@(0..6) | ForEach-Object { $Settings.ColumnNumber.Add( $_ , $ColumnNumbersLocationXArray[$_]) }
+        }
+        catch {
+            Write-FullError
+        }
 
 
         #region PROCESS
