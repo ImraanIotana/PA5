@@ -1,7 +1,7 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function removes a file or folder, showing the Windows Progressbar.
+    This function removes a file or folder, while showing the Windows Progressbar.
 .DESCRIPTION
     This function is part of the Iotana Base Module. It contains functions or variables, that are in other files.
 .EXAMPLE
@@ -29,16 +29,13 @@ function Remove-WithGUI {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The path of the item that will be removed.')]
-        [System.String]
-        $Path,
+        [System.String]$Path,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for writing to the host.')]
-        [System.Management.Automation.SwitchParameter]
-        $OutHost,
+        [System.Management.Automation.SwitchParameter]$OutHost,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for skipping the confirmation.')]
-        [System.Management.Automation.SwitchParameter]
-        $Force
+        [System.Management.Automation.SwitchParameter]$Force
     )
 
     begin {
