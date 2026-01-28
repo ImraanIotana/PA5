@@ -83,9 +83,13 @@ function Invoke-GroupBox {
         $NewGroupBox.Location   = New-Object System.Drawing.Point($Location)
         $NewGroupBox.Size       = New-Object System.Drawing.Size($Size)
 
+        # ADD TO PARENT
+        # Add the Groupbox to the ParentTabPage
+        $ParentTabPage.Controls.Add($NewGroupBox)
+
         # CREATION
         # Create the GroupBox
-        $NewGroupBox = New-GroupBox -ParentTabPage $ParentTabPage -Location $Location -Size $Size -Title $Title -Color $Color
+        #$NewGroupBox = New-GroupBox -ParentTabPage $ParentTabPage -Location $Location -Size $Size -Title $Title -Color $Color
     }
 
     end {
