@@ -94,11 +94,11 @@ function Update-ComboBox {
 
             # UPDATE
             # Update the ComboBox content
-            #$ContentToUse.ForEach({ $ComboBox.Items.Add($_) | Out-Null })
+            $ContentToUse.ForEach({ $ComboBox.Items.Add($_) | Out-Null })
 
             # Clear the text
-            #Invoke-ClipBoard -ClearBox $ComboBox -HideConfirmation
-            #$ComboBox.SelectedIndex = -1
+            Invoke-ClipBoard -ClearBox $ComboBox -HideConfirmation
+            $ComboBox.SelectedIndex = -1
             # Write the message
             Write-Line 'process: The content has been refreshed.'
         }
