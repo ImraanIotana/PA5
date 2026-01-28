@@ -300,7 +300,7 @@ function Get-ApplicationUpdate {
             # If the Update switch is specified, close the application and run the update script
             if ($Update.IsPresent) {
                 Write-Line "The application will now close to apply the update..." -Type Success
-                Start-Sleep -Seconds 2
+                Start-Sleep -Seconds 1
                 # Start the update script
                 Start-Process powershell.exe -ArgumentList ('-NoProfile -ExecutionPolicy Bypass -File "{0}"' -f $UpdateScriptFilePath)
                 Start-Sleep -Seconds 2
