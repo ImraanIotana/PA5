@@ -40,14 +40,20 @@ function Reset-BoxToDefault {
     }
     
     process {
-        # VALIDATION
-        if ([System.String]::IsNullOrEmpty($DefaultValue) ) { Write-Line "This box has no Default Value. No action has been taken." ; Return }
-
-        # CONFIRMATION
-        if ( -Not( Get-UserConfirmation -Title $ConfirmationTitle -Body ($ConfirmationBody -f $DefaultValue) ) ) { Return }
-
-        # EXECUTION
-        $Box.Text = $Box.DefaultValue
+        try {
+            # VALIDATION
+            if ([System.String]::IsNullOrEmpty($DefaultValue) ) { Write-Line "This box has no Default Value. No action has been taken." ; Return }
+    
+            # CONFIRMATION
+            if ( -Not( Get-UserConfirmation -Title $ConfirmationTitle -Body ($ConfirmationBody -f $DefaultValue) ) ) { Return }
+    
+            # EXECUTION
+            $Box.Text = $Box.DefaultValue
+            Write-Line "The box has been reset to their Default Value: ($DefaultValue)"
+        }
+        catch {
+            Write-FullError
+        }
     }
     
     end {
