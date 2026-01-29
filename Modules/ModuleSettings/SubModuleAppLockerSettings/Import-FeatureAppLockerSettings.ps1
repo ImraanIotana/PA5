@@ -1,7 +1,7 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the feature AppLockerSettings.
+    This function imports the feature AppLocker Settings.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
@@ -11,7 +11,7 @@
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.7.0
+    Version         : 5.7.0.0199
     Author          : Imraan Iotana
     Creation Date   : August 2025
     Last Update     : January 2026
@@ -47,25 +47,21 @@ function Import-FeatureAppLockerSettings {
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
-                ToolTip         = 'Copy the content of the textbox to your clipboard.'
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                ToolTip         = 'Paste the content of your clipboard to the textbox'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                ToolTip         = 'Clear the textbox.'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                ToolTip         = 'Reset the textbox to the default value.'
                 Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:ALSAppLockerLDAPTESTTextBox.DefaultValue)) { $Global:ALSAppLockerLDAPTESTTextBox.Text = $Global:ALSAppLockerLDAPTESTTextBox.DefaultValue } }
             }
         )
@@ -74,25 +70,21 @@ function Import-FeatureAppLockerSettings {
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
-                ToolTip         = 'Copy the content of the textbox to your clipboard.'
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                ToolTip         = 'Paste the content of your clipboard to the textbox'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                ToolTip         = 'Clear the textbox.'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                ToolTip         = 'Reset the textbox to the default value.'
                 Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:ALSAppLockerLDAPPRODTextBox.DefaultValue)) { $Global:ALSAppLockerLDAPPRODTextBox.Text = $Global:ALSAppLockerLDAPPRODTextBox.DefaultValue } }
             }
         )
