@@ -29,24 +29,25 @@ function Import-FeatureAppLockerSettings {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # GroupBox Handlers
-        [System.String]$GroupBoxTitle   = 'AppLocker LDAP'
-        [System.String]$Color           = 'LightCyan'
-        [System.Int32]$NumberOfRows     = 5
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'AppLocker LDAP'
+            Color           = [System.String]'LightCyan'
+            NumberOfRows    = [System.Int32]5
+        }
 
         # Handlers
         [System.String]$DefaultAppLockerLDAPTEST = $Global:ApplicationObject.Settings.AppLockerLDAPTEST
         [System.String]$DefaultAppLockerLDAPPROD = $Global:ApplicationObject.Settings.AppLockerLDAPPROD
 
         ####################################################################################################
-        ### BUTTON PROPERTIES ###param($TextBox=$NewTextBox)
+        ### BUTTON PROPERTIES ###
 
         [System.Collections.Hashtable[]]$ActionButtonsTEST = @(
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
                 Image           = 'page_copy.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Copy the content of the textbox to your clipboard.'
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
@@ -115,34 +116,39 @@ function Import-FeatureAppLockerSettings {
     } 
     
     process {
-        # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBoxTitle -NumberOfRows $NumberOfRows -Color $Color -OnSubTab
+        try {
+            # Create the GroupBox
+            [System.Windows.Forms.GroupBox]$Global:SCCMSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
 
-        # Create the ALSAppLockerLDAPTESTTextBox
-        [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox'
-        # Add the functions/properties
-        $Global:ALSAppLockerLDAPTESTTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPTEST
-        $Global:ALSAppLockerLDAPTESTTextBox | ForEach-Object {
-            if (Test-Object -IsEmpty ($_.Text)) {
-                Write-Line ('The AppLocker LDAP TEST field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
-                $_.Text = $_.DefaultValue
+            # Create the ALSAppLockerLDAPTESTTextBox
+            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox'
+            # Add the functions/properties
+            $Global:ALSAppLockerLDAPTESTTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPTEST
+            $Global:ALSAppLockerLDAPTESTTextBox | ForEach-Object {
+                if (Test-Object -IsEmpty ($_.Text)) {
+                    Write-Line ('The AppLocker LDAP TEST field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
+                    $_.Text = $_.DefaultValue
+                }
             }
-        }
-        # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsTEST -ParentGroupBox $ParentGroupBox -RowNumber 2
+            # Create the Buttons
+            Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsTEST -ParentGroupBox $ParentGroupBox -RowNumber 2
 
-        # Create the ALSAppLockerLDAPPRODTextBox
-        [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox'
-        # Add the functions/properties
-        $Global:ALSAppLockerLDAPPRODTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPPROD
-        $Global:ALSAppLockerLDAPPRODTextBox | ForEach-Object {
-            if (Test-Object -IsEmpty ($_.Text)) {
-                Write-Line ('The AppLocker LDAP PROD field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
-                $_.Text = $_.DefaultValue
+            # Create the ALSAppLockerLDAPPRODTextBox
+            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox'
+            # Add the functions/properties
+            $Global:ALSAppLockerLDAPPRODTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPPROD
+            $Global:ALSAppLockerLDAPPRODTextBox | ForEach-Object {
+                if (Test-Object -IsEmpty ($_.Text)) {
+                    Write-Line ('The AppLocker LDAP PROD field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
+                    $_.Text = $_.DefaultValue
+                }
             }
+            # Create the Buttons
+            Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsPROD -ParentGroupBox $ParentGroupBox -RowNumber 5
         }
-        # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsPROD -ParentGroupBox $ParentGroupBox -RowNumber 5
+        catch {
+            Write-FullError
+        }
     }
 
     end {
