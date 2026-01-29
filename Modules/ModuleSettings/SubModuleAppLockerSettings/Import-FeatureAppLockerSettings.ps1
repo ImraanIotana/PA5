@@ -48,9 +48,8 @@ function Import-FeatureAppLockerSettings {
                 Image           = 'page_copy.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Copy the content of the textbox to your clipboard.'
-                Function        = { param($TextBox=$Global:ALSAppLockerLDAPTESTTextBox) Invoke-ClipBoard -CopyFromBox $TextBox }
+                Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
-                #Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPTESTTextBox }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
