@@ -100,7 +100,6 @@ function Import-FeatureAppLockerSettings {
             # Create the ALSAppLockerLDAPTESTTextBox
             [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox' -DefaultValue $DefaultAppLockerLDAPTEST
             # Add the functions/properties
-            #$Global:ALSAppLockerLDAPTESTTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPTEST
             $Global:ALSAppLockerLDAPTESTTextBox | ForEach-Object {
                 if (Test-Object -IsEmpty ($_.Text)) {
                     Write-Line ('The AppLocker LDAP TEST field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
@@ -111,9 +110,8 @@ function Import-FeatureAppLockerSettings {
             Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsTEST -ParentGroupBox $ParentGroupBox -RowNumber 2
 
             # Create the ALSAppLockerLDAPPRODTextBox
-            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox'
+            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox' -DefaultValue $DefaultAppLockerLDAPPROD
             # Add the functions/properties
-            $Global:ALSAppLockerLDAPPRODTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPPROD
             $Global:ALSAppLockerLDAPPRODTextBox | ForEach-Object {
                 if (Test-Object -IsEmpty ($_.Text)) {
                     Write-Line ('The AppLocker LDAP PROD field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
