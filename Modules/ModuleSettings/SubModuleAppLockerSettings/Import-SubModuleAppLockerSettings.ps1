@@ -1,33 +1,28 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the Folder Settings Module.
+    This function imports the SubModule 'AppLocker Settings'.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
-    External classes    : -
-    External functions  : -
-    External variables  : $Global:TabControl, $Global:SettingsTabPage
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-SubModuleFolderSettings
+    Import-SubModuleAppLockerSettings
 .INPUTS
-    This function has no input parameters.
+    [System.Windows.Forms.TabControl]
 .OUTPUTS
-    This function returns no stream-output.
+    This function returns no stream output.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : August 2025
-    Last Update     : August 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
 function Import-SubModuleAppLockerSettings {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true,HelpMessage='The TabControl to which this Module TabPage will be added.')]
-        [Alias('TabControl')]
-        [System.Windows.Forms.TabControl]
-        $ParentTabControl
+        [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
+        [System.Windows.Forms.TabControl]$ParentTabControl
     )
 
     begin {
@@ -36,16 +31,24 @@ function Import-SubModuleAppLockerSettings {
 
         # Handlers
         [System.String]$TabTitle        = 'AppLocker Settings'
-        [System.String]$ModuleVersion   = '5.5.1'
+        [System.String]$ModuleVersion   = '5.7.0'
+        [System.String]$BackGroundColor = 'RoyalBlue'
+
+        ####################################################################################################
     }
     
     process {
+        try {
             # Write the message
-            Write-Line ('Importing SubModule {0} {1}' -f $TabTitle,$ModuleVersion)
-            # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$Global:SubModuleAppLockerSettingsTabPage = $ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor 'RoyalBlue'
+            Write-Line "Importing SubModule $TabTitle $ModuleVersion"
+            # Create the SubModule TabPage
+            [System.Windows.Forms.TabPage]$Global:SubModuleAppLockerSettingsTabPage = $ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
             # Import the Features
             Import-FeatureAppLockerSettings -ParentTabPage $ParentTabPage
+        }
+        catch {
+            Write-FullError
+        }
     }
 
     end {
