@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function imports the feature AppLockerSettings.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Import-AppLockerSettings -ParentTabPage $MyParentTabPage
 .INPUTS
@@ -11,10 +11,10 @@
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : August 2025
-    Last Update     : August 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -22,23 +22,24 @@ function Import-FeatureAppLockerSettings {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]
-        [System.Windows.Forms.TabPage]
-        $ParentTabPage
+        [System.Windows.Forms.TabPage]$ParentTabPage
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
+
         # GroupBox Handlers
         [System.String]$GroupBoxTitle   = 'AppLocker LDAP'
         [System.String]$Color           = 'LightCyan'
         [System.Int32]$NumberOfRows     = 5
+
         # Handlers
         [System.String]$DefaultAppLockerLDAPTEST = $Global:ApplicationObject.Settings.AppLockerLDAPTEST
         [System.String]$DefaultAppLockerLDAPPROD = $Global:ApplicationObject.Settings.AppLockerLDAPPROD
 
         ####################################################################################################
-        ### BUTTON PROPERTIES ###
+        ### BUTTON PROPERTIES ###param($TextBox=$NewTextBox)
 
         [System.Collections.Hashtable[]]$ActionButtonsTEST = @(
             @{
@@ -47,8 +48,9 @@ function Import-FeatureAppLockerSettings {
                 Image           = 'page_copy.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Copy the content of the textbox to your clipboard.'
-                Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPTESTTextBox }
+                Function        = { param($TextBox=$Global:ALSAppLockerLDAPTESTTextBox) Invoke-ClipBoard -CopyFromBox $TextBox }
             }
+                #Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPTESTTextBox }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
@@ -110,6 +112,7 @@ function Import-FeatureAppLockerSettings {
             }
         )
 
+        ####################################################################################################
     } 
     
     process {
