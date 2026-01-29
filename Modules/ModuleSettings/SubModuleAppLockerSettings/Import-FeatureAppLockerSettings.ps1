@@ -53,7 +53,6 @@ function Import-FeatureAppLockerSettings {
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                Image           = 'page_paste.png'
                 ToolTip         = 'Paste the content of your clipboard to the textbox'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
@@ -77,14 +76,12 @@ function Import-FeatureAppLockerSettings {
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
-                Image           = 'page_copy.png'
                 ToolTip         = 'Copy the content of the textbox to your clipboard.'
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                Image           = 'page_paste.png'
                 ToolTip         = 'Paste the content of your clipboard to the textbox'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
