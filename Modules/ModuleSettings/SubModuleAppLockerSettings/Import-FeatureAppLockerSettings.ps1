@@ -59,14 +59,12 @@ function Import-FeatureAppLockerSettings {
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                Image           = 'textfield_delete.png'
                 ToolTip         = 'Clear the textbox.'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                Image           = 'arrow_undo.png'
                 ToolTip         = 'Reset the textbox to the default value.'
                 Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:ALSAppLockerLDAPTESTTextBox.DefaultValue)) { $Global:ALSAppLockerLDAPTESTTextBox.Text = $Global:ALSAppLockerLDAPTESTTextBox.DefaultValue } }
             }
@@ -88,14 +86,12 @@ function Import-FeatureAppLockerSettings {
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                Image           = 'textfield_delete.png'
                 ToolTip         = 'Clear the textbox.'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                Image           = 'arrow_undo.png'
                 ToolTip         = 'Reset the textbox to the default value.'
                 Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:ALSAppLockerLDAPPRODTextBox.DefaultValue)) { $Global:ALSAppLockerLDAPPRODTextBox.Text = $Global:ALSAppLockerLDAPPRODTextBox.DefaultValue } }
             }
