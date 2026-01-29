@@ -55,7 +55,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 2
                 Text            = 'Paste'
                 Image           = 'page_paste.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Paste the content of your clipboard to the textbox'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
@@ -63,7 +62,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 3
                 Text            = 'Clear'
                 Image           = 'textfield_delete.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Clear the textbox.'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ALSAppLockerLDAPTESTTextBox }
             }
@@ -71,7 +69,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 5
                 Text            = 'Default'
                 Image           = 'arrow_undo.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Reset the textbox to the default value.'
                 Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:ALSAppLockerLDAPTESTTextBox.DefaultValue)) { $Global:ALSAppLockerLDAPTESTTextBox.Text = $Global:ALSAppLockerLDAPTESTTextBox.DefaultValue } }
             }
@@ -82,7 +79,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 1
                 Text            = 'Copy'
                 Image           = 'page_copy.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Copy the content of the textbox to your clipboard.'
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
@@ -90,7 +86,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 2
                 Text            = 'Paste'
                 Image           = 'page_paste.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Paste the content of your clipboard to the textbox'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
@@ -98,7 +93,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 3
                 Text            = 'Clear'
                 Image           = 'textfield_delete.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Clear the textbox.'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ALSAppLockerLDAPPRODTextBox }
             }
@@ -106,7 +100,6 @@ function Import-FeatureAppLockerSettings {
                 ColumnNumber    = 5
                 Text            = 'Default'
                 Image           = 'arrow_undo.png'
-                SizeType        = 'Medium'
                 ToolTip         = 'Reset the textbox to the default value.'
                 Function        = { if (Get-UserConfirmation -Title 'Reset to default' -Body ("This will reset this field to the default value:`n`n({0})`n`nAre you sure?" -f $Global:ALSAppLockerLDAPPRODTextBox.DefaultValue)) { $Global:ALSAppLockerLDAPPRODTextBox.Text = $Global:ALSAppLockerLDAPPRODTextBox.DefaultValue } }
             }
