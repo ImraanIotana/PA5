@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function imports the Application Settings Module.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Import-ModuleApplicationSettings
 .INPUTS
@@ -11,10 +11,10 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.0.0219
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : May 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 # MAKE PSM1 
@@ -22,16 +22,24 @@ function Import-ModuleApplicationSettings {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
-        [Alias('TabControl')]
-        [System.Windows.Forms.TabControl]
-        $ParentTabControl = $Global:MainTabControl
+        [System.Windows.Forms.TabControl]$ParentTabControl = $Global:MainTabControl
     )
 
     begin {
         ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Handlers
+        [System.String]$TabTitle        = 'Settings'
+        [System.String]$ModuleVersion   = '5.7.0.0219'
+        #[System.String]$BackGroundColor = 'RoyalBlue'
+
+        ####################################################################################################
+
+        ####################################################################################################
         ### MAIN OBJECT ###
 
-        # Set the main object
+        <# Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Input
             ParentTabControl    = $ParentTabControl
@@ -58,11 +66,29 @@ function Import-ModuleApplicationSettings {
             Import-SubModuleGeneralSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
             if (-Not($IsSCCMServer)) { Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
             Import-SubModuleMaintenance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
-        }
+        }#>
     }
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+        try {
+            # Write the message
+            Write-Line "Importing Module $TabTitle $ModuleVersion"
+            # Create the Module TabPage
+            [System.Windows.Forms.TabPage]$Global:ApplicationSettingsTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle
+            # Create a SubTabControl
+            [System.Windows.Forms.TabControl]$Global:ModuleApplicationSettingsTabControl = Invoke-SubTabControl -ParentTabPage $Global:ApplicationSettingsTabPage
+            # Load the SCCM/MECM module only on an SCCM server
+            [System.Boolean]$IsSCCMServer = $Global:ApplicationObject.IsSCCMServer
+            if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
+            # Import the SubModules
+            Import-SubModuleGeneralSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
+            if (-Not($IsSCCMServer)) { Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
+            Import-SubModuleMaintenance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
+        }
+        catch {
+            Write-FullError
+        }
     }
 
     end {
