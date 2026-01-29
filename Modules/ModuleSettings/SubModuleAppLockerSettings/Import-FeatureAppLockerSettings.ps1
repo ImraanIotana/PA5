@@ -11,7 +11,7 @@
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.7.0.0204
+    Version         : 5.7.0.0207
     Author          : Imraan Iotana
     Creation Date   : August 2025
     Last Update     : January 2026
@@ -21,6 +21,9 @@
 function Import-FeatureAppLockerSettings {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
+
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]
         [System.Windows.Forms.TabPage]$ParentTabPage
     )
@@ -37,8 +40,12 @@ function Import-FeatureAppLockerSettings {
         }
 
         # Handlers
-        [System.String]$DefaultAppLockerLDAPTEST = $Global:ApplicationObject.Settings.AppLockerLDAPTEST
-        [System.String]$DefaultAppLockerLDAPPROD = $Global:ApplicationObject.Settings.AppLockerLDAPPROD
+        [System.Collections.Hashtable]$AppLockerDefaultValues = @{
+            Test        = $ApplicationObject.Settings.AppLockerLDAPTEST
+            Production  = $ApplicationObject.Settings.AppLockerLDAPPROD
+        }
+        #[System.String]$DefaultAppLockerLDAPTEST = $Global:ApplicationObject.Settings.AppLockerLDAPTEST
+        #[System.String]$DefaultAppLockerLDAPPROD = $Global:ApplicationObject.Settings.AppLockerLDAPPROD
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
@@ -98,26 +105,12 @@ function Import-FeatureAppLockerSettings {
             [System.Windows.Forms.GroupBox]$Global:SCCMSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
 
             # Create the ALSAppLockerLDAPTESTTextBox
-            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox' -DefaultValue $DefaultAppLockerLDAPTEST
-            # Add the functions/properties
-            $Global:ALSAppLockerLDAPTESTTextBox | ForEach-Object {
-                if (Test-Object -IsEmpty ($_.Text)) {
-                    Write-Line ('The AppLocker LDAP TEST field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
-                    $_.Text = $_.DefaultValue
-                }
-            }
+            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox' -DefaultValue $AppLockerDefaultValues.Test
             # Create the Buttons
             Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsTEST -ParentGroupBox $ParentGroupBox -RowNumber 2
 
             # Create the ALSAppLockerLDAPPRODTextBox
-            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox' -DefaultValue $DefaultAppLockerLDAPPROD
-            # Add the functions/properties
-            $Global:ALSAppLockerLDAPPRODTextBox | ForEach-Object {
-                if (Test-Object -IsEmpty ($_.Text)) {
-                    Write-Line ('The AppLocker LDAP PROD field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
-                    $_.Text = $_.DefaultValue
-                }
-            }
+            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPPRODTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 4 -SizeType Large -Type Input -Label 'AppLocker LDAP - PROD:' -PropertyName 'ALSAppLockerLDAPPRODTextBox' -DefaultValue $AppLockerDefaultValues.Production
             # Create the Buttons
             Invoke-ButtonLine -ButtonPropertiesArray $ActionButtonsPROD -ParentGroupBox $ParentGroupBox -RowNumber 5
         }
