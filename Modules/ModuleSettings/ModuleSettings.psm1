@@ -18,7 +18,7 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.0.0219
+    Version         : See below at 'Main Properties'
     Author          : Imraan Iotana
     Creation Date   : October 2023
     Last Update     : January 2026
@@ -38,7 +38,7 @@ function Import-ModuleApplicationSettings {
 
         # Handlers
         [System.String]$TabTitle        = 'Settings'
-        [System.String]$ModuleVersion   = '5.7.0.0219'
+        [System.String]$ModuleVersion   = '5.7.0.0220'
 
         ####################################################################################################
     }
