@@ -11,7 +11,7 @@
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.7.0.0199
+    Version         : 5.7.0.0204
     Author          : Imraan Iotana
     Creation Date   : August 2025
     Last Update     : January 2026
@@ -98,9 +98,9 @@ function Import-FeatureAppLockerSettings {
             [System.Windows.Forms.GroupBox]$Global:SCCMSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
 
             # Create the ALSAppLockerLDAPTESTTextBox
-            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox'
+            [System.Windows.Forms.TextBox]$Global:ALSAppLockerLDAPTESTTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'AppLocker LDAP - TEST:' -PropertyName 'ALSAppLockerLDAPTESTTextBox' -DefaultValue $DefaultAppLockerLDAPTEST
             # Add the functions/properties
-            $Global:ALSAppLockerLDAPTESTTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPTEST
+            #$Global:ALSAppLockerLDAPTESTTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $DefaultAppLockerLDAPTEST
             $Global:ALSAppLockerLDAPTESTTextBox | ForEach-Object {
                 if (Test-Object -IsEmpty ($_.Text)) {
                     Write-Line ('The AppLocker LDAP TEST field is empty. It will be filled with the default value: ({0})' -f $_.DefaultValue)
