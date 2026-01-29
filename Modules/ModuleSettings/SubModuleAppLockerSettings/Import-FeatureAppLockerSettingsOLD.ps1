@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Import-FeatureAppLockerSettings {
+function Import-FeatureAppLockerSettingsOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
@@ -41,11 +41,9 @@ function Import-FeatureAppLockerSettings {
 
         # Handlers
         [System.Collections.Hashtable]$AppLockerDefaultValues = @{
-            Test        = $ApplicationObject.Settings.AppLockerLDAPTEST
-            Production  = $ApplicationObject.Settings.AppLockerLDAPPROD
+            Test            = $ApplicationObject.Settings.AppLockerLDAPTEST
+            Production      = $ApplicationObject.Settings.AppLockerLDAPPROD
         }
-        #[System.String]$DefaultAppLockerLDAPTEST = $Global:ApplicationObject.Settings.AppLockerLDAPTEST
-        #[System.String]$DefaultAppLockerLDAPPROD = $Global:ApplicationObject.Settings.AppLockerLDAPPROD
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
