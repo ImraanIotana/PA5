@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Import-SubModuleAppLockerSettings {
+function Import-SubModuleAppLockerSettingsOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
