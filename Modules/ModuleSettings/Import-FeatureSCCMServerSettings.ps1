@@ -55,7 +55,6 @@ function Import-FeatureSCCMServerSettings {
                 ColumnNumber    = 1
                 Text            = 'Copy'
                 Function        = { & $Global:ASSSSiteCodeTextBox.Tag.CopyToClipBoard }
-                #Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSSiteCodeTextBox }
             }
             @{
                 ColumnNumber    = 2
