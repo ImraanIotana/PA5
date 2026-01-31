@@ -54,22 +54,16 @@ function Import-FeatureSCCMServerSettings {
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
-                Image           = 'page_copy.png'
-                SizeType        = 'Medium'
                 Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSSiteCodeTextBox }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                Image           = 'page_paste.png'
-                SizeType        = 'Medium'
                 Function        = { Invoke-ClipBoard -PasteToBox $Global:ASSSSiteCodeTextBox }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                Image           = 'textfield_delete.png'
-                SizeType        = 'Medium'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSSiteCodeTextBox }
             }
         )
@@ -100,7 +94,7 @@ function Import-FeatureSCCMServerSettings {
 
             # Create the ASSSSiteCodeTextBox
             #[System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox'
-            # Add the functions/properties
+            <# Add the functions/properties
             $Global:ASSSSiteCodeTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $this.DefaultSiteCode
             $Global:ASSSSiteCodeTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultValue } }
             # Add the buttons
@@ -126,9 +120,9 @@ function Import-FeatureSCCMServerSettings {
                     SizeType        = 'Medium'
                     Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSSiteCodeTextBox }
                 }
-            )
+            )#>
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASSSSiteCodeTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $this.AssetFolder
+            #Invoke-ButtonLine -ButtonPropertiesArray $Global:ASSSSiteCodeTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $this.AssetFolder
 
             # Create the ASSSProviderMachineNameTextBox
             [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox'
