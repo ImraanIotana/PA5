@@ -197,7 +197,7 @@ function Import-FeatureSCCMServerSettings {
         # Create the ASSSSCCMRepositoryTextBox
         [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $SCCMDefaultValues.DefaultSCCMRepository
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ASSSSCCMRepositoryTextBox -ParentGroupBox $ParentGroupBox -RowNumber 6
+        Invoke-ButtonLine -ButtonPropertiesArray $ASSSSCCMRepositoryTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 6
         
         #$Local:MainObject.Process()
     }
