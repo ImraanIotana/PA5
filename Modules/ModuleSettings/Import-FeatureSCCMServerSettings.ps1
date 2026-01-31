@@ -98,6 +98,29 @@ function Import-FeatureSCCMServerSettings {
             }
         )
 
+        # Add the ASSSSCCMRepositoryTextBox buttons
+        [System.Collections.Hashtable[]]$ASSSSCCMRepositoryTextBoxButtons = @(
+            @{
+                ColumnNumber    = 1
+                Text            = 'Copy'
+                Function        = { & $Global:ASSSSCCMRepositoryTextBox.Tag.CopyToClipBoard }
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Paste'
+                Function        = { & $Global:ASSSSCCMRepositoryTextBox.Tag.PasteFromClipBoard }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'Clear'
+                Function        = { & $Global:ASSSSCCMRepositoryTextBox.Tag.ClearBox }
+            }
+            @{
+                ColumnNumber    = 5
+                Text            = 'Default'
+                Function        = { & $Global:ASSSSCCMRepositoryTextBox.Tag.ResetToDefaultValue }
+            }
+        )
 
 
 
@@ -123,40 +146,8 @@ function Import-FeatureSCCMServerSettings {
 
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Create the ASSSProviderMachineNameTextBox
-            #[System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox'
-            <# Add the functions/properties
-            $Global:ASSSProviderMachineNameTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $this.DefaultProviderMachineName
-            $Global:ASSSProviderMachineNameTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultValue } }
-            # Add the buttons
-            $Global:ASSSProviderMachineNameTextBox | Add-Member -NotePropertyName ButtonPropertiesArray -NotePropertyValue @(
-                @{
-                    ColumnNumber    = 1
-                    Text            = 'Copy'
-                    Image           = 'page_copy.png'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSProviderMachineNameTextBox }
-                }
-                @{
-                    ColumnNumber    = 2
-                    Text            = 'Paste'
-                    Image           = 'page_paste.png'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -PasteToBox $Global:ASSSProviderMachineNameTextBox }
-                }
-                @{
-                    ColumnNumber    = 3
-                    Text            = 'Clear'
-                    Image           = 'textfield_delete.png'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSProviderMachineNameTextBox }
-                }
-            )
-            # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASSSProviderMachineNameTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $this.AssetFolder#>
-
             # Create the ASSSSCCMRepositoryTextBox
-            [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox'
+            #[System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox'
             # Add the functions/properties
             $Global:ASSSSCCMRepositoryTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $this.DefaultSCCMRepository
             $Global:ASSSSCCMRepositoryTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultValue } }
@@ -202,8 +193,13 @@ function Import-FeatureSCCMServerSettings {
         [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $SCCMDefaultValues.DefaultProviderMachineName
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ASSSProviderMachineNameTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
+
+        # Create the ASSSSCCMRepositoryTextBox
+        [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $SCCMDefaultValues.DefaultSCCMRepository
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $ASSSSCCMRepositoryTextBox -ParentGroupBox $ParentGroupBox -RowNumber 6
         
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
     }
 
     end {
