@@ -41,7 +41,7 @@ function Import-ModuleApplicationSettings {
         [System.String]$ModuleVersion   = '5.7.0'
 
         # Handlers
-        [System.Boolean]$IsSCCMServer = $Global:ApplicationObject.IsSCCMServer
+        [System.Boolean]$IsSCCMServer   = $Global:ApplicationObject.IsSCCMServer
 
         ####################################################################################################
     }
