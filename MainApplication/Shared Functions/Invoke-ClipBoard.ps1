@@ -85,9 +85,10 @@ function Invoke-ClipBoard {
             if ($this.ValidationIsSuccessful) {
                 # Switch on the ParameterSetName
                 switch ($this.ParameterSetName) {
-                    'CopyFromBox'   { $this.CopyFromBoxToClipBoard($this.BoxToHandle) }
-                    'PasteToBox'    { $this.PasteFromClipBoardToBox($this.BoxToHandle) }
-                    'ClearBox'      { $this.ClearBox($this.BoxToHandle) }
+                    'CopyFromBox'           { $this.CopyFromBoxToClipBoard($this.BoxToHandle) }
+                    'PasteToBox'            { $this.PasteFromClipBoardToBox($this.BoxToHandle) }
+                    'ClearBox'              { $this.ClearBox($this.BoxToHandle) }
+                    'ResetToDefaultValue'   { $this.ResetToDefaultValue($this.BoxToHandle) }
                 }
             } else {
                 # Write the fail message and return
