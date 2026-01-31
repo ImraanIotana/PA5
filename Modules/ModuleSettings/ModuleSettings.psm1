@@ -36,9 +36,11 @@ function Import-ModuleApplicationSettings {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Handlers
+        # Tab properties
         [System.String]$TabTitle        = 'Settings'
-        [System.String]$ModuleVersion   = '5.7.0.0220'
+        [System.String]$ModuleVersion   = '5.7.0'
+
+        # Handlers
 
         ####################################################################################################
     }
