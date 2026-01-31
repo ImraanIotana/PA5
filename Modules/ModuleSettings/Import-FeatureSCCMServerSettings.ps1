@@ -59,18 +59,17 @@ function Import-FeatureSCCMServerSettings {
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                Function        = { Invoke-ClipBoard -PasteToBox $Global:ASSSSiteCodeTextBox }
+                Function        = { & $Global:ASSSSiteCodeTextBox.Tag.PasteFromClipBoard }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSSiteCodeTextBox }
+                Function        = { & $Global:ASSSSiteCodeTextBox.Tag.ClearBox }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                #Function        = { & $Global:ASSSSiteCodeTextBox.Tag.ResetToDefaultValue }
-                Function        = { Invoke-ClipBoard -ResetToDefaultValue $Global:ASSSSiteCodeTextBox }
+                Function        = { & $Global:ASSSSiteCodeTextBox.Tag.ResetToDefaultValue }
             }
         )
 
