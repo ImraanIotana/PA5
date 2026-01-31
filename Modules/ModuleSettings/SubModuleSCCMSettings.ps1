@@ -1,23 +1,20 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the Folder Settings Module.
+    This function imports the SCCM Settings SubModule.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
-    External classes    : -
-    External functions  : -
-    External variables  : $Global:TabControl, $Global:SettingsTabPage
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-SubModuleFolderSettings
+    Import-SubModuleFolderSettings -ParentTabControl $MyTabControl
 .INPUTS
-    This function has no input parameters.
+    [System.Windows.Forms.TabControl]
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.4.7
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : July 2025
-    Last Update     : July 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -25,9 +22,7 @@ function Import-SubModuleSCCMSettings {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The TabControl to which this Module TabPage will be added.')]
-        [Alias('TabControl')]
-        [System.Windows.Forms.TabControl]
-        $ParentTabControl
+        [System.Windows.Forms.TabControl]$ParentTabControl
     )
 
     begin {

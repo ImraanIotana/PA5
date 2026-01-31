@@ -24,7 +24,7 @@
     Last Update     : January 2026
 #>
 ####################################################################################################
-# MAKE PSM1 
+
 function Import-ModuleApplicationSettings {
     [CmdletBinding()]
     param (
@@ -59,7 +59,7 @@ function Import-ModuleApplicationSettings {
             if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
             # Import the SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
-            if (-Not($IsSCCMServer)) { Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
+            Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
             Import-SubModuleMaintenance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
         }
         catch {
