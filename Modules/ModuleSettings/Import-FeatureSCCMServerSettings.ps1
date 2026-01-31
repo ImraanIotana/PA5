@@ -121,64 +121,7 @@ function Import-FeatureSCCMServerSettings {
                 Function        = { & $Global:ASSSSCCMRepositoryTextBox.Tag.ResetToDefaultValue }
             }
         )
-
-
-
-
-        # Set the main object
-        [PSCustomObject]$Local:MainObject = @{
-            # Input
-            ParentTabPage               = $ParentTabPage
-            # Handlers
-            GroupBoxTitle               = [System.String]'SCCM Settings'
-            Color                       = [System.String]'LightCyan'
-            NumberOfRows                = [System.Int32]6
-            AssetFolder                 = [System.String]$PSScriptRoot
-            #PDFManualFileName          = [System.String]'HelpFile Settings.pdf'
-            # Handlers
-            DefaultSiteCode             = $Global:ApplicationObject.Settings.SCCMDefaultSiteCode
-            DefaultProviderMachineName  = $Global:ApplicationObject.Settings.SCCMDefaultProviderMachineName
-            DefaultSCCMRepository       = $Global:ApplicationObject.Settings.SCCMRepository
-        }
-
-        ####################################################################################################
-        ### MAIN FUNCTION METHODS ###
-
-        # Add the Process method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Create the ASSSSCCMRepositoryTextBox
-            #[System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox'
-            # Add the functions/properties
-            $Global:ASSSSCCMRepositoryTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $this.DefaultSCCMRepository
-            $Global:ASSSSCCMRepositoryTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultValue } }
-            # Add the buttons
-            $Global:ASSSSCCMRepositoryTextBox | Add-Member -NotePropertyName ButtonPropertiesArray -NotePropertyValue @(
-                @{
-                    ColumnNumber    = 1
-                    Text            = 'Copy'
-                    Image           = 'page_copy.png'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSSCCMRepositoryTextBox }
-                }
-                @{
-                    ColumnNumber    = 2
-                    Text            = 'Paste'
-                    Image           = 'page_paste.png'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -PasteToBox $Global:ASSSSCCMRepositoryTextBox }
-                }
-                @{
-                    ColumnNumber    = 3
-                    Text            = 'Clear'
-                    Image           = 'textfield_delete.png'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSSCCMRepositoryTextBox }
-                }
-            )
-            # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASSSSCCMRepositoryTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 6 -AssetFolder $this.AssetFolder
-        }
-    } 
+    }
     
     process {
         # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
@@ -198,8 +141,6 @@ function Import-FeatureSCCMServerSettings {
         [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $SCCMDefaultValues.DefaultSCCMRepository
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ASSSSCCMRepositoryTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 6
-        
-        #$Local:MainObject.Process()
     }
 
     end {
