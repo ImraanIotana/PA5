@@ -29,17 +29,21 @@
 function Invoke-ClipBoard {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true,ParameterSetName='CopyFromBox',HelpMessage='The TexBox or ComboBox from which the text will be copied.')]
+        [Parameter(Mandatory=$true,ParameterSetName='CopyFromBox',HelpMessage='The TexBox/ComboBox from which the text will be copied.')]
         [System.Object]
         $CopyFromBox,
 
-        [Parameter(Mandatory=$true,ParameterSetName='PasteToBox',HelpMessage='The TexBox or ComboBox to which the text will be pasted.')]
+        [Parameter(Mandatory=$true,ParameterSetName='PasteToBox',HelpMessage='The TexBox/ComboBox to which the text will be pasted.')]
         [System.Object]
         $PasteToBox,
 
-        [Parameter(Mandatory=$true,ParameterSetName='ClearBox',HelpMessage='The TexBox or ComboBox from which the text will be cleared.')]
+        [Parameter(Mandatory=$true,ParameterSetName='ClearBox',HelpMessage='The TexBox/ComboBox from which the text will be cleared.')]
         [System.Object]
         $ClearBox,
+
+        [Parameter(Mandatory=$true,ParameterSetName='ResetToDefaultValue',HelpMessage='The TexBox/ComboBox which will be reset to its default value.')]
+        [System.Object]
+        $ResetToDefaultValue,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for hiding the confirmation dialog.')]
         [System.Management.Automation.SwitchParameter]
@@ -65,9 +69,10 @@ function Invoke-ClipBoard {
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Begin -Value {
             # Set the BoxToHandle
             $BoxToHandle = switch ($this.ParameterSetName) {
-                'CopyFromBox'   { $CopyFromBox }
-                'PasteToBox'    { $PasteToBox }
-                'ClearBox'      { $ClearBox }
+                'CopyFromBox'           { $CopyFromBox }
+                'PasteToBox'            { $PasteToBox }
+                'ClearBox'              { $ClearBox }
+                'ResetToDefaultValue'   { $ResetToDefaultValue }
             }
             Add-Member -InputObject $this -NotePropertyName BoxToHandle -NotePropertyValue $BoxToHandle
             # Validate the input
@@ -137,7 +142,7 @@ function Invoke-ClipBoard {
                     Write-Host 'The clipboard contains no text. No action has been taken.' -ForegroundColor DarkGray
                 } else {
                     # Get user confirmation
-                    [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Overwrite textbox' -Body ('This will overwrite the current value with "{0}". Are you sure?' -f $TextToPaste)
+                    [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Overwrite textbox/combobox' -Body ('This will overwrite the current value with "{0}". Are you sure?' -f $TextToPaste)
                     if (-Not($UserHasConfirmed)) { Return }
                     # Paste the text to the box
                     $BoxToCopyTo.Text = $TextToPaste
@@ -167,6 +172,35 @@ function Invoke-ClipBoard {
             }
             catch {
                 Write-FullError 'The box could not be cleared.'
+            }
+        }
+
+        # Add the ResetToDefaultValue method
+        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name ResetToDefaultValue -Value { param([System.Object]$BoxToReset)
+            try {
+                # Get the default value
+                [System.String]$DefaultValue = switch ($BoxToReset.GetType()) {
+                    $this.ApprovedBoxTypes[0] { $BoxToReset.Tag.DefaultValue } # TextBox
+                    $this.ApprovedBoxTypes[1] { '' } # ComboBox
+                }
+                # Get user confirmation
+                if (-Not($this.HideConfirmation.IsPresent)) {
+                    [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Reset textbox/combobox to default value' -Body "This will reset the field to its default value ($DefaultValue). Are you sure?"
+                    if (-Not($UserHasConfirmed)) { Return }
+                }
+                # Determine the boxtype, and reset the box to its default value
+                $BoxType = $BoxToReset.GetType()
+                switch ($BoxType) {
+                    $this.ApprovedBoxTypes[0] { & $BoxToReset.Tag.ResetToDefaultValue } # TextBox
+                    $this.ApprovedBoxTypes[1] {
+                        $BoxToReset.ResetText()
+                        Invoke-RegistrySettings -Remove -PropertyName $BoxToReset.PropertyName
+                    } # ComboBox
+                }
+                Write-Line "The box has been reset to its default value."
+            }
+            catch {
+                Write-FullError 'The box could not be reset to its default value.'
             }
         }
 
