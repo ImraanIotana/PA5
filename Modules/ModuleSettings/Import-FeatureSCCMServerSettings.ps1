@@ -91,6 +91,11 @@ function Import-FeatureSCCMServerSettings {
                 Text            = 'Clear'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSProviderMachineNameTextBox }
             }
+            @{
+                ColumnNumber    = 5
+                Text            = 'Default'
+                Function        = { $Global:ASSSProviderMachineNameTextBox.ResetToDefaultValue() }
+            }
         )
 
 
