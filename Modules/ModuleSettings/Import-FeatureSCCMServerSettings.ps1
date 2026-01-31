@@ -79,22 +79,22 @@ function Import-FeatureSCCMServerSettings {
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
-                Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSProviderMachineNameTextBox }
+                Function        = { & $Global:ASSSProviderMachineNameTextBox.Tag.CopyToClipBoard }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'Paste'
-                Function        = { Invoke-ClipBoard -PasteToBox $Global:ASSSProviderMachineNameTextBox }
+                Function        = { & $Global:ASSSProviderMachineNameTextBox.Tag.PasteFromClipBoard }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Clear'
-                Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSProviderMachineNameTextBox }
+                Function        = { & $Global:ASSSProviderMachineNameTextBox.Tag.ClearBox }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                Function        = { $Global:ASSSProviderMachineNameTextBox.ResetToDefaultValue() }
+                Function        = { & $Global:ASSSProviderMachineNameTextBox.Tag.ResetToDefaultValue }
             }
         )
 
@@ -124,8 +124,8 @@ function Import-FeatureSCCMServerSettings {
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Create the ASSSProviderMachineNameTextBox
-            [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox'
-            # Add the functions/properties
+            #[System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox'
+            <# Add the functions/properties
             $Global:ASSSProviderMachineNameTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $this.DefaultProviderMachineName
             $Global:ASSSProviderMachineNameTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultValue } }
             # Add the buttons
@@ -153,7 +153,7 @@ function Import-FeatureSCCMServerSettings {
                 }
             )
             # Create the Buttons
-            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASSSProviderMachineNameTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $this.AssetFolder
+            Invoke-ButtonLine -ButtonPropertiesArray $Global:ASSSProviderMachineNameTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $this.AssetFolder#>
 
             # Create the ASSSSCCMRepositoryTextBox
             [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox'
@@ -192,11 +192,16 @@ function Import-FeatureSCCMServerSettings {
     process {
         # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
         [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
+
         # Create the ASSSSiteCodeTextBox
         [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox' -DefaultValue $SCCMDefaultValues.DefaultSiteCode
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ASSSSiteCodeTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         
+        # Create the ASSSProviderMachineNameTextBox
+        [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $SCCMDefaultValues.DefaultProviderMachineName
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $ASSSProviderMachineNameTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
         
         $Local:MainObject.Process()
     }
