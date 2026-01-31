@@ -130,7 +130,7 @@ function Import-FeatureSCCMServerSettings {
         # Create the ASSSSiteCodeTextBox
         [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox' -DefaultValue $SCCMDefaultValues.DefaultSiteCode -DefaultButtonsArray @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default'))
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ASSSSiteCodeTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
+        #Invoke-ButtonLine -ButtonPropertiesArray $ASSSSiteCodeTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         
         # Create the ASSSProviderMachineNameTextBox
         [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $SCCMDefaultValues.DefaultProviderMachineName
