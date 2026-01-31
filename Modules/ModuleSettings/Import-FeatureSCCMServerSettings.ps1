@@ -66,6 +66,11 @@ function Import-FeatureSCCMServerSettings {
                 Text            = 'Clear'
                 Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSSiteCodeTextBox }
             }
+            @{
+                ColumnNumber    = 5
+                Text            = 'Default'
+                Function        = { & $Global:ASSSSiteCodeTextBox.Tag.Reset }
+            }
         )
 
 
