@@ -41,6 +41,7 @@ function Import-ModuleApplicationSettings {
         [System.String]$ModuleVersion   = '5.7.0'
 
         # Handlers
+        [System.Boolean]$IsSCCMServer = $Global:ApplicationObject.IsSCCMServer
 
         ####################################################################################################
     }
@@ -54,7 +55,6 @@ function Import-ModuleApplicationSettings {
             # Create a SubTabControl
             [System.Windows.Forms.TabControl]$Global:ModuleApplicationSettingsTabControl = Invoke-SubTabControl -ParentTabPage $Global:ApplicationSettingsTabPage
             # Load the SCCM/MECM module only on an SCCM server
-            [System.Boolean]$IsSCCMServer = $Global:ApplicationObject.IsSCCMServer
             if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
             # Import the SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
