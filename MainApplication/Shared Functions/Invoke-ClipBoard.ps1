@@ -192,7 +192,7 @@ function Invoke-ClipBoard {
                 # Determine the boxtype, and reset the box to its default value
                 $BoxType = $BoxToReset.GetType()
                 switch ($BoxType) {
-                    $this.ApprovedBoxTypes[0] { & $BoxToReset.Tag.ResetToDefaultValue } # TextBox
+                    $this.ApprovedBoxTypes[0] { $BoxToReset.Text = $DefaultValue } # TextBox
                     $this.ApprovedBoxTypes[1] {
                         $BoxToReset.ResetText()
                         Invoke-RegistrySettings -Remove -PropertyName $BoxToReset.PropertyName
