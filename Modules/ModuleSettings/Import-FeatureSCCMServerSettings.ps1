@@ -49,6 +49,30 @@ function Import-FeatureSCCMServerSettings {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
+        # Add the buttons
+        [System.Collections.Hashtable[]]$ASSSSiteCodeTextBoxButtons = @(
+            @{
+                ColumnNumber    = 1
+                Text            = 'Copy'
+                Image           = 'page_copy.png'
+                SizeType        = 'Medium'
+                Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSSiteCodeTextBox }
+            }
+            @{
+                ColumnNumber    = 2
+                Text            = 'Paste'
+                Image           = 'page_paste.png'
+                SizeType        = 'Medium'
+                Function        = { Invoke-ClipBoard -PasteToBox $Global:ASSSSiteCodeTextBox }
+            }
+            @{
+                ColumnNumber    = 3
+                Text            = 'Clear'
+                Image           = 'textfield_delete.png'
+                SizeType        = 'Medium'
+                Function        = { Invoke-ClipBoard -ClearBox $Global:ASSSSiteCodeTextBox }
+            }
+        )
 
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
@@ -75,7 +99,7 @@ function Import-FeatureSCCMServerSettings {
             #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupBoxTitle -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
 
             # Create the ASSSSiteCodeTextBox
-            [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox'
+            #[System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox'
             # Add the functions/properties
             $Global:ASSSSiteCodeTextBox | Add-Member -NotePropertyName DefaultValue -NotePropertyValue $this.DefaultSiteCode
             $Global:ASSSSiteCodeTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultValue } }
@@ -175,7 +199,12 @@ function Import-FeatureSCCMServerSettings {
     process {
         # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
         [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
-
+        # Create the ASSSSiteCodeTextBox
+        [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox' -DefaultValue $SCCMDefaultValues.DefaultSiteCode
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $ASSSSiteCodeTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
+        
+        
         $Local:MainObject.Process()
     }
 
