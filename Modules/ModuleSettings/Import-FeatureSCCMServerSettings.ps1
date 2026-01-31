@@ -54,7 +54,8 @@ function Import-FeatureSCCMServerSettings {
             @{
                 ColumnNumber    = 1
                 Text            = 'Copy'
-                Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSSiteCodeTextBox }
+                Function        = { & $Global:ASSSSiteCodeTextBox.Tag.CopyToClipBoard }
+                #Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASSSSiteCodeTextBox }
             }
             @{
                 ColumnNumber    = 2
@@ -69,7 +70,6 @@ function Import-FeatureSCCMServerSettings {
             @{
                 ColumnNumber    = 5
                 Text            = 'Default'
-                #Function        = { & $Global:ASSSSiteCodeTextBox.Tag.Reset }
                 Function        = { & $Global:ASSSSiteCodeTextBox.Tag.ResetToDefaultValue }
             }
         )
