@@ -133,14 +133,14 @@ function Import-FeatureSCCMServerSettings {
         #Invoke-ButtonLine -ButtonPropertiesArray $ASSSSiteCodeTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         
         # Create the ASSSProviderMachineNameTextBox
-        [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $SCCMDefaultValues.DefaultProviderMachineName
+        [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $SCCMDefaultValues.DefaultProviderMachineName -DefaultButtonsArray @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default'))
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ASSSProviderMachineNameTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
+        #Invoke-ButtonLine -ButtonPropertiesArray $ASSSProviderMachineNameTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
 
         # Create the ASSSSCCMRepositoryTextBox
-        [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $SCCMDefaultValues.DefaultSCCMRepository
+        [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $SCCMDefaultValues.DefaultSCCMRepository -DefaultButtonsArray @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default'))
         # Create the Buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $ASSSSCCMRepositoryTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 6
+        #Invoke-ButtonLine -ButtonPropertiesArray $ASSSSCCMRepositoryTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 6
     }
 
     end {
