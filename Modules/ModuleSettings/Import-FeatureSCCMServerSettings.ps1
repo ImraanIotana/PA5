@@ -1,20 +1,20 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the feature Help.
+    This function imports the feature SCCM Server Settings.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-FeatureHelp -ParentTabPage $MyParentTabPage
+    Import-FeatureSCCMServerSettings -ParentTabPage $MyParentTabPage
 .INPUTS
     [System.Windows.Forms.TabPage]
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.3.1
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : May 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
@@ -33,7 +33,7 @@ function Import-FeatureSCCMServerSettings {
             ParentTabPage               = $ParentTabPage
             # Handlers
             GroupBoxTitle               = [System.String]'SCCM Settings'
-            Color                       = [System.String]'DarkBlue'
+            Color                       = [System.String]'LightCyan'
             NumberOfRows                = [System.Int32]6
             AssetFolder                 = [System.String]$PSScriptRoot
             #PDFManualFileName          = [System.String]'HelpFile Settings.pdf'
