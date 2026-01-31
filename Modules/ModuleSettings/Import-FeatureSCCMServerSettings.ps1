@@ -70,7 +70,7 @@ function Import-FeatureSCCMServerSettings {
                 ColumnNumber    = 5
                 Text            = 'Default'
                 #Function        = { & $Global:ASSSSiteCodeTextBox.Tag.Reset }
-                Function        = { $Global:ASSSSiteCodeTextBox.ResetToDefaultValue() }
+                Function        = { & $Global:ASSSSiteCodeTextBox.Tag.ResetToDefaultValue }
             }
         )
 
