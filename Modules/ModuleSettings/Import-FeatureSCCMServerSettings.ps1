@@ -21,12 +21,35 @@
 function Import-FeatureSCCMServerSettings {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
+
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]
-        [System.Windows.Forms.TabPage]
-        $ParentTabPage
+        [System.Windows.Forms.TabPage]$ParentTabPage
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'SCCM Settings'
+            Color           = [System.String]'LightCyan'
+            NumberOfRows    = [System.Int32]6
+        }
+
+        # Handlers
+        [System.Collections.Hashtable]$SCCMDefaultValues = @{
+            DefaultSiteCode             = $ApplicationObject.Settings.SCCMDefaultSiteCode
+            DefaultProviderMachineName  = $ApplicationObject.Settings.SCCMDefaultProviderMachineName
+            DefaultSCCMRepository       = $ApplicationObject.Settings.SCCMRepository
+        }
+
+        ####################################################################################################
+        ### BUTTON PROPERTIES ###
+
+
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Input
@@ -49,7 +72,7 @@ function Import-FeatureSCCMServerSettings {
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupBoxTitle -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
+            #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupBoxTitle -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
 
             # Create the ASSSSiteCodeTextBox
             [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox'
@@ -150,6 +173,9 @@ function Import-FeatureSCCMServerSettings {
     } 
     
     process {
+        # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
+        [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
+
         $Local:MainObject.Process()
     }
 
