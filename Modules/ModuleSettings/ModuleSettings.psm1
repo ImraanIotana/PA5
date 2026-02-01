@@ -42,7 +42,6 @@ function Import-ModuleApplicationSettings {
 
         # Handlers
         [System.Boolean]$IsSCCMServer   = $Global:ApplicationObject.IsSCCMServer
-        [System.Boolean]$IsSCCMServer   = $true  # For testing purposes only; remove or comment out in production
 
         ####################################################################################################
     }
