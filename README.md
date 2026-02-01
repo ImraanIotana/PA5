@@ -1,13 +1,15 @@
 # PA5
-Packaging Assistent 5
-Copyright (C) Iotana. All rights reserved.
+Packaging Assistent 5 - Copyright (C) Iotana. All rights reserved.
 
 Version 5.7.0
-January 2026
+February 2026
 - General: Converted ModuleLauncher to Powershell Module.
 - General: Converted ModuleGraphics to Powershell Module.
-- General: Converted SubModuleMaintenance to Powershell Module.
+- General: Converted ModuleSettings to Powershell Module.
 - General: Converted SubModuleAppLockerSettings to Powershell Module.
+- General: Converted SubModuleGeneralSettings to Powershell Module.
+- General: Converted SubModuleMaintenance to Powershell Module.
+- General: Converted SubModuleSCCMSettings to Powershell Module.
 
 Version 5.5.1
 20250806
