@@ -46,37 +46,31 @@ function Import-FeatureHelp {
             @{
                 ColumnNumber    = 1
                 Text            = 'Desktop Shortcut'
-                SizeType        = 'Medium'
                 Image           = 'Desktop.png'
                 Function        = { Invoke-NewShortcut -Desktop }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'StartMenu Shortcut'
-                SizeType        = 'Medium'
                 Image           = 'Menu.png'
                 Function        = { Invoke-NewShortcut -StartMenu }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Open Logfolder'
-                SizeType        = 'Medium'
                 Image           = 'folder_page.png'
                 Function        = { Open-Folder -Path (Get-SharedAssetPath -LogFolder) }
             }
             @{
                 ColumnNumber    = 4
                 Text            = 'Reset All'
-                SizeType        = 'Medium'
                 Image           = 'arrow_rotate_clockwise.png'
                 Function        = { Invoke-RegistrySettings -ResetAll }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Version History'
-                SizeType        = 'Medium'
-                Function        = { Start-Process -FilePath write.exe -ArgumentList ("/p", "{0}" -f (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md')) }
-                #Function        = { Start-Process -FilePath ((Get-Command -Name notepad).Source) -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
+                Function        = { Start-Process -FilePath notepad -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
             }
         )
     } 
