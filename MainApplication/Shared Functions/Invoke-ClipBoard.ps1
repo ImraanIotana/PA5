@@ -198,7 +198,7 @@ function Invoke-ClipBoard {
                         Invoke-RegistrySettings -Remove -PropertyName $BoxToReset.PropertyName
                     } # ComboBox
                 }
-                Write-Line "The box has been reset to its default value."
+                Write-Line "The box has been reset to its default value: ($DefaultValue)"
             }
             catch {
                 Write-FullError 'The box could not be reset to its default value.'
