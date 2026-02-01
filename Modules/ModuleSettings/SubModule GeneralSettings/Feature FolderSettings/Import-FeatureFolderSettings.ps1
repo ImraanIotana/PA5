@@ -22,6 +22,9 @@
 function Import-FeatureFolderSettings {
     [CmdletBinding()]
     param (
+        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
+
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl that will be used for the dimensions of the Groupbox and other graphical elements.')]
         [System.Windows.Forms.TabControl]
         $ParentTabControl,
@@ -32,6 +35,24 @@ function Import-FeatureFolderSettings {
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'Folder Settings'
+            Color           = [System.String]'Brown'
+            NumberOfRows    = [System.Int32]4
+        }
+
+        # Default Values for the SCCM Settings
+        [System.String]$DefaultOutputFolder = $Global:ApplicationObject.DefaultOutputFolder
+        [System.String]$DefaultDSLFolder    = $Global:ApplicationObject.Settings.DefaultDSLFolder
+        
+        # Set the Default Button Properties Array
+        [System.Object[][]]$SCCMServerSettingsButtonsArray = @( @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default')) )
+
+        ####################################################################################################
         ####################################################################################################
         ### MAIN OBJECT ###
 
@@ -55,7 +76,7 @@ function Import-FeatureFolderSettings {
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:FolderSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.Title -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
+            #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:FolderSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.Title -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
 
             # Create the ASFSOutputFolderTextBox
             [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Output -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox'
@@ -150,6 +171,15 @@ function Import-FeatureFolderSettings {
     } 
     
     process {
+        # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
+        [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
+        
+        
+        
+        
+        
+        
+        
         $Local:MainObject.Process()
     }
 

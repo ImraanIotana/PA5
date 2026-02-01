@@ -119,8 +119,8 @@ function Import-FeatureSCCMServerSettings {
     }
     
     process {
-        # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-        [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
+        # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
+        [System.Windows.Forms.GroupBox]$Global:SCCMSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
 
         # Create the ASSSSiteCodeTextBox
         [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox' -DefaultValue $DefaultSiteCode -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
