@@ -32,6 +32,15 @@ function Import-SubModuleGeneralSettings {
 
     begin {
         ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Handlers
+        [System.String]$TabTitle        = 'General Settings'
+        [System.String]$ModuleVersion   = '5.7.0'
+        [System.String]$BackGroundColor = 'Cornsilk'
+
+        ####################################################################################################
+        <####################################################################################################
         ### MAIN OBJECT ###
 
         # Set the main object
@@ -58,11 +67,24 @@ function Import-SubModuleGeneralSettings {
             Import-FeatureFolderSettings -ParentTabControl $this.ParentTabControl -ParentTabPage $ParentTabPage
             Import-FeaturePersonalSettings -ParentTabPage $ParentTabPage
             Import-FeatureHelp -ParentTabPage $ParentTabPage
-        }
+        }#>
     }
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+        try {
+            # Write the message
+            Write-Line "Importing SubModule $TabTitle $ModuleVersion"
+            # Create the SubModule TabPage
+            [System.Windows.Forms.TabPage]$Global:SubModuleGeneralSettingsTabPage = $ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
+            # Import the Features
+            Import-FeatureFolderSettings -ParentTabControl $ParentTabControl -ParentTabPage $ParentTabPage
+            Import-FeaturePersonalSettings -ParentTabPage $ParentTabPage
+            Import-FeatureHelp -ParentTabPage $ParentTabPage
+        }
+        catch {
+            Write-FullError
+        }
     }
 
     end {
