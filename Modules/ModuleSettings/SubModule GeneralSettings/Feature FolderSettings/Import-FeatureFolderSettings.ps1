@@ -75,51 +75,7 @@ function Import-FeatureFolderSettings {
 
         # Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
-            # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
-            #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:FolderSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.Title -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
 
-            <# Create the ASFSOutputFolderTextBox
-            [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Output -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox'
-            # Add the functions/properties
-            $Global:ASFSOutputFolderTextBox | Add-Member -NotePropertyName DefaultOutputFolder -NotePropertyValue $this.DefaultOutputFolder
-            $Global:ASFSOutputFolderTextBox | ForEach-Object { if (Test-Object -IsEmpty ($_.Text)) { $_.Text = $_.DefaultOutputFolder } }
-            # Add the buttons
-            $Global:ASFSOutputFolderTextBox | Add-Member -NotePropertyName ButtonPropertiesArray -NotePropertyValue @(
-                @{
-                    ColumnNumber    = 1
-                    Text            = 'Browse'
-                    SizeType        = 'Medium'
-                    Function        = { [System.String]$FolderName = Select-Item -Folder ; if ($FolderName) { $Global:ASFSOutputFolderTextBox.Text = $FolderName } }
-                }
-                @{
-                    ColumnNumber    = 2
-                    Text            = 'Copy'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -CopyFromBox $Global:ASFSOutputFolderTextBox }
-                }
-                @{
-                    ColumnNumber    = 3
-                    Text            = 'Paste'
-                    SizeType        = 'Medium'
-                    Function        = { Invoke-ClipBoard -PasteToBox $Global:ASFSOutputFolderTextBox }
-                }
-                @{
-                    ColumnNumber    = 4
-                    Text            = 'Open'
-                    SizeType        = 'Medium'
-                    Function        = { Open-Folder -Path $Global:ASFSOutputFolderTextBox.Text }
-                }
-                @{
-                    ColumnNumber    = 5
-                    Text            = 'Default'
-                    SizeType        = 'Medium'
-                    Function        = {
-                        $Global:ASFSOutputFolderTextBox | ForEach-Object {
-                            if (Get-UserConfirmation -Title 'Reset to default' -Body ('This will reset the output folder to the default value ({0}). Are you sure?' -f $_.DefaultOutputFolder)) { $_.Text = $_.DefaultOutputFolder }
-                        }
-                    }
-                }
-            )#>
 
             # Create the ASFSDSLFolderTextBox
             [System.Windows.Forms.TextBox]$Global:ASFSDSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Output -Label 'Software Library (DSL):' -PropertyName 'ASFSDSLFolderTextBox'

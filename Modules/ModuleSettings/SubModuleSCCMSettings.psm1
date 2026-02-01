@@ -113,7 +113,7 @@ function Import-FeatureSCCMServerSettings {
         [System.String]$DefaultSCCMRepository       = $ApplicationObject.Settings.SCCMRepository
         
         # Set the Default Button Properties Array
-        [System.Object[][]]$SCCMServerSettingsButtonsArray = @( @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default')) )
+        [System.Object[][]]$SCCMServerSettingsButtonsArray = @( (1,'Copy') , (2,'Paste') , (3,'Clear') , (5,'Default') ) 
 
         ####################################################################################################
     }
