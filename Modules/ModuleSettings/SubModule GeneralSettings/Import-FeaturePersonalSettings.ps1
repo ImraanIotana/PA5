@@ -36,18 +36,14 @@ function Import-FeaturePersonalSettings {
             NumberOfRows    = [System.Int32]4
             GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox
         }
-
-        # Default Values for the SCCM Settings
-        #[System.String]$DefaultOutputFolder     = $Global:ApplicationObject.DefaultOutputFolder
-        #[System.String]$DefaultDSLFolder        = $Global:ApplicationObject.Settings.DefaultDSLFolder
         
         # Set the Button Properties Array
-        [System.Object[][]]$ButtonPropertiesArray  = @( (1,'Copy') , (2,'Paste') , (5,'Clear') ) 
+        [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') ) 
 
         ####################################################################################################
 
 
-        # Set the main object
+        <# Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Input
             ParentTabPage           = $ParentTabPage
@@ -59,12 +55,12 @@ function Import-FeaturePersonalSettings {
             AssetFolder             = [System.String](Join-Path -Path $PSScriptRoot -ChildPath 'Assets')
             #PDFManualFileName       = [System.String]'HelpFile Settings.pdf'
             VersionHistoryFileName  = [System.String]'Version History.txt'
-        }
+        }#>
 
         ####################################################################################################
         ### MAIN FUNCTION METHODS ###
 
-        # Add the Process method
+        <# Add the Process method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name Process -Value {
             # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
             [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:PersonalSettingsGroupBox #= Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.GroupBoxTitle -NumberOfRows $this.NumberOfRows -Color $this.Color -GroupBoxAbove $this.GroupBoxAbove -OnSubTab
@@ -128,19 +124,23 @@ function Import-FeaturePersonalSettings {
             # Create the Buttons
             Invoke-ButtonLine -ButtonPropertiesArray $Global:ASPSUserFullNameTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 2 -AssetFolder $this.AssetFolder
             Invoke-ButtonLine -ButtonPropertiesArray $Global:ASPSUserEmailTextBox.ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 4 -AssetFolder $this.AssetFolder
-        }
+        }#>
     } 
     
     process {
-        # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
-        [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove -OnSubTab
+        try {
+            # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
+            [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove -OnSubTab
 
-        # Create the ASPSUserFullNameTextBox
-        [System.Windows.Forms.TextBox]$Global:ASPSUserFullNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Full Name:' -PropertyName 'ASPSUserFullNameTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
+            # Create the ASPSUserFullNameTextBox
+            [System.Windows.Forms.TextBox]$Global:ASPSUserFullNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Full Name:' -PropertyName 'ASPSUserFullNameTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
 
-        # Create the ASPSUserEmailTextBox
-        [System.Windows.Forms.TextBox]$Global:ASPSUserEmailTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'My Email Address:' -PropertyName 'ASPSUserEmailTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
-
+            # Create the ASPSUserEmailTextBox
+            [System.Windows.Forms.TextBox]$Global:ASPSUserEmailTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'My Email Address:' -PropertyName 'ASPSUserEmailTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
+        }
+        catch {
+            Write-FullError
+        }
 
 
         #$Local:MainObject.Process()
