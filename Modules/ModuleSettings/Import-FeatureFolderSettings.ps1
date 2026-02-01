@@ -1,0 +1,73 @@
+﻿####################################################################################################
+<#
+.SYNOPSIS
+    This function imports the feature Folder Settings.
+.DESCRIPTION
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+.EXAMPLE
+    Import-FeatureFolderSettings -ParentTabControl $MyGlobalTabControl -ParentTabPage $MyGlobalTabPage
+.INPUTS
+    [PSCustomObject]
+    [System.Windows.Forms.TabControl]
+    [System.Windows.Forms.TabPage]
+.OUTPUTS
+    This function returns no stream output.
+.NOTES
+    Version         : 5.7.0
+    Author          : Imraan Iotana
+    Creation Date   : October 2023
+    Last Update     : January 2026
+#>
+####################################################################################################
+
+function Import-FeatureFolderSettings {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
+
+        [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl that will be used for the dimensions of the Groupbox and other graphical elements.')]
+        [System.Windows.Forms.TabControl]$ParentTabControl,
+
+        [Parameter(Mandatory=$true,HelpMessage='The Parent object to which this feature will be added.')]
+        [System.Windows.Forms.TabPage]$ParentTabPage
+    )
+
+    begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'Folder Settings'
+            Color           = [System.String]'Brown'
+            NumberOfRows    = [System.Int32]4
+        }
+
+        # Default Values for the SCCM Settings
+        [System.String]$DefaultOutputFolder     = $Global:ApplicationObject.DefaultOutputFolder
+        [System.String]$DefaultDSLFolder        = $Global:ApplicationObject.Settings.DefaultDSLFolder
+        
+        # Set the Button Properties Array
+        [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') ) 
+
+        ####################################################################################################
+    } 
+    
+    process {
+        # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
+        [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
+       
+        # Create the ASSSSiteCodeTextBox
+        [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox' -DefaultValue $DefaultOutputFolder -ButtonPropertiesArray $FolderButtonsArray
+
+        # Create the ASFSDSLFolderTextBox
+        [System.Windows.Forms.TextBox]$Global:ASFSDSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Software Library (DSL):' -PropertyName 'ASFSDSLFolderTextBox' -DefaultValue $DefaultDSLFolder -ButtonPropertiesArray $FolderButtonsArray
+    }
+
+    end {
+    }
+}
+
+### END OF SCRIPT
+####################################################################################################
