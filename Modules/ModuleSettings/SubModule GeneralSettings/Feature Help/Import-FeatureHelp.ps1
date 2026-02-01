@@ -30,6 +30,21 @@ function Import-FeatureHelp {
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # GroupBox properties
+        [PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'Help'
+            Color           = [System.String]'Brown'
+            NumberOfRows    = [System.Int32]1
+            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox
+        }
+        
+        # Set the Button Properties Array
+        [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') )
+
+        ####################################################################################################
         # Set the main object
         [PSCustomObject]$Local:MainObject = @{
             # Input
@@ -57,6 +72,45 @@ function Import-FeatureHelp {
 
         ####################################################################################################
         ### BUTTON METHODS ###
+
+        # Set the GetHelpButtons
+        [System.Collections.Hashtable[]]$ButtonPropertiesArray = 
+            @(
+                @{
+                    ColumnNumber    = 1
+                    Text            = 'Desktop Shortcut'
+                    SizeType        = 'Medium'
+                    Image           = 'Desktop.png'
+                    Function        = { Invoke-NewShortcut -Desktop }
+                }
+                @{
+                    ColumnNumber    = 2
+                    Text            = 'StartMenu Shortcut'
+                    SizeType        = 'Medium'
+                    Image           = 'Menu.png'
+                    Function        = { Invoke-NewShortcut -StartMenu }
+                }
+                @{
+                    ColumnNumber    = 3
+                    Text            = 'Open Logfolder'
+                    SizeType        = 'Medium'
+                    Image           = 'folder_page.png'
+                    Function        = { Open-Folder -Path (Get-SharedAssetPath -LogFolder) }
+                }
+                @{
+                    ColumnNumber    = 4
+                    Text            = 'Reset All'
+                    SizeType        = 'Medium'
+                    Image           = 'arrow_rotate_clockwise.png'
+                    Function        = { Invoke-RegistrySettings -ResetAll }
+                }
+                @{
+                    ColumnNumber    = 5
+                    Text            = 'Version History'
+                    SizeType        = 'Medium'
+                    Function        = { Start-Process -FilePath ((Get-Command -Name notepad).Source) -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
+                }
+            )
 
         # Add the GetHelpButtons method
         Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name GetHelpButtons -Value {
@@ -101,7 +155,13 @@ function Import-FeatureHelp {
     } 
     
     process {
-        $Local:MainObject.Process()
+        # Create the GroupBox
+        [System.Windows.Forms.GroupBox]$ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove -OnSubTab
+        # Create the Buttons
+        Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 1
+
+
+        #$Local:MainObject.Process()
     }
 
     end {
