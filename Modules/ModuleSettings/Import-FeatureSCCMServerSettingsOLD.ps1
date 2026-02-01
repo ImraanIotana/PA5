@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Import-FeatureSCCMServerSettings {
+function Import-FeatureSCCMServerSettingsOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
@@ -39,13 +39,12 @@ function Import-FeatureSCCMServerSettings {
             NumberOfRows    = [System.Int32]6
         }
 
-        # Handlers
-        [System.Collections.Hashtable]$SCCMDefaultValues = @{
-            DefaultSiteCode             = $ApplicationObject.Settings.SCCMDefaultSiteCode
-            DefaultProviderMachineName  = $ApplicationObject.Settings.SCCMDefaultProviderMachineName
-            DefaultSCCMRepository       = $ApplicationObject.Settings.SCCMRepository
-        }
-
+        # Default Values for the SCCM Settings
+        [System.String]$DefaultSiteCode             = $ApplicationObject.Settings.SCCMDefaultSiteCode
+        [System.String]$DefaultProviderMachineName  = $ApplicationObject.Settings.SCCMDefaultProviderMachineName
+        [System.String]$DefaultSCCMRepository       = $ApplicationObject.Settings.SCCMRepository
+        
+        # Set the Default Button Properties Array
         [System.Object[][]]$SCCMServerSettingsButtonsArray = @( @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default')) )
 
         ####################################################################################################
@@ -56,13 +55,13 @@ function Import-FeatureSCCMServerSettings {
         [System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:SCCMSettingsGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
 
         # Create the ASSSSiteCodeTextBox
-        [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox' -DefaultValue $SCCMDefaultValues.DefaultSiteCode -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
+        [System.Windows.Forms.TextBox]$Global:ASSSSiteCodeTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'SCCM SiteCode:' -PropertyName 'ASSSSiteCodeTextBox' -DefaultValue $DefaultSiteCode -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
         
         # Create the ASSSProviderMachineNameTextBox
-        [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $SCCMDefaultValues.DefaultProviderMachineName -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
+        [System.Windows.Forms.TextBox]$Global:ASSSProviderMachineNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Provider Machine Name:' -PropertyName 'ASSSProviderMachineNameTextBox' -DefaultValue $DefaultProviderMachineName -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
 
         # Create the ASSSSCCMRepositoryTextBox
-        [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $SCCMDefaultValues.DefaultSCCMRepository -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
+        [System.Windows.Forms.TextBox]$Global:ASSSSCCMRepositoryTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 5 -SizeType Large -Type Input -Label 'SCCM Repository:' -PropertyName 'ASSSSCCMRepositoryTextBox' -DefaultValue $DefaultSCCMRepository -ButtonPropertiesArray $SCCMServerSettingsButtonsArray
     }
 
     end {
