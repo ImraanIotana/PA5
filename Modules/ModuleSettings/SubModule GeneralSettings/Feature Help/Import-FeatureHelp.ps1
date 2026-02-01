@@ -75,7 +75,8 @@ function Import-FeatureHelp {
                 ColumnNumber    = 5
                 Text            = 'Version History'
                 SizeType        = 'Medium'
-                Function        = { Start-Process -FilePath ((Get-Command -Name notepad).Source) -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
+                Function        = { Start-Process -FilePath write.exe -ArgumentList ("/p",(Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md')) }
+                #Function        = { Start-Process -FilePath ((Get-Command -Name notepad).Source) -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
             }
         )
     } 
