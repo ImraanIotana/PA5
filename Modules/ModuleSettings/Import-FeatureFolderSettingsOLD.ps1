@@ -20,7 +20,7 @@
 #>
 ####################################################################################################
 
-function Import-FeatureFolderSettings {
+function Import-FeatureFolderSettingsOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
