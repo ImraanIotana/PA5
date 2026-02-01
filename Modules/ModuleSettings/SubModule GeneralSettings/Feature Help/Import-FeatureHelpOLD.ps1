@@ -18,7 +18,7 @@
 #>
 ####################################################################################################
 
-function Import-FeatureHelp {
+function Import-FeatureHelpOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]

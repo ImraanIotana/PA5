@@ -19,7 +19,7 @@
 #>
 ####################################################################################################
 
-function Invoke-NewShortcut {
+function Invoke-NewShortcutOLD {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
