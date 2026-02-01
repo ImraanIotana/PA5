@@ -72,7 +72,7 @@ function Import-SubModuleGeneralSettings {
 ####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the feature Folder Settings.
+    This function imports the Feature Folder Settings.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
