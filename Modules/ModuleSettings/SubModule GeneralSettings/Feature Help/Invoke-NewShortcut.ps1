@@ -1,43 +1,56 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function creates a new shorcut for the Packaging Assistant.
+    This function creates a new Shortcut for the Packaging Assistant.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
-    External classes    : -
-    External functions  : Write-FullError, Get-SharedAssetPath, Get-UserConfirmation
-    External variables  : $Global:ApplicationObject
+    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
     Invoke-NewShortcut -Desktop
 .INPUTS
-    [System.String]
+    [PSCustomObject]
+    [System.Management.Automation.SwitchParameter]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.2.5
+    Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : March 2025
-    Last Update     : May 2025
+    Last Update     : January 2026
 #>
 ####################################################################################################
 
 function Invoke-NewShortcut {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the properties.')]
-        [PSCustomObject]
-        $ApplicationObject = $Global:ApplicationObject,
+        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
 
         [Parameter(Mandatory=$true,ParameterSetName='CreateDesktopShortcut',HelpMessage='Switch for creating a Desktop shortcut.')]
-        [System.Management.Automation.SwitchParameter]
-        $Desktop,
+        [System.Management.Automation.SwitchParameter]$Desktop,
 
         [Parameter(Mandatory=$true,ParameterSetName='CreateStartMenuShortcut',HelpMessage='Switch for creating a StartMenu shortcut.')]
-        [System.Management.Automation.SwitchParameter]
-        $StartMenu
+        [System.Management.Automation.SwitchParameter]$StartMenu
     )
 
     begin {
+        ####################################################################################################
+        ### MAIN PROPERTIES ###
+
+        # Function
+        [System.String]$ParameterSetName    = $PSCmdlet.ParameterSetName
+
+        # User Folder Handlers
+        [System.String]$UserDesktopFolder   = $ApplicationObject.UserDesktopFolder
+        [System.String]$UserStartMenuFolder = $ApplicationObject.UserStartMenuFolder
+
+        # Shortcut Handlers
+        [System.String]$PowershellPath      = (Join-Path -Path $ApplicationObject.WindowsFolder -ChildPath 'System32\WindowsPowerShell\v1.0\powershell.exe')
+        [System.String]$ShortcutFileName    = "$($ApplicationObject.Name).lnk"
+        [System.String]$ArgumentPreFix      = '-Executionpolicy Bypass -WindowStyle Normal -File "{0}"'
+        [System.String]$PS1FilePath         = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath 'PackagingAssistant.ps1')
+        [System.String]$IconSourcePath      = (Get-SharedAssetPath -AssetName MainApplicationIcon)
+
+        ####################################################################################################
         ####################################################################################################
         ### MAIN OBJECT ###
 
@@ -141,7 +154,24 @@ function Invoke-NewShortcut {
     } 
     
     process {
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
+
+        # Set the Destination Path based on the ParameterSetName
+        [System.String]$DestinationFolder = switch ($ParameterSetName) {
+            'CreateDesktopShortcut'     { $UserDesktopFolder }
+            'CreateStartMenuShortcut'   { $UserStartMenuFolder }
+        }
+        # Set the Shortcut Full Path
+        [System.String]$ShortcutFullPath = Join-Path -Path $DestinationFolder -ChildPath $ShortcutFileName
+        # Get user confirmation
+        if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut.`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
+        # Copy the icon to LocalAppData
+        [System.String]$IconDestinationFolder = Join-Path -Path $ENV:LocalAppData -ChildPath 'PAicon'
+        New-Item -Path $IconDestinationFolder -ItemType Directory -Force
+        Copy-Item -Path $IconSourcePath -Destination $IconDestinationFolder -Force
+        [System.String]$IconFileName    = (Get-Item -Path $IconSourcePath).Name 
+        [System.String]$LocalIconPath   = (Get-ChildItem -Path $IconDestinationFolder -File | Where-Object { $_.Name -eq $IconFileName }).FullName
+        # Create the shortcut
     }
 
     end {

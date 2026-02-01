@@ -34,12 +34,16 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.0.0275'
+        Version                     = [System.String]'5.7.0.0276'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
         DefaultOutputFolder         = [System.String](Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads')
         DefaultInstallationFolder   = [System.String](Join-Path -Path $ENV:LOCALAPPDATA -ChildPath 'Packaging Assistant')
+        WindowsFolder               = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Windows)
+        UserDesktopFolder           = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::Desktop)
+        UserStartMenuFolder         = [System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::StartMenu)
+        # Work Folder Leaf Names
         WorkFolderLeafNames         = [System.Collections.Hashtable]@{
             MainApplication         = 'MainApplication'
             GraphicFunctions        = 'MainApplication\Graphic Functions'
