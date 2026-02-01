@@ -38,7 +38,8 @@ function Import-FeaturePersonalSettings {
         }
         
         # Set the Button Properties Array
-        [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') ) 
+        #[System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') )
+        [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (3,'Clear') , (5,'Default') ) 
 
         ####################################################################################################
 
