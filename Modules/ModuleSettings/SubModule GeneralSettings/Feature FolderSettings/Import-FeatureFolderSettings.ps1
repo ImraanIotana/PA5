@@ -49,8 +49,8 @@ function Import-FeatureFolderSettings {
         [System.String]$DefaultOutputFolder = $Global:ApplicationObject.DefaultOutputFolder
         [System.String]$DefaultDSLFolder    = $Global:ApplicationObject.Settings.DefaultDSLFolder
         
-        # Set the Default Button Properties Array
-        [System.Object[][]]$SCCMServerSettingsButtonsArray = @( @(@(1,'Copy'),(2,'Paste'),(3,'Clear'),(5,'Default')) )
+        # Set the Button Properties Array
+        [System.Object[][]]$FolderButtonsArray = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') ) 
 
         ####################################################################################################
         ####################################################################################################
@@ -78,7 +78,7 @@ function Import-FeatureFolderSettings {
             # Create the GroupBox (This groupbox must be global to relate to the second groupbox)
             #[System.Windows.Forms.GroupBox]$ParentGroupBox = $Global:FolderSettingsGroupBox = Invoke-Groupbox -ParentTabPage $this.ParentTabPage -Title $this.Title -NumberOfRows $this.NumberOfRows -Color $this.Color -OnSubTab
 
-            # Create the ASFSOutputFolderTextBox
+            <# Create the ASFSOutputFolderTextBox
             [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Output -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox'
             # Add the functions/properties
             $Global:ASFSOutputFolderTextBox | Add-Member -NotePropertyName DefaultOutputFolder -NotePropertyValue $this.DefaultOutputFolder
@@ -119,7 +119,7 @@ function Import-FeatureFolderSettings {
                         }
                     }
                 }
-            )
+            )#>
 
             # Create the ASFSDSLFolderTextBox
             [System.Windows.Forms.TextBox]$Global:ASFSDSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Output -Label 'Software Library (DSL):' -PropertyName 'ASFSDSLFolderTextBox'
@@ -173,7 +173,9 @@ function Import-FeatureFolderSettings {
     process {
         # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
         [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
-        
+       
+        # Create the ASSSSiteCodeTextBox
+        [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox' -DefaultValue $DefaultOutputFolder -ButtonPropertiesArray $FolderButtonsArray 
         
         
         
