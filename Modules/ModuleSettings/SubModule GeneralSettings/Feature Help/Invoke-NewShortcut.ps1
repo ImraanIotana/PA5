@@ -46,9 +46,12 @@ function Invoke-NewShortcut {
         # Shortcut Handlers
         [System.String]$PowershellPath      = (Join-Path -Path $ApplicationObject.WindowsFolder -ChildPath 'System32\WindowsPowerShell\v1.0\powershell.exe')
         [System.String]$ShortcutFileName    = "$($ApplicationObject.Name).lnk"
+        [System.String]$IconSourcePath      = (Get-SharedAssetPath -AssetName MainApplicationIcon)
+
+        # Argument Handlers
         [System.String]$ArgumentPreFix      = '-Executionpolicy Bypass -WindowStyle Normal -File "{0}"'
         [System.String]$PS1FilePath         = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath 'PackagingAssistant.ps1')
-        [System.String]$IconSourcePath      = (Get-SharedAssetPath -AssetName MainApplicationIcon)
+        [System.String]$ShortcutArgument    = ($ArgumentPreFix -f $PS1FilePath)
 
         ####################################################################################################
         ####################################################################################################
@@ -156,22 +159,49 @@ function Invoke-NewShortcut {
     process {
         #$Local:MainObject.Process()
 
-        # Set the Destination Path based on the ParameterSetName
-        [System.String]$DestinationFolder = switch ($ParameterSetName) {
-            'CreateDesktopShortcut'     { $UserDesktopFolder }
-            'CreateStartMenuShortcut'   { $UserStartMenuFolder }
+        try {
+            # PROPERTIES
+            # Set the Destination Path based on the ParameterSetName
+            [System.String]$DestinationFolder = switch ($ParameterSetName) {
+                'CreateDesktopShortcut'     { $UserDesktopFolder }
+                'CreateStartMenuShortcut'   { $UserStartMenuFolder }
+            }
+            # Set the Shortcut Full Path
+            [System.String]$ShortcutFullPath = Join-Path -Path $DestinationFolder -ChildPath $ShortcutFileName
+
+            # CONFIRMATION
+            # Get user confirmation
+            if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut.`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
+
+            # ICON
+            # Copy the icon to LocalAppData
+            [System.String]$IconDestinationFolder = Join-Path -Path $ENV:LocalAppData -ChildPath 'PAicon'
+            New-Item -Path $IconDestinationFolder -ItemType Directory -Force
+            Copy-Item -Path $IconSourcePath -Destination $IconDestinationFolder -Force
+            [System.String]$IconFileName    = (Get-Item -Path $IconSourcePath).Name 
+            [System.String]$LocalIconPath   = (Get-ChildItem -Path $IconDestinationFolder -File | Where-Object { $_.Name -eq $IconFileName }).FullName
+
+            # SHORTCUT CREATION
+            # Create the shortcut
+            Write-Line "Creating the shortcut ($ShortcutFullPath)..."
+            # Create a WScript object
+            [System.__ComObject]$WScriptShellObject     = New-Object -ComObject WScript.Shell
+            # Create a new WScript shortcut object
+            [System.__ComObject]$WScriptShortcutObject  = $WScriptShellObject.CreateShortcut($ShortcutFullPath)
+            # Add the targetpath
+            $WScriptShortcutObject.TargetPath           = $PowershellPath
+            # Add the argument
+            $WScriptShortcutObject.Arguments            = $ShortcutArgument
+            # Add the icon
+            $WScriptShortcutObject.IconLocation         = $LocalIconPath
+            # Save the new shortcut object
+            $WScriptShortcutObject.Save()
+            # Write the message
+            Write-Line "Succesfully created the shortcut ($ShortcutFullPath)..."
         }
-        # Set the Shortcut Full Path
-        [System.String]$ShortcutFullPath = Join-Path -Path $DestinationFolder -ChildPath $ShortcutFileName
-        # Get user confirmation
-        if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut.`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
-        # Copy the icon to LocalAppData
-        [System.String]$IconDestinationFolder = Join-Path -Path $ENV:LocalAppData -ChildPath 'PAicon'
-        New-Item -Path $IconDestinationFolder -ItemType Directory -Force
-        Copy-Item -Path $IconSourcePath -Destination $IconDestinationFolder -Force
-        [System.String]$IconFileName    = (Get-Item -Path $IconSourcePath).Name 
-        [System.String]$LocalIconPath   = (Get-ChildItem -Path $IconDestinationFolder -File | Where-Object { $_.Name -eq $IconFileName }).FullName
-        # Create the shortcut
+        catch {
+            Write-FullError
+        }
     }
 
     end {
