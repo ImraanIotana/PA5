@@ -1,7 +1,7 @@
 ﻿####################################################################################################
 <#
 .SYNOPSIS
-    This function opens a folder (after basic validation).
+    This function opens a folder in File Explorer, optionally highlighting a specific item.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains functions or variables, that are in other files.
 .EXAMPLE
@@ -26,14 +26,12 @@ function Open-Folder {
         [Parameter(Mandatory=$true,ParameterSetName='OpenTheFolder',HelpMessage='The path of the folder that will be opened.')]
         [Alias('Folder')]
         [AllowEmptyString()]
-        [System.String]
-        $Path,
+        [System.String]$Path,
 
         [Parameter(Mandatory=$true,ParameterSetName='HighlightTheItem',HelpMessage='The item that will be highlighted when the folder is opened.')]
         [Alias('Highlight','Select','SelectItem')]
         [AllowEmptyString()]
-        [System.String]
-        $HighlightItem
+        [System.String]$HighlightItem
     )
     
     begin {
@@ -42,7 +40,14 @@ function Open-Folder {
 
         # Function
         [System.String]$ParameterSetName    = [System.String]$PSCmdlet.ParameterSetName
-         
+        
+        <# Set the Item to handle based on the Parameter Set
+        [System.String]$ItemToHandle        = switch ($ParameterSetName) {
+            'OpenTheFolder'    { $Path }
+            'HighlightTheItem' { $HighlightItem }
+        }#>
+
+
         # Input
         [System.String]$FolderToOpen        = $Path
         [System.String]$ItemToHighlight     = $HighlightItem
