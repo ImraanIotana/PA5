@@ -175,14 +175,17 @@ function Import-FeatureFolderSettings {
         [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
        
         # Create the ASSSSiteCodeTextBox
-        [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox' -DefaultValue $DefaultOutputFolder -ButtonPropertiesArray $FolderButtonsArray 
+        [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox' -DefaultValue $DefaultOutputFolder -ButtonPropertiesArray $FolderButtonsArray
+
+        # Create the ASFSDSLFolderTextBox
+        [System.Windows.Forms.TextBox]$Global:ASFSDSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Software Library (DSL):' -PropertyName 'ASFSDSLFolderTextBox' -DefaultValue $DefaultDSLFolder -ButtonPropertiesArray $FolderButtonsArray
         
         
         
         
         
         
-        $Local:MainObject.Process()
+        #$Local:MainObject.Process()
     }
 
     end {
