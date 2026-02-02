@@ -45,7 +45,7 @@ class ModuleHandler {
 
     # Add the WriteImportMessage
     [void]WriteImportMessage(){
-        Write-Host "ModuleHandler: Importing Module $($this.TabTitle) $($this.ModuleVersion)" -ForegroundColor Green
+        Write-Line "ModuleHandler: Importing Module $($this.TabTitle) $($this.ModuleVersion)"
     }
 
     ####################################################################################################
