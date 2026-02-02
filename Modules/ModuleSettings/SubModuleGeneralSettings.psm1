@@ -76,7 +76,7 @@ function Import-SubModuleGeneralSettings {
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-FeatureFolderSettings -ParentTabControl $MyGlobalTabControl -ParentTabPage $MyGlobalTabPage
+    Import-FeatureFolderSettings -ParentTabPage $MyGlobalTabPage
 .INPUTS
     [PSCustomObject]
     [System.Windows.Forms.TabControl]
@@ -87,7 +87,7 @@ function Import-SubModuleGeneralSettings {
     Version         : 5.7.0
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : January 2026
+    Last Update     : February 2026
 #>
 ####################################################################################################
 
