@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.010'
+        Version                     = [System.String]'5.7.1.011'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -46,7 +46,6 @@ begin {
         # Work Folder Leaf Names
         WorkFolderLeafNames         = [System.Collections.Hashtable]@{
             MainApplication         = 'MainApplication'
-            #GraphicFunctions        = 'MainApplication\Graphic Functions'
             SharedFunctions         = 'MainApplication\Shared Functions'
             SharedModules           = 'MainApplication\Shared Modules'
             SharedAssets            = 'MainApplication\Shared Assets'
