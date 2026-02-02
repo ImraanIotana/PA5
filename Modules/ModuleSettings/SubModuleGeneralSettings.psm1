@@ -52,7 +52,8 @@ function Import-SubModuleGeneralSettings {
             # Create the SubModule TabPage
             [System.Windows.Forms.TabPage]$Global:SubModuleGeneralSettingsTabPage = $ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
             # Import the Features
-            Import-FeatureFolderSettings -ParentTabControl $ParentTabControl -ParentTabPage $ParentTabPage
+            Import-FeatureFolderSettings -ParentTabPage $ParentTabPage
+            #Import-FeatureFolderSettings -ParentTabControl $ParentTabControl -ParentTabPage $ParentTabPage
             Import-FeaturePersonalSettings -ParentTabPage $ParentTabPage
             Import-FeatureHelp -ParentTabPage $ParentTabPage
         }
@@ -84,7 +85,7 @@ function Import-SubModuleGeneralSettings {
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.0
+    Version         : 5.7.0.0282
     Author          : Imraan Iotana
     Creation Date   : October 2023
     Last Update     : February 2026
