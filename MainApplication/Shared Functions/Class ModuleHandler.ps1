@@ -19,6 +19,9 @@
 ####################################################################################################
 
 class ModuleHandler {
+    # INPUT PROPERTIES
+    ####################################################################################################
+    [System.Windows.Forms.TabControl]$ParentTabControl
     [System.String]$TabTitle
     [System.String]$ModuleVersion
     [System.String]$BackGroundColor
@@ -26,13 +29,15 @@ class ModuleHandler {
     # INITIALIZATION
     ####################################################################################################
     ModuleHandler(
+        [System.Windows.Forms.TabControl]$ParentTabControl,
         [System.String]$TabTitle,
         [System.String]$ModuleVersion,
         [System.String]$BackGroundColor
     ){
-        $this.TabTitle        = $TabTitle
-        $this.ModuleVersion   = $ModuleVersion
-        $this.BackGroundColor = $BackGroundColor
+        $this.ParentTabControl  = $ParentTabControl
+        $this.TabTitle          = $TabTitle
+        $this.ModuleVersion     = $ModuleVersion
+        $this.BackGroundColor   = $BackGroundColor
     }
 
 
@@ -43,9 +48,16 @@ class ModuleHandler {
     # PUBLIC METHODS
     ####################################################################################################
 
-    # Add the WriteImportMessage
+    # Add the WriteImportMessage method
     [void]WriteImportMessage(){
-        Write-Line "ModuleHandler: Importing Module $($this.TabTitle) $($this.ModuleVersion)"
+        Write-Line "Importing Module $($this.TabTitle) $($this.ModuleVersion)"
+    }
+
+    # Add the CreateModuleTabPage method
+    [System.Windows.Forms.TabPage]CreateModuleTabPage(){
+        # Create the Module TabPage
+        [System.Windows.Forms.TabPage]$ModuleTabPage = New-TabPage -Parent $this.ParentTabControl -Title $this.TabTitle -BackGroundColor $this.BackGroundColor
+        return $ModuleTabPage
     }
 
     ####################################################################################################
