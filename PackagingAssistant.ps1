@@ -16,7 +16,7 @@
     Version         : See below at line 37: Version = [System.String]'x.y'
     Author          : Imraan Iotana
     Creation Date   : May 2023
-    Last Update     : January 2026
+    Last Update     : February 2026
 .COPYRIGHT
     Copyright (C) Iotana. All rights reserved.
 #>
@@ -34,7 +34,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.009'
+        Version                     = [System.String]'5.7.1.010'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -46,7 +46,7 @@ begin {
         # Work Folder Leaf Names
         WorkFolderLeafNames         = [System.Collections.Hashtable]@{
             MainApplication         = 'MainApplication'
-            GraphicFunctions        = 'MainApplication\Graphic Functions'
+            #GraphicFunctions        = 'MainApplication\Graphic Functions'
             SharedFunctions         = 'MainApplication\Shared Functions'
             SharedModules           = 'MainApplication\Shared Modules'
             SharedAssets            = 'MainApplication\Shared Assets'
@@ -151,7 +151,7 @@ process {
 
     # LOADING AND UNBLOCKING FILES
     # Set the full paths to search
-    [System.String[]]$FullPathsToSearch = @('GraphicFunctions','SharedFunctions','SharedModules','Modules') | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
+    [System.String[]]$FullPathsToSearch = @('SharedFunctions','SharedModules','Modules') | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
     # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
     # Set the properties for progress
