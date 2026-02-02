@@ -18,10 +18,10 @@
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.7.0
+    Version         : 5.7.0.0283
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : January 2026
+    Last Update     : February 2026
 #>
 ####################################################################################################
 
@@ -50,10 +50,9 @@ function Import-SubModuleGeneralSettings {
             # Write the message
             Write-Line "Importing SubModule $TabTitle $ModuleVersion"
             # Create the SubModule TabPage
-            [System.Windows.Forms.TabPage]$Global:SubModuleGeneralSettingsTabPage = $ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
+            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor $BackGroundColor
             # Import the Features
             Import-FeatureFolderSettings -ParentTabPage $ParentTabPage
-            #Import-FeatureFolderSettings -ParentTabControl $ParentTabControl -ParentTabPage $ParentTabPage
             Import-FeaturePersonalSettings -ParentTabPage $ParentTabPage
             Import-FeatureHelp -ParentTabPage $ParentTabPage
         }
