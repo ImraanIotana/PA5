@@ -75,6 +75,7 @@ function Update-ScriptInWorkFolder {
     
     process {
         try {
+            # VALIDATION
             # Validate the input
             if (-Not(Confirm-Object -MandatoryString $ApplicationID)) { Write-Message -ValidationFailed ; Return }
             # Ask confirmation
@@ -82,14 +83,15 @@ function Update-ScriptInWorkFolder {
                 [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Confirm update script' -Body ("This will UPDATE the SCRIPT in the WORK folder for the application:`n`n{0}`n`nDo you want to continue?" -f $ApplicationID)
                 if (-Not($UserHasConfirmed)) { Return }
             }
-            # Get the properties
+            # Set the paths
             [System.String]$WorkFolder = Get-Path -ApplicationID $ApplicationID -SubFolder WorkFolder
             [System.String]$DestinationFolder = Join-Path -Path $WorkFolder -ChildPath $ApplicationID
             # Validate the paths
-            [System.Collections.Generic.List[System.Boolean]]$ValidationArrayList = @()
-            $FolderToCopy,$WorkFolder,$DestinationFolder | ForEach-Object { $ValidationArrayList.Add((Confirm-Object -MandatoryPath $_)) }
-            #if (-Not(Confirm-Object -MandatoryPath $_)) { Write-Fail ('A mandatory folder could not be found: ({0})' -f $_) ; Return }
-            if ($ValidationArrayList -contains $false) { Write-Fail ('A mandatory folder could not be found.') ; Write-NoAction ; Return }
+            if (-not (Test-Path -Path $FolderToCopy)) { Write-Fail "The Script Source Folder could not be found: ($FolderToCopy)'" ; Write-NoAction ; Return }
+            if (-not (Test-Path -Path $WorkFolder)) { Write-Fail "The Work Folder could not be found: ($WorkFolder)'" ; Write-NoAction ; Return }
+            if (-not (Test-Path -Path $DestinationFolder)) { Write-Fail "The Application Folder could not be found in the Work Folder: ($DestinationFolder)'" ; Write-NoAction ; Return }
+
+
             # Test if the folder is already present in the WORKfolder
             [System.String]$ExistingFolder = Join-Path -Path $DestinationFolder -ChildPath 'Deploy-ApplicationSupport'
             if (Test-Path -Path $ExistingFolder) {
