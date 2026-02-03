@@ -83,7 +83,7 @@ function Copy-WithGUI {
                 Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?"
             }
             # If the folder should not be overwritten, then exit
-            if (-Not($ShouldOverwrite)) { Write-Line "The Destination has not be overwritten. ($UltimateFolderPath)" -Type Success ;  Return }
+            if (-not $ShouldOverwrite) { Write-Line "The Destination has not be overwritten. ($UltimateFolderPath)" -Type Success ;  Return }
             # Remove the Destination
             Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
             # Write the message
@@ -99,7 +99,7 @@ function Copy-WithGUI {
         if (-not $SourceObject) { Write-Line "The Source folder is empty, or cannot be accessed. ($FolderToCopy)" -Type Fail ; Return }
         # Create and validate the Destination Object
         [System.__ComObject]$DestinationObject  = $ShellObject.Namespace($FolderToCopyInto)
-        if (-not $DestinationObject) { Write-Line "The Destination folder is empty, or cannot be accessed. ($FolderToCopyInto)" -Type Fail ; Return }
+        if (-not $DestinationObject) { Write-Line "The Destination folder cannot be accessed. ($FolderToCopyInto)" -Type Fail ; Return }
 
 
         # EXECUTION
