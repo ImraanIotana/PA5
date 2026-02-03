@@ -81,7 +81,7 @@ function Copy-PackageToOutputFolder {
         # EXECUTION - COPY
         # Copy the folder
         try {
-            Copy-WithGUI -ThisFolder $FolderToCopy -IntoThisFolder $FolderToCopyInto -OutHost    
+            Copy-WithGUI -ThisFolder $FolderToCopy -IntoThisFolder $FolderToCopyInto    
         }
         catch {
             Write-FullError

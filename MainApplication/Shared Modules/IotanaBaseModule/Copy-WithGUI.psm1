@@ -40,9 +40,6 @@ function Copy-WithGUI {
         [Parameter(Mandatory=$false,HelpMessage='Switch for moving instead of copying.')]
         [System.Management.Automation.SwitchParameter]$Move,
 
-        [Parameter(Mandatory=$false,HelpMessage='Switch for writing to the host.')]
-        [System.Management.Automation.SwitchParameter]$OutHost,
-
         [Parameter(Mandatory=$false,HelpMessage='Switch for opening the destination folder.')]
         [System.Management.Automation.SwitchParameter]$OpenFolder
     )
@@ -61,9 +58,9 @@ function Copy-WithGUI {
     process {
         # VALIDATION
         # Validate the FolderToCopy
-        if (-Not(Test-Path -Path $FolderToCopy)) { Write-Line "The Source folder can not be found. ($FolderToCopy)" -Type Fail ; Return }
+        if (-not(Test-Path -Path $FolderToCopy)) { Write-Line "The Source folder cannot be found. ($FolderToCopy)" -Type Fail ; Return }
         # Validate the FolderToCopyInto
-        if (-Not(Test-Path -Path $FolderToCopyInto)) { Write-Line "The Destinationfolder can not be found. ($FolderToCopyInto)" -Type Fail ; Return }
+        if (-not(Test-Path -Path $FolderToCopyInto)) { Write-Line "The Destinationfolder cannot be found. ($FolderToCopyInto)" -Type Fail ; Return }
 
 
 
@@ -73,20 +70,21 @@ function Copy-WithGUI {
         # If the Destination already exists
         if (Test-Path -Path $UltimateFolderPath) {
             # Write the message
-            if ($OutHost) { Write-Line "The Destination already exists. ($UltimateFolderPath)" -Type Busy }
-            
+            Write-Line "The Destination already exists. ($UltimateFolderPath)" -Type Busy
             # Check if the folder should be overwritten
-            $ShouldOverwrite = $Overwrite.IsPresent -or (Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?")
-            
-            # If the folder should not be overwritten, then exit
-            if (-not $ShouldOverwrite) {
-                if ($OutHost) { Write-Line "The Destination will not be overwritten." }
-                return
+            [System.Boolean]$ShouldOverwrite = if ($Overwrite.IsPresent) {
+                $true
+            } else {
+                Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?"
             }
-            
+            # If the folder should not be overwritten, then exit
+            if (-Not($ShouldOverwrite)) { Write-Line "The Destination will not be overwritten." ;  Return }
+            # Write the message
+            if ($Overwrite.IsPresent) { Write-Line "The Overwrite switch is present. The Destination will be overwritten." }
             # Remove the Destination
             Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
-            if ($OutHost) { Write-Line "The existing Destination has been removed. ($UltimateFolderPath)" -Type Success }
+            # Write the message
+            Write-Line "The existing Destination has been removed. ($UltimateFolderPath)" -Type Success
         }
 
 
@@ -100,9 +98,9 @@ function Copy-WithGUI {
         # EXECUTION
         try {
             # Copy the folder
-            if ($OutHost) { Write-Line "Copying the folder ($FolderToCopy) into the folder ($FolderToCopyInto)..." -Type Busy }
+            Write-Line "Copying the folder ($FolderToCopy) into the folder ($FolderToCopyInto)..." -Type Busy
             $DestinationObject.CopyHere($SourceObject,16)
-            if ($OutHost) { Write-Line "The folder has been copied. ($FolderToCopy)" -Type Success }
+            Write-Line "The folder has been copied. ($FolderToCopy)" -Type Success
             # Open the folder
             if ($OpenFolder) { Open-Folder -HighlightItem $UltimateFolderPath }
         }

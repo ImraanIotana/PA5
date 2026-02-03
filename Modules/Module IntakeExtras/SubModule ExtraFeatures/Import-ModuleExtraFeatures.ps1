@@ -44,6 +44,7 @@ function Import-ModuleExtraFeatures {
         # Import the Features
         Import-FeatureExtraFeatures -ParentTabPage $ParentTabPage
         Import-FeatureINNOSetup -ParentTabPage $ParentTabPage
+        Import-FeatureFolderCopy -ParentTabPage $ParentTabPage
     }
 
     end {
