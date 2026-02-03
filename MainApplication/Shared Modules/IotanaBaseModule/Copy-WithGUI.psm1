@@ -44,99 +44,100 @@ function Copy-WithGUI {
         [System.Management.Automation.SwitchParameter]$OpenFolder
     )
 
-    begin {
-        ####################################################################################################
-        ### MAIN PROPERTIES ###
+    ####################################################################################################
+    ### MAIN PROPERTIES ###
 
-        # Input
-        [System.String]$FolderToCopy        = $ThisFolder
-        [System.String]$FolderToCopyInto    = $IntoThisFolder
+    # Input
+    [System.String]$FolderToCopy        = $ThisFolder
+    [System.String]$FolderToCopyInto    = $IntoThisFolder
 
-        ####################################################################################################
-    }
-    
-    process {
-        # VALIDATION
-        # Validate the FolderToCopy
-        if (-not(Test-Path -Path $FolderToCopy)) { Write-Line "The Source folder cannot be found. ($FolderToCopy)" -Type Fail ; Return }
-        # Validate the FolderToCopyInto
-        if (-not(Test-Path -Path $FolderToCopyInto)) { Write-Line "The Destinationfolder cannot be found. ($FolderToCopyInto)" -Type Fail ; Return }
+    ####################################################################################################
 
-        # GENERAL CONFIRMATION
-        # Set the verb
-        [System.String]$Verb = if ($Move.IsPresent) { 'MOVE' } else { 'COPY' }
-        if ($Overwrite.IsPresent) { $Verb += ' (AND OVERWRITE)' }
-        # Ask for confirmation to proceed
-        if (-not(Get-UserConfirmation -Title "CONFIRM $Verb" -Body "This will $Verb the Folder:`n`n$FolderToCopy`n`ninto the Folder:`n`n$FolderToCopyInto`n`nAre you sure?")) { Return }
+    # VALIDATION
+    # Validate the FolderToCopy
+    if (-not(Test-Path -Path $FolderToCopy)) { Write-Line "The Source folder cannot be found. ($FolderToCopy)" -Type Fail ; Return }
+    # Validate the FolderToCopyInto
+    if (-not(Test-Path -Path $FolderToCopyInto)) { Write-Line "The Destinationfolder cannot be found. ($FolderToCopyInto)" -Type Fail ; Return }
+
+    # GENERAL CONFIRMATION
+    # Set the verb
+    [System.String]$Verb = if ($Move.IsPresent) { 'MOVE' } else { 'COPY' }
+    if ($Overwrite.IsPresent) { $Verb += ' (AND OVERWRITE)' }
+    # Ask for confirmation to proceed
+    if (-not(Get-UserConfirmation -Title "CONFIRM $Verb" -Body "This will $Verb the Folder:`n`n$FolderToCopy`n`ninto the Folder:`n`n$FolderToCopyInto`n`nAre you sure?")) { Return }
 
 
-        # OVERWRITE CONFIRMATION
-        # Set the Destination
-        [System.String]$UltimateFolderPath = Join-Path -Path $FolderToCopyInto -ChildPath (Split-Path -Path $FolderToCopy -Leaf)
-        # If the Destination already exists
-        if (Test-Path -Path $UltimateFolderPath) {
-            # Write the message
-            Write-Line "The Destination already exists. ($UltimateFolderPath)" -Type Busy
-            # Check if the folder should be overwritten
-            [System.Boolean]$ShouldOverwrite = if ($Overwrite.IsPresent) {
-                $true
-            } else {
-                Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?"
-            }
-            # If the folder should not be overwritten, then exit
-            if (-Not($ShouldOverwrite)) { Write-Line "The Destination has not be overwritten. ($UltimateFolderPath)" ;  Return }
-            # Write the message
-            if ($Overwrite.IsPresent) { Write-Line "The Overwrite switch is present. The Destination will be overwritten." }
-            # Remove the Destination
-            Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
-            # Write the message
-            Write-Line "The existing Destination has been removed. ($UltimateFolderPath)" -Type Success
+    # OVERWRITE CONFIRMATION
+    # Set the Destination
+    [System.String]$UltimateFolderPath = Join-Path -Path $FolderToCopyInto -ChildPath (Split-Path -Path $FolderToCopy -Leaf)
+    # If the Destination already exists
+    if (Test-Path -Path $UltimateFolderPath) {
+        # Write the message
+        Write-Line "The Destination already exists. ($UltimateFolderPath)" -Type Busy
+        # Check if the folder should be overwritten
+        [System.Boolean]$ShouldOverwrite = if ($Overwrite.IsPresent) {
+            $true
+        } else {
+            Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?"
         }
-
-
-        # PREPARATION
-        # Create the Shell Object
-        [System.__ComObject]$ShellObject        = New-Object -ComObject Shell.Application
-        [System.__ComObject]$SourceObject       = $ShellObject.Namespace($FolderToCopy)
-        [System.__ComObject]$DestinationObject  = $ShellObject.Namespace($FolderToCopyInto)
-
-
-        # EXECUTION
-        try {
-            # Set the Action Verb
-            [System.String]$ActionVerb = if ($Move.IsPresent) { 'Moving' } else { 'Copying' }
-            # Set the Completion Verb
-            [System.String]$CompletionVerb = if ($Move.IsPresent) { 'moved' } else { 'copied' }
-            # Write the Action Message
-            Write-Line "$ActionVerb the folder ($FolderToCopy) into the folder ($FolderToCopyInto)..." -Type Busy
-            # Perform the Action
-            if ($Move.IsPresent) {
-                # Move the folder
-                $DestinationObject.MoveHere($SourceObject,16)
-            } else {
-                # Copy the folder
-                $DestinationObject.CopyHere($SourceObject,16)
-            }
-            # Write the Completion Message
-            Write-Line "The folder has been $CompletionVerb. ($FolderToCopyInto)" -Type Success
-            # Open the folder
-            if ($OpenFolder) { Open-Folder -HighlightItem $UltimateFolderPath }
-        }
-        catch {
-            Write-FullError
-        }
-
-
-        # CLEANUP
-        # Cleanup the Shell Object
-        [System.Runtime.InteropServices.Marshal]::ReleaseComObject($ShellObject) | Out-Null
-        Remove-Variable -Name ShellObject
-
-        ####################################################################################################
+        # If the folder should not be overwritten, then exit
+        if (-Not($ShouldOverwrite)) { Write-Line "The Destination has not be overwritten. ($UltimateFolderPath)" -Type Success ;  Return }
+        # Remove the Destination
+        Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
+        # Write the message
+        Write-Line "The existing Destination has been removed. ($UltimateFolderPath)" -Type Success
     }
-    
-    end {
+
+
+    # PREPARATION
+    # Create the Shell Object
+    [System.__ComObject]$ShellObject        = New-Object -ComObject Shell.Application
+    # Create and validate the Source Object
+    [System.__ComObject]$SourceObject       = $ShellObject.Namespace($FolderToCopy)
+    if (-not $SourceObject) { Write-Line "The Source folder is empty, or cannot be accessed. ($FolderToCopy)" -Type Fail ; Return }
+    # Create and validate the Destination Object
+    [System.__ComObject]$DestinationObject  = $ShellObject.Namespace($FolderToCopyInto)
+    if (-not $DestinationObject) { Write-Line "The Destination folder is empty, or cannot be accessed. ($FolderToCopyInto)" -Type Fail ; Return }
+
+
+    # EXECUTION
+    try {
+        # Set the Action Verb
+        [System.String]$ActionVerb = if ($Move.IsPresent) { 'Moving' } else { 'Copying' }
+        # Set the Completion Verb
+        [System.String]$CompletionVerb = if ($Move.IsPresent) { 'moved' } else { 'copied' }
+        # Write the Action Message
+        Write-Line "$ActionVerb the folder ($FolderToCopy) into the folder ($FolderToCopyInto)..." -Type Busy
+        # Perform the Action
+        if ($Move.IsPresent) {
+            # Move the folder
+            $DestinationObject.MoveHere($SourceObject,16)
+        } else {
+            # Copy the folder
+            $DestinationObject.CopyHere($SourceObject,16)
+        }
+        # Write the Completion Message
+        Write-Line "The folder has been $CompletionVerb. ($FolderToCopyInto)" -Type Success
+        # Open the folder
+        if ($OpenFolder) { Open-Folder -HighlightItem $UltimateFolderPath }
     }
+    catch {
+        Write-FullError
+    }
+
+
+    # CLEANUP
+    # Cleanup the Objects
+    foreach ($varName in 'SourceObject','DestinationObject','ShellObject') {
+    $obj = Get-Variable -Name $varName -ValueOnly -ErrorAction SilentlyContinue
+    if ($obj) {
+        [System.Runtime.InteropServices.Marshal]::ReleaseComObject($obj) | Out-Null
+        Remove-Variable -Name $varName -ErrorAction SilentlyContinue
+    }
+}
+
+
+    ####################################################################################################
 }
 
 ### END OF SCRIPT

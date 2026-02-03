@@ -5,16 +5,16 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains functions or variables, that are in other files.
 .EXAMPLE
-    Import-FeatureINNOSetup
+    Import-FeatureFolderCopy -ParentTabPage $MyTabPage
 .INPUTS
     [System.Windows.Forms.TabPage]
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 4.8
+    Version         : 5.7.1
     Author          : Imraan Iotana
-    Creation Date   : June 2024
-    Last Updated    : September 2024
+    Creation Date   : February 2026
+    Last Update     : February 2026
 #>
 ####################################################################################################
 
@@ -38,7 +38,7 @@ function Import-FeatureFolderCopy {
         }
 
         # Set the Button Properties Array
-        [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Clear') ) 
+        [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (5,'Clear') ) 
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
