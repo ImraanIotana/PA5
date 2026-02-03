@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.019'
+        Version                     = [System.String]'5.7.1.020'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -219,7 +219,9 @@ process {
 
         # Stop the stopwatch and write the elapsed time
         $Global:AppStopwatch.Stop()
-        Write-Line "Loading time: $($Global:AppStopwatch.Elapsed.TotalSeconds) seconds"
+        #$Seconds = $Global:AppStopwatch.Elapsed.TotalSeconds
+        $RoundedSeconds = ($Global:AppStopwatch.Elapsed.TotalSeconds).ToString("F2")
+        Write-Line "Loading time: $RoundedSeconds seconds"
 
         # Write the welcome message
         Write-WelcomeMessage
