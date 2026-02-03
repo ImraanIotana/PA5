@@ -22,22 +22,18 @@ function Import-FeatureFolderCopy {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]
-        [System.Windows.Forms.TabPage]
-        $ParentTabPage
+        [System.Windows.Forms.TabPage]$ParentTabPage
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Function
-        [System.String[]]$FunctionDetails   = @($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
-
         # GroupBox properties
         [PSCustomObject]$GroupBox   = @{
             Title                   = [System.String]'Folder Copy and Move'
             Color                   = [System.String]'Cyan'
-            NumberOfRows            = [System.Int32]4
+            NumberOfRows            = [System.Int32]6
             GroupBoxAbove           = $Global:InnoSetupGroupbox
         }
 
@@ -51,7 +47,7 @@ function Import-FeatureFolderCopy {
                 TextColor       = 'LightCyan'
                 Image           = 'folders_explorer.png'
                 SizeType        = 'Medium'
-                Function        = { [System.String]$File = Select-Item -File ; if ($File) { $Global:InnoSetupFileTextBox.Text = $File } }
+                Function        = { }
             }
             @{
                 ColumnNumber    = 2
@@ -59,42 +55,37 @@ function Import-FeatureFolderCopy {
                 TextColor       = 'LightCyan'
                 Image           = 'page_paste.png'
                 SizeType        = 'Medium'
-                Function        = { Invoke-ClipBoard -PasteToBox $Global:InnoSetupFileTextBox }
+                Function        = { }
             }
         )
 
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
-                ColumnNumber    = 5
-                Text            = 'Create INF file'
+                ColumnNumber    = 1
+                Text            = 'Copy Folder'
                 Image           = 'cd.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Create an INF file by running the executable'
-                Function        = { New-INNOConfigurationFile -Path $Global:InnoSetupFileTextBox.Text }
+                Function        = { }
             }
         )
 
         ####################################################################################################
-
-        # Write the begin message
-        Write-Function -Begin $FunctionDetails
     } 
     
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:InnoSetupGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the FolderToCopyTextBox
-        [System.Windows.Forms.TextBox]$Global:FolderToCopyTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Input -Label 'Folder to Copy:' -PropertyName 'FolderToCopyTextBox'
+        [System.Windows.Forms.TextBox]$Global:FolderToCopyTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'Folder to Copy:' -PropertyName 'FolderToCopyTextBox'
         # Create the FolderToCopyIntoTextBox
-        [System.Windows.Forms.TextBox]$Global:FolderToCopyIntoTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Medium -Type Input -Label 'Folder to Copy Into:' -PropertyName 'FolderToCopyIntoTextBox'
+        [System.Windows.Forms.TextBox]$Global:FolderToCopyIntoTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Folder to Copy Into:' -PropertyName 'FolderToCopyIntoTextBox'
         Invoke-ButtonLine -ButtonPropertiesArray $InnoSetupFileTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         # Create the action button
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 5
     }
 
     end {
-        # Write the end message
-        Write-Function -End $FunctionDetails
     }
 }
 
