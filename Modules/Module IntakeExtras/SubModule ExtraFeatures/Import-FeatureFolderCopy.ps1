@@ -3,7 +3,7 @@
 .SYNOPSIS
     This Feature creates copies a folder with the Windows GUI.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions or variables, that are in other files.
 .EXAMPLE
     Import-FeatureINNOSetup
 .INPUTS
@@ -35,9 +35,9 @@ function Import-FeatureFolderCopy {
 
         # GroupBox properties
         [PSCustomObject]$GroupBox   = @{
-            Title                   = [System.String]'Create INNO Inf file'
+            Title                   = [System.String]'Folder Copy and Move'
             Color                   = [System.String]'Cyan'
-            NumberOfRows            = [System.Int32]2
+            NumberOfRows            = [System.Int32]4
             GroupBoxAbove           = $Global:InnoSetupGroupbox
         }
 
@@ -83,8 +83,10 @@ function Import-FeatureFolderCopy {
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:InnoSetupGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
-        # Create the InnoSetupFileTextBox
-        [System.Windows.Forms.TextBox]$Global:InnoSetupFileTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Input -Label 'Select Setup file:' -PropertyName 'InnoSetupFileTextBox'
+        # Create the FolderToCopyTextBox
+        [System.Windows.Forms.TextBox]$Global:FolderToCopyTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Input -Label 'Folder to Copy:' -PropertyName 'FolderToCopyTextBox'
+        # Create the FolderToCopyIntoTextBox
+        [System.Windows.Forms.TextBox]$Global:FolderToCopyIntoTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Medium -Type Input -Label 'Folder to Copy Into:' -PropertyName 'FolderToCopyIntoTextBox'
         Invoke-ButtonLine -ButtonPropertiesArray $InnoSetupFileTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         # Create the action button
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
