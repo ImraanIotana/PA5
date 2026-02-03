@@ -16,7 +16,7 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.1.014
+    Version         : 5.7.1.023
     Author          : Imraan Iotana
     Creation Date   : December 2025
     Last Update     : February 2026
@@ -62,9 +62,14 @@ function Copy-WithGUI {
         # Validate the FolderToCopyInto
         if (-not(Test-Path -Path $FolderToCopyInto)) { Write-Line "The Destinationfolder cannot be found. ($FolderToCopyInto)" -Type Fail ; Return }
 
+        # GENERAL CONFIRMATION
+        # Set the verb
+        [System.String]$Verb = if ($Move.IsPresent) { 'MOVE' } else { 'COPY' }
+        # Ask for confirmation to proceed
+        if (-not(Get-UserConfirmation -Title "CONFIRM $Verb" -Body "This will $Verb the Folder:`n`n$FolderToCopy`n`ninto the Folder:`n`n$FolderToCopyInto`n`nAre you sure?")) { Return }
 
 
-        # CONFIRMATION
+        # OVERWRITE CONFIRMATION
         # Set the Destination
         [System.String]$UltimateFolderPath = Join-Path -Path $FolderToCopyInto -ChildPath (Split-Path -Path $FolderToCopy -Leaf)
         # If the Destination already exists
