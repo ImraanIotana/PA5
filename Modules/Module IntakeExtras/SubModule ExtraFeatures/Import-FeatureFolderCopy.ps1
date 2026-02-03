@@ -37,6 +37,9 @@ function Import-FeatureFolderCopy {
             GroupBoxAbove           = $Global:InnoSetupGroupbox
         }
 
+        # Set the Button Properties Array
+        [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Clear') ) 
+
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
@@ -70,19 +73,19 @@ function Import-FeatureFolderCopy {
             }
            @{
                 ColumnNumber    = 2
-                Text            = 'Copy and Overwrite Folder'
-                Image           = 'Copy.png'
-                SizeType        = 'Large'
-                ToolTip         = 'Copy the specified folder to the target location, and overwrite the destination.'
-                Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -Overwrite -OpenFolder } 
-            }
-           @{
-                ColumnNumber    = 4
                 Text            = 'Move Folder'
                 Image           = 'move_to_folder.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Move the specified folder to the target location.'
                 Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -Move -OpenFolder } 
+            }
+           @{
+                ColumnNumber    = 4
+                Text            = 'Copy and Overwrite Folder'
+                Image           = 'Copy.png'
+                SizeType        = 'Large'
+                ToolTip         = 'Copy the specified folder to the target location, and overwrite the destination.'
+                Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -Overwrite -OpenFolder } 
             }
            @{
                 ColumnNumber    = 5
@@ -101,10 +104,10 @@ function Import-FeatureFolderCopy {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:InnoSetupGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
         # Create the FolderToCopyTextBox
-        [System.Windows.Forms.TextBox]$Global:FolderToCopyTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'Folder to Copy:' -PropertyName 'FolderToCopyTextBox'
+        [System.Windows.Forms.TextBox]$Global:FolderToCopyTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'Folder to Copy:' -PropertyName 'FolderToCopyTextBox' -ButtonPropertiesArray $FolderButtonsArray
         # Create the FolderToCopyIntoTextBox
-        [System.Windows.Forms.TextBox]$Global:FolderToCopyIntoTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Folder to Copy Into:' -PropertyName 'FolderToCopyIntoTextBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $InnoSetupFileTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
+        [System.Windows.Forms.TextBox]$Global:FolderToCopyIntoTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Folder to Copy Into:' -PropertyName 'FolderToCopyIntoTextBox' -ButtonPropertiesArray $FolderButtonsArray
+        #Invoke-ButtonLine -ButtonPropertiesArray $InnoSetupFileTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         # Create the action button
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 5
     }
