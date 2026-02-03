@@ -53,7 +53,7 @@ function Import-FeatureFolderCopy {
                 Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -OpenFolder } 
             }
            @{
-                ColumnNumber    = 2
+                ColumnNumber    = 4
                 Text            = 'Move Folder'
                 Image           = 'move_to_folder.png'
                 SizeType        = 'Large'
@@ -69,7 +69,7 @@ function Import-FeatureFolderCopy {
                 Function        = { [System.String]$Temp = $Global:FolderToCopyTextBox.Text; $Global:FolderToCopyTextBox.Text = $Global:FolderToCopyIntoTextBox.Text; $Global:FolderToCopyIntoTextBox.Text = $Temp } 
             }
            @{
-                ColumnNumber    = 4
+                ColumnNumber    = 2
                 Text            = 'Copy and Overwrite Folder'
                 Image           = 'Copy.png'
                 SizeType        = 'Large'
