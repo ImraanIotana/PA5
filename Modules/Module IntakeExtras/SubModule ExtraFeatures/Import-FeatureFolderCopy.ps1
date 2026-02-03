@@ -43,25 +43,6 @@ function Import-FeatureFolderCopy {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        [System.Collections.Hashtable[]]$InnoSetupFileTextBoxButtons = @(
-            @{
-                ColumnNumber    = 1
-                Text            = 'Browse'
-                TextColor       = 'LightCyan'
-                Image           = 'folders_explorer.png'
-                SizeType        = 'Medium'
-                Function        = { }
-            }
-            @{
-                ColumnNumber    = 2
-                Text            = 'Paste'
-                TextColor       = 'LightCyan'
-                Image           = 'page_paste.png'
-                SizeType        = 'Medium'
-                Function        = { }
-            }
-        )
-
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
                 ColumnNumber    = 1
@@ -103,13 +84,15 @@ function Import-FeatureFolderCopy {
     process {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:InnoSetupGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove
+
         # Create the FolderToCopyTextBox
         [System.Windows.Forms.TextBox]$Global:FolderToCopyTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'Folder to Copy:' -PropertyName 'FolderToCopyTextBox' -ButtonPropertiesArray $FolderButtonsArray
+
         # Create the FolderToCopyIntoTextBox
         [System.Windows.Forms.TextBox]$Global:FolderToCopyIntoTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Folder to Copy Into:' -PropertyName 'FolderToCopyIntoTextBox' -ButtonPropertiesArray $FolderButtonsArray
-        #Invoke-ButtonLine -ButtonPropertiesArray $InnoSetupFileTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
+
         # Create the action button
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 5
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 6
     }
 
     end {
