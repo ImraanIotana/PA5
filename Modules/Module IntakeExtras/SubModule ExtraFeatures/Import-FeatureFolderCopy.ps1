@@ -63,10 +63,10 @@ function Import-FeatureFolderCopy {
            @{
                 ColumnNumber    = 1
                 Text            = 'Copy Folder'
-                Image           = 'cd.png'
+                Image           = 'Copy.png'
                 SizeType        = 'Large'
-                ToolTip         = 'Create an INF file by running the executable'
-                Function        = { }
+                ToolTip         = 'Copy the specified folder to the target location.'
+                Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoFolder $Global:FolderToCopyIntoTextBox.Text -OpenFolder } 
             }
         )
 
