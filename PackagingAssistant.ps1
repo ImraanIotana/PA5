@@ -29,12 +29,13 @@ param (
 begin {
     ####################################################################################################
     ### MAIN OBJECT ###
+    $Global:AppStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
     # Create the Global Application object
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.016'
+        Version                     = [System.String]'5.7.1.017'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -220,6 +221,8 @@ process {
 
         # Show the Main Form
         Show-MainForm
+        $Global:AppStopwatch.Stop()
+        Write-Host "Laadtijd: $($Global:AppStopwatch.Elapsed.TotalSeconds) seconden"
     }
     catch {
         Write-FullError
