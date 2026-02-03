@@ -29,13 +29,14 @@ param (
 begin {
     ####################################################################################################
     ### MAIN OBJECT ###
+    # Start the application stopwatch
     $Global:AppStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
     # Create the Global Application object
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.018'
+        Version                     = [System.String]'5.7.1.019'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -216,11 +217,12 @@ process {
         # Import these modules, for all machines
         Import-ModuleApplicationSettings
 
+        # Stop the stopwatch and write the elapsed time
+        $Global:AppStopwatch.Stop()
+        Write-Line "Loading time: $($Global:AppStopwatch.Elapsed.TotalSeconds) seconds"
+
         # Write the welcome message
         Write-WelcomeMessage
-
-        $Global:AppStopwatch.Stop()
-        Write-Host "Laadtijd: $($Global:AppStopwatch.Elapsed.TotalSeconds) seconden"
         # Show the Main Form
         Show-MainForm
     }
