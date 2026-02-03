@@ -66,7 +66,7 @@ function Import-FeatureFolderCopy {
                 Image           = 'Copy.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Copy the specified folder to the target location.'
-                Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoFolder $Global:FolderToCopyIntoTextBox.Text -OpenFolder } 
+                Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -OpenFolder } 
             }
         )
 
