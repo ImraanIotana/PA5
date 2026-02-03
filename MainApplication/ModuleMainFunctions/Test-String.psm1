@@ -13,7 +13,7 @@
 .OUTPUTS
     [System.Boolean]
 .NOTES
-    Version         : 5.7.0
+    Version         : 5.7.1.011
     Author          : Imraan Iotana
     Creation Date   : September 2025
     Last Update     : February 2026
@@ -38,26 +38,23 @@ function Test-String {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
+        # Function
+        [System.String]$ParameterSetName    = $PSCmdlet.ParameterSetName
+
         # Input
-        [System.String]$StringToTest        = switch ($ParameterSetName) {
-            'TestStringIsEmpty'             { $IsEmpty }
-            'TestStringIsPopulated'         { $IsPopulated }
-        }
+        [System.String]$StringToTest        = if ($ParameterSetName -eq 'TestStringIsEmpty') { $IsEmpty } else { $IsPopulated }
 
         # Output
         [System.Boolean]$OutputObject       = $null
-
-        # Handlers
-        [System.String]$ParameterSetName    = $PSCmdlet.ParameterSetName
 
         ####################################################################################################
     }
     
     process {
         # If the String is empty then return true, else return false
-        [System.Boolean]$StringIsEmpty = if ( ([System.String]::IsNullOrWhiteSpace($StringToTest)) -or ([System.String]::IsNullOrEmpty($StringToTest)) ) { $true } else { $false }
+        [System.Boolean]$StringIsEmpty = if ( [System.String]::IsNullOrWhiteSpace($StringToTest) ) { $true } else { $false }
 
-        # Switch on the ParameterSetName
+        # Set the OutputObject based on the ParameterSetName
         $OutputObject = switch ($ParameterSetName) {
             'TestStringIsEmpty'     { $StringIsEmpty }
             'TestStringIsPopulated' { -Not($StringIsEmpty) }
