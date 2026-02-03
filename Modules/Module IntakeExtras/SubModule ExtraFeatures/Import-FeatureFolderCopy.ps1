@@ -61,6 +61,14 @@ function Import-FeatureFolderCopy {
                 Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -Move -OpenFolder } 
             }
            @{
+                ColumnNumber    = 3
+                Text            = 'Switch Folders'
+                Image           = 'Update.png'
+                SizeType        = 'Large'
+                ToolTip         = 'Switch the source and destination folders.'
+                Function        = { [System.String]$Temp = $Global:FolderToCopyTextBox.Text; $Global:FolderToCopyTextBox.Text = $Global:FolderToCopyIntoTextBox.Text; $Global:FolderToCopyIntoTextBox.Text = $Temp } 
+            }
+           @{
                 ColumnNumber    = 4
                 Text            = 'Copy and Overwrite Folder'
                 Image           = 'Copy.png'
