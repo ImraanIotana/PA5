@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function copies and moves files and folders, showing the Windows Progressbar.
 .DESCRIPTION
-    This function is part of the Iotana Base Module. It contains functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions or variables, that are in other files.
 .EXAMPLE
     Copy-WithGUI -ThisFolder 'C:\Demo\CopyThisFolder' -IntoThisFolder 'D:\Archives'
 .EXAMPLE
@@ -16,10 +16,10 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.6
+    Version         : 5.7.1.014
     Author          : Imraan Iotana
     Creation Date   : December 2025
-    Last Update     : December 2025
+    Last Update     : February 2026
 .COPYRIGHT
     Copyright (C) Iotana. All rights reserved.
 #>
@@ -29,28 +29,22 @@ function Copy-WithGUI {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The path of the source folder that will be copied.')]
-        [System.String]
-        $ThisFolder,
+        [System.String]$ThisFolder,
 
         [Parameter(Mandatory=$true,HelpMessage='The path of the folder into which the source folder will be copied.')]
-        [System.String]
-        $IntoThisFolder,
+        [System.String]$IntoThisFolder,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for overwriting an existing folder.')]
-        [System.Management.Automation.SwitchParameter]
-        $Overwrite,
+        [System.Management.Automation.SwitchParameter]$Overwrite,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for moving instead of copying.')]
-        [System.Management.Automation.SwitchParameter]
-        $Move,
+        [System.Management.Automation.SwitchParameter]$Move,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for writing to the host.')]
-        [System.Management.Automation.SwitchParameter]
-        $OutHost,
+        [System.Management.Automation.SwitchParameter]$OutHost,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for opening the destination folder.')]
-        [System.Management.Automation.SwitchParameter]
-        $OpenFolder
+        [System.Management.Automation.SwitchParameter]$OpenFolder
     )
 
     begin {
@@ -80,21 +74,19 @@ function Copy-WithGUI {
         if (Test-Path -Path $UltimateFolderPath) {
             # Write the message
             if ($OutHost) { Write-Line "The Destination already exists. ($UltimateFolderPath)" -Type Busy }
-            # If the Overwrite parameter is present, then remove the Destination
-            if ($Overwrite.IsPresent) {
-                # Remove the folder
-                if ($OutHost) { Write-Line "Removing the folder ($UltimateFolderPath)..." }
-                Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
-            } else {
-                # If the Overwrite parameter is not present, then ask confirmation
-                if (-Not(Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?")) {
-                    Return
-                } else {
-                    # Remove the folder
-                    if ($OutHost) { Write-Line "Removing the folder ($UltimateFolderPath)..." }
-                    Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
-                }
+            
+            # Check if the folder should be overwritten
+            $ShouldOverwrite = $Overwrite.IsPresent -or (Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?")
+            
+            # If the folder should not be overwritten, then exit
+            if (-not $ShouldOverwrite) {
+                if ($OutHost) { Write-Line "The Destination will not be overwritten." }
+                return
             }
+            
+            # Remove the Destination
+            Remove-WithGUI -Path $UltimateFolderPath -OutHost -Force
+            if ($OutHost) { Write-Line "The existing Destination has been removed. ($UltimateFolderPath)" -Type Success }
         }
 
 
