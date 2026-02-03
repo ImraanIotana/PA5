@@ -65,6 +65,7 @@ function Copy-WithGUI {
         # GENERAL CONFIRMATION
         # Set the verb
         [System.String]$Verb = if ($Move.IsPresent) { 'MOVE' } else { 'COPY' }
+        if ($Overwrite.IsPresent) { $Verb += ' AND OVERWRITE' }
         # Ask for confirmation to proceed
         if (-not(Get-UserConfirmation -Title "CONFIRM $Verb" -Body "This will $Verb the Folder:`n`n$FolderToCopy`n`ninto the Folder:`n`n$FolderToCopyInto`n`nAre you sure?")) { Return }
 
@@ -102,10 +103,22 @@ function Copy-WithGUI {
 
         # EXECUTION
         try {
-            # Copy the folder
-            Write-Line "Copying the folder ($FolderToCopy) into the folder ($FolderToCopyInto)..." -Type Busy
-            $DestinationObject.CopyHere($SourceObject,16)
-            Write-Line "The folder has been copied. ($FolderToCopy)" -Type Success
+            # Set the Action Verb
+            [System.String]$ActionVerb = if ($Move.IsPresent) { 'Moving' } else { 'Copying' }
+            # Set the Completion Verb
+            [System.String]$CompletionVerb = if ($Move.IsPresent) { 'moved' } else { 'copied' }
+            # Write the Action Message
+            Write-Line "$ActionVerb the folder ($FolderToCopy) into the folder ($FolderToCopyInto)..." -Type Busy
+            # Perform the Action
+            if ($Move.IsPresent) {
+                # Move the folder
+                $DestinationObject.MoveHere($SourceObject,16)
+            } else {
+                # Copy the folder
+                $DestinationObject.CopyHere($SourceObject,16)
+            }
+            # Write the Completion Message
+            Write-Line "The folder has been $CompletionVerb. ($FolderToCopyInto)" -Type Success
             # Open the folder
             if ($OpenFolder) { Open-Folder -HighlightItem $UltimateFolderPath }
         }
