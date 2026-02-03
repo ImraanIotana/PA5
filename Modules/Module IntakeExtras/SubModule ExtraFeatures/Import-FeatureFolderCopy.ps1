@@ -68,6 +68,14 @@ function Import-FeatureFolderCopy {
                 ToolTip         = 'Copy the specified folder to the target location.'
                 Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -OpenFolder } 
             }
+           @{
+                ColumnNumber    = 3
+                Text            = 'Copy and Overwrite Folder'
+                Image           = 'Copy.png'
+                SizeType        = 'Large'
+                ToolTip         = 'Copy the specified folder to the target location, and overwrite the destination.'
+                Function        = { Copy-WithGUI -ThisFolder $Global:FolderToCopyTextBox.Text -IntoThisFolder $Global:FolderToCopyIntoTextBox.Text -Overwrite -OpenFolder } 
+            }
         )
 
         ####################################################################################################

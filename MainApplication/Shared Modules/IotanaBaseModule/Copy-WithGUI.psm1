@@ -78,7 +78,7 @@ function Copy-WithGUI {
                 Get-UserConfirmation -Title 'Confirm Overwrite' -Body "This will OVERWRITE the EXISTING Folder:`n`n$UltimateFolderPath`n`nAre you sure?"
             }
             # If the folder should not be overwritten, then exit
-            if (-Not($ShouldOverwrite)) { Write-Line "The Destination will not be overwritten." ;  Return }
+            if (-Not($ShouldOverwrite)) { Write-Line "The Destination has not be overwritten. ($UltimateFolderPath)" ;  Return }
             # Write the message
             if ($Overwrite.IsPresent) { Write-Line "The Overwrite switch is present. The Destination will be overwritten." }
             # Remove the Destination
