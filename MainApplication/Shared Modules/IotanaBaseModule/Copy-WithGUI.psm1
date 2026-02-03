@@ -65,7 +65,7 @@ function Copy-WithGUI {
         # GENERAL CONFIRMATION
         # Set the verb
         [System.String]$Verb = if ($Move.IsPresent) { 'MOVE' } else { 'COPY' }
-        if ($Overwrite.IsPresent) { $Verb += ' AND OVERWRITE' }
+        if ($Overwrite.IsPresent) { $Verb += ' (AND OVERWRITE)' }
         # Ask for confirmation to proceed
         if (-not(Get-UserConfirmation -Title "CONFIRM $Verb" -Body "This will $Verb the Folder:`n`n$FolderToCopy`n`ninto the Folder:`n`n$FolderToCopyInto`n`nAre you sure?")) { Return }
 
