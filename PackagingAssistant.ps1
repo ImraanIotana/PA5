@@ -35,7 +35,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.017'
+        Version                     = [System.String]'5.7.1.018'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -219,10 +219,10 @@ process {
         # Write the welcome message
         Write-WelcomeMessage
 
-        # Show the Main Form
-        Show-MainForm
         $Global:AppStopwatch.Stop()
         Write-Host "Laadtijd: $($Global:AppStopwatch.Elapsed.TotalSeconds) seconden"
+        # Show the Main Form
+        Show-MainForm
     }
     catch {
         Write-FullError
