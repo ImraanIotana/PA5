@@ -1,8 +1,13 @@
 # PA5
 Packaging Assistent 5 - Copyright (C) Iotana. All rights reserved.
 
-Version 5.7.0
+Version 5.7.1
 February 2026
+- ModuleGraphics: Added Default Functions to TextBoxes.
+- ModuleGraphics: Added Default Icons.
+
+Version 5.7.0
+January 2026
 - General: Converted ModuleLauncher to Powershell Module.
 - General: Converted ModuleGraphics to Powershell Module.
 - General: Converted ModuleSettings to Powershell Module.
