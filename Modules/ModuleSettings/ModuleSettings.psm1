@@ -58,8 +58,8 @@ function Import-ModuleApplicationSettings {
             if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $ParentSubTabControl }
             # Import the SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $ParentSubTabControl
-            Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
-            Import-SubModuleMaintenance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
+            Import-SubModuleAppLockerSettings -ParentTabControl $ParentSubTabControl
+            Import-SubModuleMaintenance -ParentTabControl $ParentSubTabControl
         }
         catch {
             Write-FullError
