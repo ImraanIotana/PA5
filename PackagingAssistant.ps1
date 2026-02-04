@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.064'
+        Version                     = [System.String]'5.7.1.066'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
