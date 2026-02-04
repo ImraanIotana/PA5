@@ -53,11 +53,11 @@ function Import-ModuleApplicationSettings {
             # Create the Module TabPage
             [System.Windows.Forms.TabPage]$Global:ApplicationSettingsTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle
             # Create a SubTabControl
-            [System.Windows.Forms.TabControl]$Global:ModuleApplicationSettingsTabControl = Invoke-SubTabControl -ParentTabPage $Global:ApplicationSettingsTabPage
+            [System.Windows.Forms.TabControl]$Global:ModuleApplicationSettingsTabControl = $ParentSubTabControl = Invoke-SubTabControl -ParentTabPage $Global:ApplicationSettingsTabPage
             # Load the SCCM/MECM module only on an SCCM server
-            if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl }
+            if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $ParentSubTabControl }
             # Import the SubModules
-            Import-SubModuleGeneralSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
+            Import-SubModuleGeneralSettings -ParentTabControl $ParentSubTabControl
             Import-SubModuleAppLockerSettings -ParentTabControl $Global:ModuleApplicationSettingsTabControl
             Import-SubModuleMaintenance -ParentTabControl $Global:ModuleApplicationSettingsTabControl
         }
