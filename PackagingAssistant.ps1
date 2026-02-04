@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.049'
+        Version                     = [System.String]'5.7.1.050'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -187,6 +187,7 @@ process {
         Invoke-MainForm
         # Add the dimensions of the graphical child objects to the Settings
         Add-GraphicalDimensionsToSettings
+        Add-IconsToSettings
         # Build the Global Main Tabcontrol (Name: $Global:MainTabControl)
         Invoke-MainTabControl -ParentForm $Global:MainForm
 
