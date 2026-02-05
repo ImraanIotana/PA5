@@ -186,7 +186,7 @@ function Invoke-ClipBoard {
                 }
                 # Get user confirmation
                 if (-Not($this.HideConfirmation.IsPresent)) {
-                    [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Reset textbox/combobox to default value' -Body "This will reset the field to its default value ($DefaultValue). Are you sure?"
+                    [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Reset field to default value' -Body "This will reset the field to its default value ($DefaultValue). Are you sure?"
                     if (-Not($UserHasConfirmed)) { Return }
                 }
                 # Determine the boxtype, and reset the box to its default value
