@@ -36,7 +36,7 @@ function Import-SubModuleGeneralSettings {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Handlers
+        # Submodule properties
         [System.String]$TabTitle        = 'General Settings'
         [System.String]$ModuleVersion   = '5.7.0'
         [System.String]$BackGroundColor = 'Cornsilk'
