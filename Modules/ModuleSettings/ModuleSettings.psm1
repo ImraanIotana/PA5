@@ -57,10 +57,10 @@ function Import-ModuleApplicationSettings {
             # Create a SubTabControl
             [System.Windows.Forms.TabControl]$ParentSubTabControl = Invoke-SubTabControl -ParentTabPage $ParentTabPage
 
-            # Load the SCCM/MECM module only on an SCCM server
+            # Load the SCCM/MECM SubModule only on an SCCM server
             if ($IsSCCMServer) { Import-SubModuleSCCMSettings -ParentTabControl $ParentSubTabControl }
 
-            # Import the SubModules
+            # Import the other SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $ParentSubTabControl
             Import-SubModuleAppLockerSettings -ParentTabControl $ParentSubTabControl
             Import-SubModuleMaintenance -ParentTabControl $ParentSubTabControl
@@ -76,3 +76,4 @@ function Import-ModuleApplicationSettings {
 
 ### END OF SCRIPT
 ####################################################################################################
+
