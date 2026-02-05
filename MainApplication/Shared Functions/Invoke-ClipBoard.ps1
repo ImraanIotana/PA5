@@ -41,10 +41,6 @@ function Invoke-ClipBoard {
         [System.Object]
         $ClearBox,
 
-        [Parameter(Mandatory=$true,ParameterSetName='ResetToDefaultValue',HelpMessage='The TexBox/ComboBox which will be reset to its default value.')]
-        [System.Object]
-        $ResetToDefaultValue,
-
         [Parameter(Mandatory=$false,HelpMessage='Switch for hiding the confirmation dialog.')]
         [System.Management.Automation.SwitchParameter]
         $HideConfirmation
@@ -173,35 +169,6 @@ function Invoke-ClipBoard {
             }
             catch {
                 Write-FullError 'The box could not be cleared.'
-            }
-        }
-
-        # Add the ResetToDefaultValue method
-        Add-Member -InputObject $Local:MainObject -MemberType ScriptMethod -Name ResetToDefaultValue -Value { param([System.Object]$BoxToReset)
-            try {
-                # Get the default value
-                [System.String]$DefaultValue = switch ($BoxToReset.GetType()) {
-                    $this.ApprovedBoxTypes[0] { $BoxToReset.Tag.DefaultValue } # TextBox
-                    $this.ApprovedBoxTypes[1] { '' } # ComboBox
-                }
-                # Get user confirmation
-                if (-Not($this.HideConfirmation.IsPresent)) {
-                    [System.Boolean]$UserHasConfirmed = Get-UserConfirmation -Title 'Reset field to default value' -Body "This will reset the field to its default value ($DefaultValue). Are you sure?"
-                    if (-Not($UserHasConfirmed)) { Return }
-                }
-                # Determine the boxtype, and reset the box to its default value
-                $BoxType = $BoxToReset.GetType()
-                switch ($BoxType) {
-                    $this.ApprovedBoxTypes[0] { $BoxToReset.Text = $DefaultValue } # TextBox
-                    $this.ApprovedBoxTypes[1] {
-                        $BoxToReset.ResetText()
-                        Invoke-RegistrySettings -Remove -PropertyName $BoxToReset.PropertyName
-                    } # ComboBox
-                }
-                Write-Line "The box has been reset to its default value: ($DefaultValue)"
-            }
-            catch {
-                Write-FullError 'The box could not be reset to its default value.'
             }
         }
 

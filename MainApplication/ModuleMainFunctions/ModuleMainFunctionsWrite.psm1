@@ -35,13 +35,11 @@ function Write-Line {
         [Parameter(Mandatory=$false,Position=0,HelpMessage='The message that will be written to the host.')]
         [AllowNull()]
         [AllowEmptyString()]
-        [System.String]
-        $Message,
+        [System.String]$Message,
 
         [Parameter(Mandatory=$false,Position=1,HelpMessage='Type for deciding the colors and prefixes.')]
         [ValidateSet('Normal','Busy','NoAction','Success','SuccessNoAction','ValidationSuccess','Fail','ActionFail','ValidationFail','Special','Seperation','DoubleSeperation')]
-        [System.String]
-        $Type
+        [System.String]$Type
     )
 
     begin {
