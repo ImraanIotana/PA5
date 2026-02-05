@@ -18,7 +18,7 @@
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.7.0.0283
+    Version         : See below at 'Main Properties'
     Author          : Imraan Iotana
     Creation Date   : October 2023
     Last Update     : February 2026
