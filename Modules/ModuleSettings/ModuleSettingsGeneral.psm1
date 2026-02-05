@@ -118,7 +118,7 @@ function Import-FeatureFolderSettings {
         # Default Values for the SCCM Settings
         [System.String]$DefaultOutputFolder     = $Global:ApplicationObject.DefaultOutputFolder
         [System.String]$DefaultDSLFolder        = $Global:ApplicationObject.Settings.DefaultDSLFolder
-        
+
         # Set the Button Properties Array
         [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') ) 
 
