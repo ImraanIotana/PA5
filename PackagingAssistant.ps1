@@ -13,7 +13,7 @@
 .OUTPUTS
     This script returns no stream-output. All output is written to the host during runtime.
 .NOTES
-    Version         : See below at line 37: Version = [System.String]'x.y'
+    Version         : See below at the Version property of the Global Application Object.
     Author          : Imraan Iotana
     Creation Date   : May 2023
     Last Update     : February 2026
@@ -32,7 +32,7 @@ begin {
     # Start the application stopwatch
     $Global:AppStopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
-    # Create the Global Application object
+    # Create the Global Application Object
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
