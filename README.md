@@ -3,6 +3,7 @@ Packaging Assistent 5 - Copyright (C) Iotana. All rights reserved.
 
 Version 5.7.1
 February 2026
+- ModuleGraphics: Added MenuBar and Help Items.
 - ModuleGraphics: Added Default Functions to TextBoxes.
 - ModuleGraphics: Added Default Icons.
 
