@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.140'
+        Version                     = [System.String]'5.7.1.141'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -227,6 +227,7 @@ process {
         Write-Line "Loading time: $RoundedSeconds seconds"
 
         Write-Host "Aantal tabbladen: $($Global:MainTabControl.TabPages.Count)"
+        $Global:MainTabControl.TabPages | Select-Object Text | Out-Host
         # Write the welcome message
         Write-WelcomeMessage
         # Show the Main Form
