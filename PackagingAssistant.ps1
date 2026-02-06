@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.133'
+        Version                     = [System.String]'5.7.1.134'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -189,7 +189,7 @@ process {
         Add-GraphicalDimensionsToSettings
         Add-IconsToSettings
         # Build the Global Main Tabcontrol (Name: $Global:MainTabControl)
-        Invoke-MainTabControl -ParentForm $Global:MainForm
+        #Invoke-MainTabControl -ParentForm $Global:MainForm
 
         # Check if the machine is an SCCM server
         [System.ComponentModel.Component[]]$SCCMServices = Get-Service | Where-Object { $_.Name.StartsWith('SMS') } -ErrorAction SilentlyContinue
