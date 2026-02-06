@@ -184,12 +184,14 @@ process {
     # Build the Form
     try {
         # Build the Global Main Form (Name: $Global:MainForm)
-        Invoke-MainForm
+        #Invoke-MainForm
         # Add the dimensions of the graphical child objects to the Settings
         Add-GraphicalDimensionsToSettings
         Add-IconsToSettings
         # Build the Global Main Tabcontrol (Name: $Global:MainTabControl)
         #Invoke-MainTabControl -ParentForm $Global:MainForm
+        # Build the Global Main Form (Name: $Global:MainForm)
+        Invoke-MainForm
 
         # Check if the machine is an SCCM server
         [System.ComponentModel.Component[]]$SCCMServices = Get-Service | Where-Object { $_.Name.StartsWith('SMS') } -ErrorAction SilentlyContinue
