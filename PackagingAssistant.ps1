@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.148'
+        Version                     = [System.String]'5.7.1.149'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -184,14 +184,14 @@ process {
     # Build the Form
     try {
         # Build the Global Main Form (Name: $Global:MainForm)
-        #Invoke-MainForm
+        Invoke-MainForm
         # Add the dimensions of the graphical child objects to the Settings
         Add-GraphicalDimensionsToSettings
         Add-IconsToSettings
         # Build the Global Main Tabcontrol (Name: $Global:MainTabControl)
-        #Invoke-MainTabControl -ParentForm $Global:MainForm
+        Invoke-MainTabControl -ParentForm $Global:MainForm
         # Build the Global Main Form (Name: $Global:MainForm)
-        Invoke-MainForm
+        #Invoke-MainForm
 
         # Check if the machine is an SCCM server
         [System.ComponentModel.Component[]]$SCCMServices = Get-Service | Where-Object { $_.Name.StartsWith('SMS') } -ErrorAction SilentlyContinue
@@ -226,8 +226,8 @@ process {
         $RoundedSeconds = ($Global:AppStopwatch.Elapsed.TotalSeconds).ToString("F2")
         Write-Line "Loading time: $RoundedSeconds seconds"
 
-        Write-Host "Aantal tabbladen: $($Global:MainTabControl.TabPages.Count)"
-        $Global:MainTabControl.TabPages | Select-Object Text | Out-Host
+        <#Write-Host "Aantal tabbladen: $($Global:MainTabControl.TabPages.Count)"
+        $Global:MainTabControl.TabPages | Select-Object Text | Out-Host#>
         # Write the welcome message
         Write-WelcomeMessage
         # Show the Main Form
