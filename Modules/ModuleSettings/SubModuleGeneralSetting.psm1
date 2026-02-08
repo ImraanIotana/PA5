@@ -207,6 +207,29 @@ function Import-FeaturePersonalSettings {
         [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') )
 
         ####################################################################################################
+        ### TEXTBOX PROPERTIES ###
+
+        # Set the User Full Name TextBox Properties
+        [System.Collections.Hashtable]$UserFullNameTextBoxProperties = @{
+            RowNumber               = 1
+            Label                   = 'My Full Name:'
+            ToolTip                 = 'Enter your full name. This is used for documentation purposes and to pre-fill the name field in several reports.'
+            PropertyName            = 'MSet_SGen_FPer_UserFullNameTextBox'
+            SizeType                = 'Large'
+            ButtonPropertiesArray   = $ButtonPropertiesArray
+        }
+
+        # Set the User Email TextBox Properties
+        [System.Collections.Hashtable]$UserEmailTextBoxProperties = @{
+            RowNumber               = 3
+            Label                   = 'My Email Address:'
+            ToolTip                 = 'Enter your email address. This is used for documentation purposes and to pre-fill the email field in several reports.'
+            PropertyName            = 'MSet_SGen_FPer_UserEmailTextBox'
+            SizeType                = 'Large'
+            ButtonPropertiesArray   = $ButtonPropertiesArray
+        }
+
+        ####################################################################################################
     } 
     
     process {
@@ -214,11 +237,11 @@ function Import-FeaturePersonalSettings {
             # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
             [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FPer_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
 
-            # Create the ASPSUserFullNameTextBox
-            [System.Windows.Forms.TextBox]$Global:ASPSUserFullNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Full Name:' -PropertyName 'ASPSUserFullNameTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
+            # Create the User Full Name TextBox
+            [System.Windows.Forms.TextBox]$Global:MSet_SGen_FPer_UserFullNameTextBox = Invoke-TextBox @UserFullNameTextBoxProperties -ParentGroupBox $ParentGroupBox
 
-            # Create the ASPSUserEmailTextBox
-            [System.Windows.Forms.TextBox]$Global:ASPSUserEmailTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'My Email Address:' -PropertyName 'ASPSUserEmailTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
+            # Create the User Email TextBox
+            [System.Windows.Forms.TextBox]$Global:MSet_SGen_FPer_UserEmailTextBox = Invoke-TextBox @UserEmailTextBoxProperties -ParentGroupBox $ParentGroupBox
         }
         catch {
             Write-FullError

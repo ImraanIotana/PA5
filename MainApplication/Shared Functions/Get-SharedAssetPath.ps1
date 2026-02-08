@@ -186,8 +186,8 @@ function Get-SharedAssetPath {
                 'ReturnSCCMImagePath'           { $this.GetApplicationSCCMImagePath($this.ApplicationID) }
                 'ReturnSCCMRepository'          { $Global:ApplicationObject.Settings.SCCMRepository }
                 # User
-                'ReturnUserFullName'            { Invoke-RegistrySettings -Read -PropertyName ASPSUserFullNameTextBox }
-                'ReturnUserEmail'               { Invoke-RegistrySettings -Read -PropertyName ASPSUserEmailTextBox }
+                'ReturnUserFullName'            { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FPer_UserFullNameTextBox }
+                'ReturnUserEmail'               { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FPer_UserEmailTextBox }
                 # SCCM Server properties
                 'ReturnSCCMSiteCode'            { Invoke-RegistrySettings -Read -PropertyName ASSSSiteCodeTextBox }
                 'ReturnSCCMProviderMachineName' { Invoke-RegistrySettings -Read -PropertyName ASSSProviderMachineNameTextBox }
