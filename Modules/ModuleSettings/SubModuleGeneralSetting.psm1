@@ -158,10 +158,10 @@ function Import-FeatureFolderSettings {
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
-    Version         : 5.7.0
+    Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : October 2023
-    Last Update     : January 2026
+    Last Update     : February 2026
 #>
 ####################################################################################################
 
@@ -177,12 +177,19 @@ function Import-FeaturePersonalSettings {
         ### MAIN PROPERTIES ###
 
         # GroupBox properties
-        [PSCustomObject]$GroupBox = @{
+        [System.Collections.Hashtable]$GroupBoxProperties = @{
+            ParentTabPage   = $ParentTabPage
             Title           = [System.String]'Personal Settings'
             Color           = [System.String]'Brown'
             NumberOfRows    = [System.Int32]4
             GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox
         }
+        <#[PSCustomObject]$GroupBox = @{
+            Title           = [System.String]'Personal Settings'
+            Color           = [System.String]'Brown'
+            NumberOfRows    = [System.Int32]4
+            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox
+        }#>
         
         # Set the Button Properties Array
         [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') )
@@ -193,7 +200,7 @@ function Import-FeaturePersonalSettings {
     process {
         try {
             # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
-            [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove -OnSubTab
+            [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
 
             # Create the ASPSUserFullNameTextBox
             [System.Windows.Forms.TextBox]$Global:ASPSUserFullNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Full Name:' -PropertyName 'ASPSUserFullNameTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
