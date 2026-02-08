@@ -32,7 +32,7 @@ function Import-ModuleIntakeExtras {
         ### MAIN PROPERTIES ###
 
         # Handlers
-        [System.String]$TabTitle        = 'Intake Extras'
+        [System.String]$TabTitle        = 'Extra Features'
         [System.String]$ModuleVersion   = '5.5.1'
 
         ####################################################################################################
