@@ -246,7 +246,8 @@ function Import-FeatureHelp {
         ### MAIN PROPERTIES ###
 
         # GroupBox properties
-        [PSCustomObject]$GroupBox = @{
+        [PSCustomObject]$GroupBoxProperties = @{
+            ParentTabPage   = $ParentTabPage
             Title           = [System.String]'Help'
             Color           = [System.String]'Brown'
             NumberOfRows    = [System.Int32]1
@@ -261,30 +262,35 @@ function Import-FeatureHelp {
             @{
                 ColumnNumber    = 1
                 Text            = 'Desktop Shortcut'
+                ToolTip         = 'Create a Desktop Shortcut.'
                 Image           = 'Desktop.png'
                 Function        = { Invoke-NewShortcut -Desktop }
             }
             @{
                 ColumnNumber    = 2
                 Text            = 'StartMenu Shortcut'
+                ToolTip         = 'Create a StartMenu Shortcut.'
                 Image           = 'Menu.png'
                 Function        = { Invoke-NewShortcut -StartMenu }
             }
             @{
                 ColumnNumber    = 3
                 Text            = 'Open Logfolder'
+                ToolTip         = 'Open the Logfolder in File Explorer.'
                 Image           = 'folder_page.png'
                 Function        = { Open-Folder -Path (Get-SharedAssetPath -LogFolder) }
             }
             @{
                 ColumnNumber    = 4
                 Text            = 'Reset All'
+                ToolTip         = 'Reset all settings to their default values.'
                 Image           = 'arrow_rotate_clockwise.png'
                 Function        = { Invoke-RegistrySettings -ResetAll }
             }
             @{
                 ColumnNumber    = 5
                 Text            = 'Version History'
+                ToolTip         = 'Open the Version History in Notepad.'
                 Function        = { Start-Process -FilePath notepad -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
             }
         )
@@ -292,7 +298,8 @@ function Import-FeatureHelp {
     
     process {
         # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -GroupBoxAbove $GroupBox.GroupBoxAbove -OnSubTab
+        [System.Windows.Forms.GroupBox]$ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
+
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 1
     }
