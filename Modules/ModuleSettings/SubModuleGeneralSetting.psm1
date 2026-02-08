@@ -326,10 +326,10 @@ function Import-FeatureHelp {
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.0
+    Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : March 2025
-    Last Update     : January 2026
+    Last Update     : February 2026
 #>
 ####################################################################################################
 
@@ -358,8 +358,9 @@ function Invoke-NewShortcut {
         [System.String]$UserStartMenuFolder = $ApplicationObject.UserStartMenuFolder
 
         # Shortcut Handlers
+        [System.String]$ApplicationName      = $ApplicationObject.Name
         [System.String]$PowershellPath      = (Join-Path -Path $ApplicationObject.WindowsFolder -ChildPath 'System32\WindowsPowerShell\v1.0\powershell.exe')
-        [System.String]$ShortcutFileName    = "$($ApplicationObject.Name).lnk"
+        [System.String]$ShortcutFileName    = "$ApplicationName.lnk"
         [System.String]$IconSourcePath      = (Get-SharedAssetPath -AssetName MainApplicationIcon)
 
         # Argument Handlers
@@ -385,10 +386,12 @@ function Invoke-NewShortcut {
             if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut.`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
 
             # ICON
-            # Copy the icon to LocalAppData
-            [System.String]$IconDestinationFolder = Join-Path -Path $ENV:LocalAppData -ChildPath 'PAicon'
+            # Set the Icon Destination Folder
+            [System.String]$IconDestinationFolder = Join-Path -Path $ENV:APPDATA -ChildPath $ApplicationName
+            # Copy the Icon to the Destination Folder
             New-Item -Path $IconDestinationFolder -ItemType Directory -Force
             Copy-Item -Path $IconSourcePath -Destination $IconDestinationFolder -Force
+            # Get the Local Icon Path
             [System.String]$IconFileName    = (Get-Item -Path $IconSourcePath).Name 
             [System.String]$LocalIconPath   = (Get-ChildItem -Path $IconDestinationFolder -File | Where-Object { $_.Name -eq $IconFileName }).FullName
 
