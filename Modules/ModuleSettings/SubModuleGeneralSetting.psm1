@@ -59,7 +59,7 @@ function Import-SubModuleGeneralSettings {
 
             # Register the help file in the main Help menu
             if ($HelpFilePath) {
-                Register-HelpMenuItem -Text "SubModule $($SubModuleProperties.Title) Help" -HelpFilePath $HelpFilePath -Order 200
+                Register-HelpMenuItem -Text "SubModule $($SubModuleProperties.Title) Help" -HelpFilePath $HelpFilePath -Order 300
             }
 
             # Import the Features
@@ -94,7 +94,7 @@ function Import-SubModuleGeneralSettings {
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.0.0282
+    Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : October 2023
     Last Update     : February 2026
