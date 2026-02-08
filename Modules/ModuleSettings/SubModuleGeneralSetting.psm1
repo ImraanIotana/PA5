@@ -113,9 +113,6 @@ function Import-FeatureFolderSettings {
             NumberOfRows    = [System.Int32]4
         }
 
-        # Set the Default Values for the TextBoxes
-        [System.String]$DefaultDSLFolder        = $ApplicationObject.Settings.DefaultDSLFolder
-
         # Set the Button Properties Array
         [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') )
 
@@ -133,7 +130,16 @@ function Import-FeatureFolderSettings {
             ButtonPropertiesArray   = $FolderButtonsArray
         }
 
-        #
+        # Set the DSL Folder TextBox Properties
+        [System.Collections.Hashtable]$DSLFolderTextBoxProperties = @{
+            RowNumber               = 3
+            Label                   = 'Software Library (DSL):'
+            ToolTip                 = 'Enter the path to your Software Library (DSL) folder. You can use the "Copy" and "Paste" buttons to easily copy and paste the path. The "Default" button will reset the path to the default value.'
+            PropertyName            = 'MSet_SGen_FFol_DSLFolderTextBox'
+            SizeType                = 'Large'
+            DefaultValue            = $ApplicationObject.Settings.DefaultDSLFolder
+            ButtonPropertiesArray   = $FolderButtonsArray
+        }
 
         ####################################################################################################
     } 
@@ -146,7 +152,7 @@ function Import-FeatureFolderSettings {
         [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_OutputFolderTextBox = Invoke-TextBox @OutputFolderTextBoxProperties -ParentGroupBox $ParentGroupBox
 
         # Create the DSL Folder TextBox
-        [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_DSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Software Library (DSL):' -PropertyName 'MSet_SGen_FFol_DSLFolderTextBox' -DefaultValue $DefaultDSLFolder -ButtonPropertiesArray $FolderButtonsArray
+        [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_DSLFolderTextBox = Invoke-TextBox @DSLFolderTextBoxProperties -ParentGroupBox $ParentGroupBox
     }
 
     end {
