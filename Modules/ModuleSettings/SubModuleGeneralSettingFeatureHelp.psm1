@@ -153,7 +153,7 @@ function Invoke-NewShortcut {
         [System.String]$ApplicationName      = $ApplicationObject.Name
         [System.String]$PowershellPath      = (Join-Path -Path $ApplicationObject.WindowsFolder -ChildPath 'System32\WindowsPowerShell\v1.0\powershell.exe')
         [System.String]$ShortcutFileName    = "$ApplicationName.lnk"
-        [System.String]$IconSourcePath      = (Get-SharedAssetPath -AssetName MainApplicationIcon)
+        [System.String]$IconSourcePath      = (Get-ApplicationSetting -Name MainApplicationIcon)
 
         # Argument Handlers
         [System.String]$PS1FilePath         = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath 'PackagingAssistant.ps1')
