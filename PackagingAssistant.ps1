@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.234'
+        Version                     = [System.String]'5.7.1.235'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -66,12 +66,6 @@ begin {
             CopyrightNotice         = 'Copyright (C) Iotana. All rights reserved.'
             LoadingMessageFix       = 'Loading the {0} version {1}...'
             WelcomeMessageFix       = 'Welcome to the {0} version {1}.'
-            SettingWorkFolders      = 'Setting workfolders...'
-            ImportingSettings       = 'Importing settings...'
-            LoadingFunctions        = 'Loading functions...'
-            LoadingGraphics         = 'Loading graphical prerequisites...'
-            LoadingAssembliesFix    = 'Loading Assembly: ({0})'
-            AddingFontsToSettings   = 'Adding the fonts to the Settings...'
             HostPromptText          = 'Press Enter to close this window...'
         }
         # End Handlers
@@ -83,15 +77,13 @@ begin {
 
     function Add-WorkFoldersToMainObject { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Create a new empty WorkFolders hashtable
-        Write-Host $Object.Messages.SettingWorkFolders -ForegroundColor DarkGray
+        Write-Host 'Setting workfolders...' -ForegroundColor DarkGray
         [System.Collections.Hashtable]$WorkFolders = @{}
         # Add the full paths to the new WorkFolders hashtable
         $Object.WorkFolderLeafNames.GetEnumerator() | ForEach-Object {
             [System.String]$FolderId    = $_.Name
             [System.String]$FullPath    = Join-Path -Path $Object.RootFolder -ChildPath $_.Value
-            #Write-Verbose ('Setting the full path of folder id ({0}) to: ({1})' -f $FolderId, $FullPath)
             $WorkFolders[$FolderId] = $FullPath
-            #$WorkFolders.$FolderId = $FullPath
         }
         # Add the new WorkFolders hashtable to the main object
         $Object | Add-Member -NotePropertyName WorkFolders -NotePropertyValue $WorkFolders
@@ -104,7 +96,7 @@ begin {
 
     function Add-SettingsToMainObject { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Import the Settings
-        Write-Line $Object.Messages.ImportingSettings
+        Write-Line 'Importing settings...'
         [System.String]$SettingsFilePath = Join-Path -Path $Object.WorkFolders.Settings -ChildPath $Object.SettingsFileName
         [System.Collections.Hashtable]$Settings = Import-PowerShellDataFile -Path $SettingsFilePath
         # Import the Customer Settings
@@ -118,10 +110,9 @@ begin {
 
     function Add-GraphicalPrerequisites { param([PSCustomObject]$Object = $Global:ApplicationObject)
         # Load the assemblies
-        Write-Line $Object.Messages.LoadingGraphics
-        $Object.Settings.Assemblies | ForEach-Object { Write-Verbose ($Object.Messages.LoadingAssembliesFix -f $_) ; Add-Type -AssemblyName $_ }
+        Write-Line 'Loading graphical prerequisites...'
+        $Object.Settings.Assemblies | ForEach-Object { Add-Type -AssemblyName $_ }
         # Add the fonts
-        Write-Verbose $Object.Messages.AddingFontsToSettings
         [System.Drawing.Font]$MainFont = New-Object System.Drawing.Font($Object.Settings.MainFont.Name,$Object.Settings.MainFont.Size,[System.Drawing.FontStyle]::Bold)
         Add-Member -InputObject $Object.Settings -NotePropertyName MainFont -NotePropertyValue $MainFont
     }
@@ -158,26 +149,18 @@ process {
     [System.String[]]$FullPathsToSearch = @('SharedFunctions','SharedModules','Modules') | ForEach-Object { $Global:ApplicationObject.WorkFolders[$_] }
     # Get all PS1 and PSM1 file objects
     [System.IO.FileSystemInfo[]]$AllFilesToUnblock = $FullPathsToSearch | ForEach-Object { Get-ChildItem -Path $_ -Recurse -File -Include *.ps1,*.psm1 -ErrorAction SilentlyContinue }
-    # Set the properties for progress
-    #[System.Int32]$TotalFileCount   = @($AllFilesToUnblock).Count
-    #[System.Int32]$FileCounter      = 0
-    #[System.String]$Activity        = $Global:ApplicationObject.Messages.LoadingFunctions
-    Write-Host $Global:ApplicationObject.Messages.LoadingFunctions -ForegroundColor DarkGray
-    # Unblock all files with progress
+    # Unblock all files and dotsource the PS1 files
+    Write-Host 'Loading functions...' -ForegroundColor DarkGray
     $AllFilesToUnblock | ForEach-Object {
-        # Update the progress
-        #$FileCounter++
-        #[System.Int32]$PercentComplete = [Math]::Round(($FileCounter / $TotalFileCount) * 100)
-        #Write-Progress -Activity $Activity -Status "[$FileCounter/$TotalFileCount]" -PercentComplete $PercentComplete -CurrentOperation $_.Name
         # Unblock the file
         Unblock-File -Path $_.FullName
         # If the file is a ps1, then also dotsource it
         if ($_.Extension -eq '.ps1') { . $_.FullName }
     }
-    #Write-Progress -Activity $Activity -Completed
 
 
-    # Continue the Initialization (After dotsourcing, all functions have become available.)
+    # CONTINUE THE INITIALIZATION
+    # After dotsourcing, all functions have become available.
     New-LogFolder
     Import-PAModules
     Add-SettingsToMainObject
