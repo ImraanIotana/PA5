@@ -179,7 +179,7 @@ function Get-SharedAssetPath {
                 'ReturnDeploymentScript'        { $this.GetApplicationDeploymentScriptPath($this.ApplicationID) }
                 'ReturnMetadataFolderPath'      { $this.GetApplicationMetadataFolderPath($this.ApplicationID) }
                 'ReturnMetadataFilePath'        { $this.GetApplicationMetadataFilePath($this.ApplicationID) }
-                'ReturnOutputFolder'            { Invoke-RegistrySettings -Read -PropertyName ASFSOutputFolderTextBox }
+                'ReturnOutputFolder'            { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FFol_OutputFolderTextBox }
                 'ReturnLogFolder'               { $Global:ApplicationObject.LogFolder }
                 # SCCM
                 'ReturnSCCMImageFolderPath'     { $this.GetApplicationSCCMImageFolderPath($this.ApplicationID) }

@@ -83,7 +83,7 @@ function Import-FeatureHelp {
                 ColumnNumber    = 5
                 Text            = 'Version History'
                 ToolTip         = 'Open the Version History in Notepad.'
-                Function        = { Start-Process -FilePath notepad -ArgumentList $Global:ApplicationObject.VersionHistoryFilePath }
+                Function        = { Open-VersionHistoryFile }
             }
         )
     } 
@@ -107,9 +107,56 @@ function Import-FeatureHelp {
 ####################################################################################################
 <#
 .SYNOPSIS
+    This function opens the Version History file in Notepad.
+.DESCRIPTION
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
+.EXAMPLE
+    Open-VersionHistoryFile
+.INPUTS
+    None
+.OUTPUTS
+    This function returns no stream output.
+.NOTES
+    Version         : 5.7.1
+    Author          : Imraan Iotana
+    Creation Date   : February 2026
+    Last Update     : February 2026
+#>
+####################################################################################################
+
+function Open-VersionHistoryFile {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
+        [PSCustomObject]$ApplicationObject = $Global:ApplicationObject
+    )
+
+    begin {
+    }
+
+    process {
+        try {
+            Start-Process -FilePath notepad -ArgumentList $ApplicationObject.VersionHistoryFilePath
+        }
+        catch {
+            Write-FullError
+        }
+    }
+
+    end {
+    }
+}
+
+### END OF SCRIPT
+####################################################################################################
+
+
+####################################################################################################
+<#
+.SYNOPSIS
     This function creates a new Shortcut for the Packaging Assistant.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Invoke-NewShortcut -Desktop
 .INPUTS
@@ -152,24 +199,71 @@ function Invoke-NewShortcut {
     process {
         try {
             # PROPERTIES
-            # Add the Destination Folder to the Object
+            # Add the Destination Folder
             $ShortcutPropertiesObject['DestinationFolder']      = if ($Desktop.IsPresent) { $ApplicationObject.UserDesktopFolder } else { $ApplicationObject.UserStartMenuFolder }
-            # Add the Shortcut File Name to the Object
+            # Add the Shortcut File Name
             $ShortcutPropertiesObject['ShortcutFileName']       = "$($ShortcutPropertiesObject.ApplicationName).lnk"
-            # Add the Shortcut Full Path to the Object
+            # Add the Shortcut Full Path
             $ShortcutPropertiesObject['ShortcutFullPath']       = Join-Path -Path $ShortcutPropertiesObject.DestinationFolder -ChildPath $ShortcutPropertiesObject.ShortcutFileName
-            # Add the Icon Destination Folder to the Object
+            # Add the Icon Destination Folder
             $ShortcutPropertiesObject['IconDestinationFolder']  = Join-Path -Path $ENV:APPDATA -ChildPath $ShortcutPropertiesObject.ApplicationName
-            # Add the Icon File name to the Object
+            # Add the Icon File Name
             $ShortcutPropertiesObject['IconFileName']           = (Get-Item -Path $ShortcutPropertiesObject.IconSourcePath).Name
-            # Add the Local Icon Path to the Object
+            # Add the Local Icon Path
             $ShortcutPropertiesObject['LocalIconPath']          = Join-Path -Path $ShortcutPropertiesObject.IconDestinationFolder -ChildPath $ShortcutPropertiesObject.IconFileName
-            # Add the PS1 File Path to the Object
+            # Add the PS1 File Path
             $ShortcutPropertiesObject['PS1FilePath']            = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath $ApplicationObject.MainScriptFileName)
-            # Add the Shortcut Argument to the Object
+            # Add the Shortcut Argument
             $ShortcutPropertiesObject['ShortcutArgument']       = ('-Executionpolicy Bypass -WindowStyle Normal -File "{0}"' -f $ShortcutPropertiesObject.PS1FilePath)
 
+            # Create the Shortcut
+            New-Shortcut -ShortcutPropertiesObject $ShortcutPropertiesObject
+        }
+        catch {
+            Write-FullError
+        }
+    }
 
+    end {
+    }
+}
+
+### END OF SCRIPT
+####################################################################################################
+
+
+####################################################################################################
+<#
+.SYNOPSIS
+    This function creates a new Shortcut based on the provided properties.
+.DESCRIPTION
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
+.EXAMPLE
+    New-Shortcut -ShortcutPropertiesObject $ShortcutPropertiesObject
+.INPUTS
+    [System.Collections.Hashtable]
+.OUTPUTS
+    This function returns no stream output.
+.NOTES
+    Version         : 5.7.1
+    Author          : Imraan Iotana
+    Creation Date   : February 2026
+    Last Update     : February 2026
+#>
+####################################################################################################
+
+function New-Shortcut {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true,HelpMessage='Hashtable containing the Shortcut properties.')]
+        [System.Collections.Hashtable]$ShortcutPropertiesObject
+    )
+
+    begin {
+    }
+
+    process {
+        try {
             # CONFIRMATION
             # Get the ShortcutFullPath
             [System.String]$ShortcutFullPath = $ShortcutPropertiesObject.ShortcutFullPath

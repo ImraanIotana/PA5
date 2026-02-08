@@ -114,11 +114,24 @@ function Import-FeatureFolderSettings {
         }
 
         # Set the Default Values for the TextBoxes
-        [System.String]$DefaultOutputFolder     = $ApplicationObject.DefaultOutputFolder
         [System.String]$DefaultDSLFolder        = $ApplicationObject.Settings.DefaultDSLFolder
 
         # Set the Button Properties Array
-        [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') ) 
+        [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') )
+
+        ####################################################################################################
+        ### TEXTBOX PROPERTIES ###
+
+        # Set the Output Folder TextBox Properties
+        [System.Collections.Hashtable]$OutputFolderTextBoxProperties = @{
+            RowNumber               = 1
+            Label                   = 'My Output Folder:'
+            ToolTip                 = 'Enter the path to your output folder. You can use the "Copy" and "Paste" buttons to easily copy and paste the path. The "Default" button will reset the path to the default value.'
+            PropertyName            = 'MSet_SGen_FFol_OutputFolderTextBox'
+            SizeType                = 'Large'
+            DefaultValue            = $ApplicationObject.DefaultOutputFolder
+            ButtonPropertiesArray   = $FolderButtonsArray
+        }
 
         ####################################################################################################
     } 
@@ -127,8 +140,8 @@ function Import-FeatureFolderSettings {
         # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
         [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FFol_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
        
-        # Create the ASSSSiteCodeTextBox
-        [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox' -DefaultValue $DefaultOutputFolder -ButtonPropertiesArray $FolderButtonsArray
+        # Create the Output Folder TextBox
+        [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_OutputFolderTextBox = Invoke-TextBox @OutputFolderTextBoxProperties -ParentGroupBox $ParentGroupBox
 
         # Create the ASFSDSLFolderTextBox
         [System.Windows.Forms.TextBox]$Global:ASFSDSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Software Library (DSL):' -PropertyName 'ASFSDSLFolderTextBox' -DefaultValue $DefaultDSLFolder -ButtonPropertiesArray $FolderButtonsArray
