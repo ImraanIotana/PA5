@@ -80,7 +80,6 @@ function Import-SubModuleGeneralSettings {
     Import-FeatureFolderSettings -ParentTabPage $MyGlobalTabPage
 .INPUTS
     [PSCustomObject]
-    [System.Windows.Forms.TabControl]
     [System.Windows.Forms.TabPage]
 .OUTPUTS
     This function returns no stream output.
@@ -98,9 +97,6 @@ function Import-FeatureFolderSettings {
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
         [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
 
-        [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl that will be used for the dimensions of the Groupbox and other graphical elements.')]
-        [System.Windows.Forms.TabControl]$ParentTabControl,
-
         [Parameter(Mandatory=$true,HelpMessage='The Parent object to which this feature will be added.')]
         [System.Windows.Forms.TabPage]$ParentTabPage
     )
@@ -110,15 +106,16 @@ function Import-FeatureFolderSettings {
         ### MAIN PROPERTIES ###
 
         # GroupBox properties
-        [PSCustomObject]$GroupBox = @{
+        [System.Collections.Hashtable]$GroupBoxProperties = @{
+            ParentTabPage   = $ParentTabPage
             Title           = [System.String]'Folder Settings'
             Color           = [System.String]'Brown'
             NumberOfRows    = [System.Int32]4
         }
 
-        # Default Values for the SCCM Settings
-        [System.String]$DefaultOutputFolder     = $Global:ApplicationObject.DefaultOutputFolder
-        [System.String]$DefaultDSLFolder        = $Global:ApplicationObject.Settings.DefaultDSLFolder
+        # Set the Default Values for the TextBoxes
+        [System.String]$DefaultOutputFolder     = $ApplicationObject.DefaultOutputFolder
+        [System.String]$DefaultDSLFolder        = $ApplicationObject.Settings.DefaultDSLFolder
 
         # Set the Button Properties Array
         [System.Object[][]]$FolderButtonsArray  = @( (1,'Browse') , (2,'Open') , (3,'Copy') , (4,'Paste') , (5,'Default') ) 
@@ -128,7 +125,7 @@ function Import-FeatureFolderSettings {
     
     process {
         # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
-        [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupBox.Title -NumberOfRows $GroupBox.NumberOfRows -Color $GroupBox.Color -OnSubTab
+        [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FFol_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
        
         # Create the ASSSSiteCodeTextBox
         [System.Windows.Forms.TextBox]$Global:ASFSOutputFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Output Folder:' -PropertyName 'ASFSOutputFolderTextBox' -DefaultValue $DefaultOutputFolder -ButtonPropertiesArray $FolderButtonsArray
@@ -182,14 +179,8 @@ function Import-FeaturePersonalSettings {
             Title           = [System.String]'Personal Settings'
             Color           = [System.String]'Brown'
             NumberOfRows    = [System.Int32]4
-            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox
+            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FFol_GroupBox
         }
-        <#[PSCustomObject]$GroupBox = @{
-            Title           = [System.String]'Personal Settings'
-            Color           = [System.String]'Brown'
-            NumberOfRows    = [System.Int32]4
-            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:FolderSettingsGroupBox
-        }#>
         
         # Set the Button Properties Array
         [System.Object[][]]$ButtonPropertiesArray = @( (1,'Copy') , (2,'Paste') , (5,'Clear') )
@@ -200,7 +191,7 @@ function Import-FeaturePersonalSettings {
     process {
         try {
             # Create the GroupBox (This groupbox must be global to relate to groupboxes in other features)
-            [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
+            [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FPer_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
 
             # Create the ASPSUserFullNameTextBox
             [System.Windows.Forms.TextBox]$Global:ASPSUserFullNameTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Large -Type Input -Label 'My Full Name:' -PropertyName 'ASPSUserFullNameTextBox' -ButtonPropertiesArray $ButtonPropertiesArray
@@ -259,7 +250,7 @@ function Import-FeatureHelp {
             Title           = [System.String]'Help'
             Color           = [System.String]'Brown'
             NumberOfRows    = [System.Int32]1
-            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:PersonalSettingsGroupBox
+            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FPer_GroupBox
         }
 
         ####################################################################################################
@@ -286,7 +277,7 @@ function Import-FeatureHelp {
                 Text            = 'Open Logfolder'
                 ToolTip         = 'Open the Logfolder in File Explorer.'
                 Image           = 'folder_page.png'
-                Function        = { Open-Folder -Path (Get-SharedAssetPath -LogFolder) }
+                Function        = { Open-Folder -Path (Get-ApplicationSetting -Name 'LogFolder') }
             }
             @{
                 ColumnNumber    = 4
