@@ -43,9 +43,6 @@ function Import-SubModuleGeneralSettings {
             Version             = [System.String]'5.7.1'
             BackGroundColor     = [System.String]'Cornsilk'
         }
-        #[System.String]$TabTitle        = 'General Settings'
-        #[System.String]$ModuleVersion   = '5.7.0'
-        #[System.String]$BackGroundColor = 'Cornsilk'
 
         ####################################################################################################
     }
