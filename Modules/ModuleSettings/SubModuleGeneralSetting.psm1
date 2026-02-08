@@ -60,6 +60,8 @@ function Import-SubModuleGeneralSettings {
             # Register the help file in the main Help menu
             if ($HelpFilePath) {
                 Register-HelpMenuItem -Text "SubModule $($SubModuleProperties.Title) Help" -HelpFilePath $HelpFilePath
+            } else {
+                Write-Line "Help file not found for submodule '$($SubModuleProperties.Title)'. Expected at: $HelpFilePath" -Type Fail
             }
 
             # Import the Features
