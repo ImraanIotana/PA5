@@ -145,47 +145,53 @@ function Invoke-NewShortcut {
         # Function
         [System.String]$ParameterSetName    = $PSCmdlet.ParameterSetName
 
-        # User Folder Handlers
-        [System.String]$UserDesktopFolder   = $ApplicationObject.UserDesktopFolder
-        [System.String]$UserStartMenuFolder = $ApplicationObject.UserStartMenuFolder
-
-        # Shortcut Handlers
-        [System.String]$ApplicationName      = $ApplicationObject.Name
-        [System.String]$PowershellPath      = (Join-Path -Path $ApplicationObject.WindowsFolder -ChildPath 'System32\WindowsPowerShell\v1.0\powershell.exe')
-        [System.String]$ShortcutFileName    = "$ApplicationName.lnk"
-        [System.String]$IconSourcePath      = (Get-ApplicationSetting -Name MainApplicationIcon)
-
-        # Argument Handlers
-        [System.String]$PS1FilePath         = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath 'PackagingAssistant.ps1')
-        [System.String]$ShortcutArgument    = ('-Executionpolicy Bypass -WindowStyle Normal -File "{0}"' -f $PS1FilePath)
-
         ####################################################################################################
     }
     
     process {
         try {
             # PROPERTIES
-            # Set the Destination Path based on the ParameterSetName
-            [System.String]$DestinationFolder = switch ($ParameterSetName) {
-                'CreateDesktopShortcut'     { $UserDesktopFolder }
-                'CreateStartMenuShortcut'   { $UserStartMenuFolder }
+            # Set the Shortcut Properties Object
+            [System.Collections.Hashtable]$ShortcutPropertiesObject = @{
+                ApplicationName = $ApplicationObject.Name
+                PowershellPath  = $ApplicationObject.PowerShellExecutablePath
+                IconSourcePath  = (Get-ApplicationSetting -Name MainApplicationIcon)
             }
-            # Set the Shortcut Full Path
-            [System.String]$ShortcutFullPath = Join-Path -Path $DestinationFolder -ChildPath $ShortcutFileName
+            # Add the Destination Folder to the Object
+            $ShortcutPropertiesObject['DestinationFolder'] = switch ($ParameterSetName) {
+                'CreateDesktopShortcut'     { $ApplicationObject.UserDesktopFolder }
+                'CreateStartMenuShortcut'   { $ApplicationObject.UserStartMenuFolder }
+            }
+            # Add the Shortcut File Name to the Object
+            $ShortcutPropertiesObject['ShortcutFileName'] = "$($ShortcutPropertiesObject.ApplicationName).lnk"
+            # Add the Shortcut Full Path to the Object
+            $ShortcutPropertiesObject['ShortcutFullPath'] = Join-Path -Path $ShortcutPropertiesObject.DestinationFolder -ChildPath $ShortcutPropertiesObject.ShortcutFileName
+            # Add the Icon Destination Folder to the Object
+            $ShortcutPropertiesObject['IconDestinationFolder'] = Join-Path -Path $ENV:APPDATA -ChildPath $ShortcutPropertiesObject.ApplicationName
+            # Add the Icon File name to the Object
+            $ShortcutPropertiesObject['IconFileName'] = (Get-Item -Path $ShortcutPropertiesObject.IconSourcePath).Name
+            # Add the Local Icon Path to the Object
+            $ShortcutPropertiesObject['LocalIconPath'] = Join-Path -Path $ShortcutPropertiesObject.IconDestinationFolder -ChildPath $ShortcutPropertiesObject.IconFileName
+            # Add the PS1 File Path to the Object
+            $ShortcutPropertiesObject['PS1FilePath'] = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath $ApplicationObject.MainScriptFileName)
+            # Add the Shortcut Argument to the Object
+            $ShortcutPropertiesObject['ShortcutArgument'] = ('-Executionpolicy Bypass -WindowStyle Normal -File "{0}"' -f $ShortcutPropertiesObject.PS1FilePath)
 
             # CONFIRMATION
+            # Get the ShortcutFullPath
+            [System.String]$ShortcutFullPath = $ShortcutPropertiesObject.ShortcutFullPath
             # Get user confirmation
-            if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut.`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
+            if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut:`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
 
             # ICON
-            # Set the Icon Destination Folder
-            [System.String]$IconDestinationFolder = Join-Path -Path $ENV:APPDATA -ChildPath $ApplicationName
+            # Get the IconDestinationFolder
+            [System.String]$IconDestinationFolder = $ShortcutPropertiesObject.IconDestinationFolder
+            # Create the Icon Destination Folder if it doesn't exist
+            if (-Not (Test-Path -Path $IconDestinationFolder)) {
+                New-Item -Path $IconDestinationFolder -ItemType Directory -Force
+            }
             # Copy the Icon to the Destination Folder
-            New-Item -Path $IconDestinationFolder -ItemType Directory -Force
-            Copy-Item -Path $IconSourcePath -Destination $IconDestinationFolder -Force
-            # Get the Local Icon Path
-            [System.String]$IconFileName    = (Get-Item -Path $IconSourcePath).Name 
-            [System.String]$LocalIconPath   = (Get-ChildItem -Path $IconDestinationFolder -File | Where-Object { $_.Name -eq $IconFileName }).FullName
+            Copy-Item -Path $ShortcutPropertiesObject.IconSourcePath -Destination $IconDestinationFolder -Force
 
             # SHORTCUT CREATION
             # Create the Shortcut
@@ -193,9 +199,9 @@ function Invoke-NewShortcut {
             # Create a new WScript Shortcut object
             [System.__ComObject]$WScriptShellObject     = New-Object -ComObject WScript.Shell
             [System.__ComObject]$WScriptShortcutObject  = $WScriptShellObject.CreateShortcut($ShortcutFullPath)
-            $WScriptShortcutObject.TargetPath           = $PowershellPath
-            $WScriptShortcutObject.Arguments            = $ShortcutArgument
-            $WScriptShortcutObject.IconLocation         = $LocalIconPath
+            $WScriptShortcutObject.TargetPath           = $ShortcutPropertiesObject.PowershellPath
+            $WScriptShortcutObject.Arguments            = $ShortcutPropertiesObject.ShortcutArgument
+            $WScriptShortcutObject.IconLocation         = $ShortcutPropertiesObject.LocalIconPath
             # Save the new object
             $WScriptShortcutObject.Save()
             # Write the message

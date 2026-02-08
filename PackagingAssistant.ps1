@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.223'
+        Version                     = [System.String]'5.7.1.224'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -55,10 +55,12 @@ begin {
             Modules                 = 'Modules'
         }
         # File Handlers
+        MainScriptFileName          = [System.String]'PackagingAssistant.ps1'
         SettingsFileName            = [System.String]'ApplicationSettings.psd1'
         CustomerSettingsFileName    = [System.String]'CustomerSettings.psd1'
         IconFileName                = [System.String]'KPN.ico'
         VersionHistoryFilePath      = [System.String](Join-Path -Path $PSScriptRoot -ChildPath 'README.md')
+        PowerShellExecutablePath    = [System.String](Join-Path -Path $ENV:windir -ChildPath 'System32\WindowsPowerShell\v1.0\powershell.exe')
         # Message Handlers
         Messages                    = [System.Collections.Hashtable]@{
             CopyrightNotice         = 'Copyright (C) Iotana. All rights reserved.'
