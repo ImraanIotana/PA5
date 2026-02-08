@@ -53,7 +53,7 @@ function Import-FeatureHelp {
         [System.Collections.Hashtable[]]$ButtonPropertiesArray = @(
             @{
                 ColumnNumber    = 1
-                Text            = 'Desktop Shortcut'
+                Text            = 'Create Desktop Shortcut'
                 ToolTip         = 'Create a Desktop Shortcut.'
                 SizeType        = 'Large'
                 Image           = 'Desktop.png'
@@ -61,7 +61,7 @@ function Import-FeatureHelp {
             }
             @{
                 ColumnNumber    = 2
-                Text            = 'StartMenu Shortcut'
+                Text            = 'Create StartMenu Shortcut'
                 ToolTip         = 'Create a StartMenu Shortcut.'
                 SizeType        = 'Large'
                 Image           = 'Menu.png'
@@ -77,7 +77,7 @@ function Import-FeatureHelp {
             }
             @{
                 ColumnNumber    = 4
-                Text            = 'Reset All'
+                Text            = 'Reset All Settings'
                 ToolTip         = 'Reset all settings to their default values.'
                 SizeType        = 'Large'
                 Image           = 'arrow_rotate_clockwise.png'
@@ -184,7 +184,7 @@ function Invoke-NewShortcut {
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
         [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
 
-        [Parameter(Mandatory=$true,HelpMessage='Switch for creating a Desktop shortcut.')]
+        [Parameter(Mandatory=$false,HelpMessage='Switch for creating a Desktop shortcut.')]
         [System.Management.Automation.SwitchParameter]$Desktop
     )
 
