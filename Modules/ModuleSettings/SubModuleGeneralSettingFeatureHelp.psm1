@@ -63,7 +63,7 @@ function Import-FeatureHelp {
                 Text            = 'StartMenu Shortcut'
                 ToolTip         = 'Create a StartMenu Shortcut.'
                 Image           = 'Menu.png'
-                Function        = { Invoke-NewShortcut -StartMenu }
+                Function        = { Invoke-NewShortcut }
             }
             @{
                 ColumnNumber    = 3
@@ -131,19 +131,20 @@ function Invoke-NewShortcut {
         [Parameter(Mandatory=$false,HelpMessage='The ApplicationObject containing the Settings.')]
         [PSCustomObject]$ApplicationObject = $Global:ApplicationObject,
 
-        [Parameter(Mandatory=$true,ParameterSetName='CreateDesktopShortcut',HelpMessage='Switch for creating a Desktop shortcut.')]
-        [System.Management.Automation.SwitchParameter]$Desktop,
-
-        [Parameter(Mandatory=$true,ParameterSetName='CreateStartMenuShortcut',HelpMessage='Switch for creating a StartMenu shortcut.')]
-        [System.Management.Automation.SwitchParameter]$StartMenu
+        [Parameter(Mandatory=$true,HelpMessage='Switch for creating a Desktop shortcut.')]
+        [System.Management.Automation.SwitchParameter]$Desktop
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Function
-        [System.String]$ParameterSetName    = $PSCmdlet.ParameterSetName
+            # Set the Shortcut Properties Object
+            [System.Collections.Hashtable]$ShortcutPropertiesObject = @{
+                ApplicationName = $ApplicationObject.Name
+                PowershellPath  = $ApplicationObject.PowerShellExecutablePath
+                IconSourcePath  = (Get-ApplicationSetting -Name MainApplicationIcon)
+            }
 
         ####################################################################################################
     }
@@ -151,37 +152,30 @@ function Invoke-NewShortcut {
     process {
         try {
             # PROPERTIES
-            # Set the Shortcut Properties Object
-            [System.Collections.Hashtable]$ShortcutPropertiesObject = @{
-                ApplicationName = $ApplicationObject.Name
-                PowershellPath  = $ApplicationObject.PowerShellExecutablePath
-                IconSourcePath  = (Get-ApplicationSetting -Name MainApplicationIcon)
-            }
             # Add the Destination Folder to the Object
-            $ShortcutPropertiesObject['DestinationFolder'] = switch ($ParameterSetName) {
-                'CreateDesktopShortcut'     { $ApplicationObject.UserDesktopFolder }
-                'CreateStartMenuShortcut'   { $ApplicationObject.UserStartMenuFolder }
-            }
+            $ShortcutPropertiesObject['DestinationFolder']      = if ($Desktop.IsPresent) { $ApplicationObject.UserDesktopFolder } else { $ApplicationObject.UserStartMenuFolder }
             # Add the Shortcut File Name to the Object
-            $ShortcutPropertiesObject['ShortcutFileName'] = "$($ShortcutPropertiesObject.ApplicationName).lnk"
+            $ShortcutPropertiesObject['ShortcutFileName']       = "$($ShortcutPropertiesObject.ApplicationName).lnk"
             # Add the Shortcut Full Path to the Object
-            $ShortcutPropertiesObject['ShortcutFullPath'] = Join-Path -Path $ShortcutPropertiesObject.DestinationFolder -ChildPath $ShortcutPropertiesObject.ShortcutFileName
+            $ShortcutPropertiesObject['ShortcutFullPath']       = Join-Path -Path $ShortcutPropertiesObject.DestinationFolder -ChildPath $ShortcutPropertiesObject.ShortcutFileName
             # Add the Icon Destination Folder to the Object
-            $ShortcutPropertiesObject['IconDestinationFolder'] = Join-Path -Path $ENV:APPDATA -ChildPath $ShortcutPropertiesObject.ApplicationName
+            $ShortcutPropertiesObject['IconDestinationFolder']  = Join-Path -Path $ENV:APPDATA -ChildPath $ShortcutPropertiesObject.ApplicationName
             # Add the Icon File name to the Object
-            $ShortcutPropertiesObject['IconFileName'] = (Get-Item -Path $ShortcutPropertiesObject.IconSourcePath).Name
+            $ShortcutPropertiesObject['IconFileName']           = (Get-Item -Path $ShortcutPropertiesObject.IconSourcePath).Name
             # Add the Local Icon Path to the Object
-            $ShortcutPropertiesObject['LocalIconPath'] = Join-Path -Path $ShortcutPropertiesObject.IconDestinationFolder -ChildPath $ShortcutPropertiesObject.IconFileName
+            $ShortcutPropertiesObject['LocalIconPath']          = Join-Path -Path $ShortcutPropertiesObject.IconDestinationFolder -ChildPath $ShortcutPropertiesObject.IconFileName
             # Add the PS1 File Path to the Object
-            $ShortcutPropertiesObject['PS1FilePath'] = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath $ApplicationObject.MainScriptFileName)
+            $ShortcutPropertiesObject['PS1FilePath']            = (Join-Path -Path $ApplicationObject.RootFolder -ChildPath $ApplicationObject.MainScriptFileName)
             # Add the Shortcut Argument to the Object
-            $ShortcutPropertiesObject['ShortcutArgument'] = ('-Executionpolicy Bypass -WindowStyle Normal -File "{0}"' -f $ShortcutPropertiesObject.PS1FilePath)
+            $ShortcutPropertiesObject['ShortcutArgument']       = ('-Executionpolicy Bypass -WindowStyle Normal -File "{0}"' -f $ShortcutPropertiesObject.PS1FilePath)
+
 
             # CONFIRMATION
             # Get the ShortcutFullPath
             [System.String]$ShortcutFullPath = $ShortcutPropertiesObject.ShortcutFullPath
             # Get user confirmation
             if (-Not(Get-UserConfirmation -Title 'Create New Shortcut' -Body "This will create the following Shortcut:`n`n$ShortcutFullPath`n`nAre you sure?" )) { Return }
+
 
             # ICON
             # Get the IconDestinationFolder
@@ -192,6 +186,7 @@ function Invoke-NewShortcut {
             }
             # Copy the Icon to the Destination Folder
             Copy-Item -Path $ShortcutPropertiesObject.IconSourcePath -Destination $IconDestinationFolder -Force
+
 
             # SHORTCUT CREATION
             # Create the Shortcut
