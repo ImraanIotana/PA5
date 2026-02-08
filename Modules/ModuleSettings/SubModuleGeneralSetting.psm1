@@ -59,7 +59,7 @@ function Import-SubModuleGeneralSettings {
 
             # Register the help file in the main Help menu
             if ($HelpFilePath) {
-                Register-HelpMenuItem -Text "SubModule $($SubModuleProperties.Title) Help" -HelpFilePath $HelpFilePath -Order 300
+                Register-HelpMenuItem -Text "Module $($SubModuleProperties.Title) Help" -HelpFilePath $HelpFilePath -Order 300
             }
 
             # Import the Features
