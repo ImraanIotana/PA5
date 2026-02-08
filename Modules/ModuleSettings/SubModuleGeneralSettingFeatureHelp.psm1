@@ -42,7 +42,7 @@ function Import-FeatureHelp {
             ParentTabPage   = $ParentTabPage
             Title           = 'Help'
             Color           = 'Brown'
-            NumberOfRows    = 1
+            NumberOfRows    = 2
             GroupBoxAbove   = $Global:MSet_SGen_FPer_GroupBox
         }
 
@@ -55,6 +55,7 @@ function Import-FeatureHelp {
                 ColumnNumber    = 1
                 Text            = 'Desktop Shortcut'
                 ToolTip         = 'Create a Desktop Shortcut.'
+                SizeType        = 'Large'
                 Image           = 'Desktop.png'
                 Function        = { Invoke-NewShortcut -Desktop }
             }
@@ -62,6 +63,7 @@ function Import-FeatureHelp {
                 ColumnNumber    = 2
                 Text            = 'StartMenu Shortcut'
                 ToolTip         = 'Create a StartMenu Shortcut.'
+                SizeType        = 'Large'
                 Image           = 'Menu.png'
                 Function        = { Invoke-NewShortcut }
             }
@@ -69,6 +71,7 @@ function Import-FeatureHelp {
                 ColumnNumber    = 3
                 Text            = 'Open Logfolder'
                 ToolTip         = 'Open the Logfolder in File Explorer.'
+                SizeType        = 'Large'
                 Image           = 'folder_page.png'
                 Function        = { Open-Folder -Path (Get-ApplicationSetting -Name 'LogFolder') }
             }
@@ -76,6 +79,7 @@ function Import-FeatureHelp {
                 ColumnNumber    = 4
                 Text            = 'Reset All'
                 ToolTip         = 'Reset all settings to their default values.'
+                SizeType        = 'Large'
                 Image           = 'arrow_rotate_clockwise.png'
                 Function        = { Invoke-RegistrySettings -ResetAll }
             }
@@ -83,6 +87,8 @@ function Import-FeatureHelp {
                 ColumnNumber    = 5
                 Text            = 'Version History'
                 ToolTip         = 'Open the Version History in Notepad.'
+                SizeType        = 'Large'
+                Image           = 'file_extension_log.png'
                 Function        = { Open-VersionHistoryFile }
             }
         )
