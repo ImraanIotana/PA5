@@ -38,12 +38,12 @@ function Import-FeatureHelp {
         ### MAIN PROPERTIES ###
 
         # GroupBox properties
-        [PSCustomObject]$GroupBoxProperties = @{
+        [System.Collections.Hashtable]$GroupBoxProperties = @{
             ParentTabPage   = $ParentTabPage
-            Title           = [System.String]'Help'
-            Color           = [System.String]'Brown'
-            NumberOfRows    = [System.Int32]1
-            GroupBoxAbove   = [System.Windows.Forms.GroupBox]$Global:MSet_SGen_FPer_GroupBox
+            Title           = 'Help'
+            Color           = 'Brown'
+            NumberOfRows    = 1
+            GroupBoxAbove   = $Global:MSet_SGen_FPer_GroupBox
         }
 
         ####################################################################################################
@@ -83,7 +83,7 @@ function Import-FeatureHelp {
                 ColumnNumber    = 5
                 Text            = 'Version History'
                 ToolTip         = 'Open the Version History in Notepad.'
-                Function        = { Start-Process -FilePath notepad -ArgumentList (Join-Path -Path $Global:ApplicationObject.RootFolder -ChildPath 'README.md') }
+                Function        = { Start-Process -FilePath notepad -ArgumentList $Global:ApplicationObject.VersionHistoryFilePath }
             }
         )
     } 
