@@ -12,7 +12,7 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
 .EXAMPLE
-    Import-SubModuleFolderSettings
+    Import-SubModuleGeneralSettings
 .INPUTS
     This function has no input parameters.
 .OUTPUTS
@@ -44,6 +44,11 @@ function Import-SubModuleGeneralSettings {
             BackGroundColor     = [System.String]'Cornsilk'
         }
 
+        # Set the Helpfile properties
+        [System.String]$HelpFileName    = "HelpFile SubModule $($SubModuleProperties.Title).pdf"
+        [System.String]$HelpFilePath    = (Get-ChildItem -Path $PSScriptRoot -File -Recurse -Filter $HelpFileName -ErrorAction SilentlyContinue).FullName
+
+
         ####################################################################################################
     }
     
@@ -51,6 +56,11 @@ function Import-SubModuleGeneralSettings {
         try {
             # Create the SubModule TabPage
             [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @SubModuleProperties
+
+            # Register the help file in the main Help menu
+            if ($HelpFilePath) {
+                Register-HelpMenuItem -Text "SubModule $($SubModuleProperties.Title) Help" -HelpFilePath $HelpFilePath -Order 200
+            }
 
             # Import the Features
             Import-FeatureFolderSettings -ParentTabPage $ParentTabPage
