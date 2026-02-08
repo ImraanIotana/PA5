@@ -171,7 +171,7 @@ function Get-SharedAssetPath {
                 'ReturnIntuneWinFileDecoder'    { $this.GetSharedAssetFullPath($this.SharedAssetsFolder,$this.IntuneWinFileDecoder) }
                 'ReturnIconExtractor'           { $this.GetSharedAssetFullPath($this.SharedAssetsFolder,$this.IconExtractor) }
                 # Folders
-                'ReturnDSLFolder'               { Invoke-RegistrySettings -Read -PropertyName ASFSDSLFolderTextBox }
+                'ReturnDSLFolder'               { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FFol_DSLFolderTextBox }
                 'ReturnApplicationFolders'      { $this.GetDSLApplicationFolders() }
                 'ReturnApplicationFolderPath'   { $this.GetDSLApplicationFolderPath($this.ApplicationID) }
                 'ReturnApplicationCustomer'     { $this.GetApplicationCustomerName($this.ApplicationID) }

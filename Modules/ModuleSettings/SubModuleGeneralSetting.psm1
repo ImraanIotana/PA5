@@ -133,6 +133,8 @@ function Import-FeatureFolderSettings {
             ButtonPropertiesArray   = $FolderButtonsArray
         }
 
+        #
+
         ####################################################################################################
     } 
     
@@ -143,8 +145,8 @@ function Import-FeatureFolderSettings {
         # Create the Output Folder TextBox
         [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_OutputFolderTextBox = Invoke-TextBox @OutputFolderTextBoxProperties -ParentGroupBox $ParentGroupBox
 
-        # Create the ASFSDSLFolderTextBox
-        [System.Windows.Forms.TextBox]$Global:ASFSDSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Software Library (DSL):' -PropertyName 'ASFSDSLFolderTextBox' -DefaultValue $DefaultDSLFolder -ButtonPropertiesArray $FolderButtonsArray
+        # Create the DSL Folder TextBox
+        [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_DSLFolderTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Large -Type Input -Label 'Software Library (DSL):' -PropertyName 'MSet_SGen_FFol_DSLFolderTextBox' -DefaultValue $DefaultDSLFolder -ButtonPropertiesArray $FolderButtonsArray
     }
 
     end {

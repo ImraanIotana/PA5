@@ -112,7 +112,7 @@ function Get-Path {
                 [System.String]$WordDocumentFilePath            = Join-Path -Path $ApplicationDocumentationFolder -ChildPath $WordDocumentFileName
                 $WordDocumentFilePath
             }
-            'GetDSLFolder'                  { Invoke-RegistrySettings -Read -PropertyName ASFSDSLFolderTextBox }
+            'GetDSLFolder'                  { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FFol_DSLFolderTextBox }
             'GetUserDownloadsFolder'        { Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads' }
             'GetOutputFolder'               { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FFol_OutputFolderTextBox }
             'GetAppLockerLDAPTEST'          { Invoke-RegistrySettings -Read -PropertyName FeatureAppLockerSettings-LDAPTESTTextBox }
