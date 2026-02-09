@@ -42,14 +42,14 @@ function Import-FeatureHelp {
             ParentTabPage   = $ParentTabPage
             Title           = 'Help'
             Color           = 'Brown'
-            NumberOfRows    = 2
+            NumberOfRows    = 4
             GroupBoxAbove   = $Global:MSet_SGen_FPer_GroupBox
         }
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        # Set the GetHelpButtons
+        # Set the Help Buttons
         [System.Collections.Hashtable[]]$ButtonPropertiesArray = @(
             @{
                 ColumnNumber    = 1
@@ -77,19 +77,30 @@ function Import-FeatureHelp {
             }
             @{
                 ColumnNumber    = 4
+                Text            = 'Version History'
+                ToolTip         = 'Open the Version History in Notepad.'
+                SizeType        = 'Large'
+                Image           = 'file_extension_log.png'
+                Function        = { Open-VersionHistoryFile }
+            }
+            @{
+                ColumnNumber    = 5
                 Text            = 'Reset All Settings'
                 ToolTip         = 'Reset all settings to their default values.'
                 SizeType        = 'Large'
                 Image           = 'arrow_rotate_clockwise.png'
                 Function        = { Invoke-RegistrySettings -ResetAll }
             }
+        )
+
+        # Set the Help Buttons 2
+        [System.Collections.Hashtable[]]$ButtonPropertiesArray2 = @(
             @{
                 ColumnNumber    = 5
-                Text            = 'Version History'
-                ToolTip         = 'Open the Version History in Notepad.'
+                Text            = 'Application Settings Key'
                 SizeType        = 'Large'
-                Image           = 'file_extension_log.png'
-                Function        = { Open-VersionHistoryFile }
+                DefaultIcon     = 'Registry'
+                Function        = { Start-RegistryEditor -ApplicationSettingsKey }
             }
         )
     } 
@@ -100,6 +111,7 @@ function Import-FeatureHelp {
 
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray2 -ParentGroupBox $ParentGroupBox -RowNumber 3
     }
 
     end {
