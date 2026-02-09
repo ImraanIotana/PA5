@@ -29,7 +29,7 @@ function Test-AppLockerPolicy {
         [Parameter(Mandatory=$false,ValueFromPipeline=$true,HelpMessage='The LDAP of the AppLocker policy that will be queried.')]
         [Alias('LDAP')]
         [System.String]
-        $AppLockerLDAP = (Get-Path -AppLockerLDAPTEST),
+        $AppLockerLDAP = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST'),
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for returning the result as a boolean.')]
         [System.Management.Automation.SwitchParameter]

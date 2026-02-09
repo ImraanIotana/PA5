@@ -24,11 +24,11 @@ function Export-AppLockerPolicy {
         [Parameter(Mandatory=$false,HelpMessage='The LDAP of the AppLocker policy that will be handled.')]
         [Alias('LDAP')]
         [System.String]
-        $AppLockerLDAP = (Get-Path -AppLockerLDAPTEST),
+        $AppLockerLDAP = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST'),
 
         [Parameter(Mandatory=$false,HelpMessage='The folder where the output will be placed.')]
         [System.String]
-        $OutputFolder = (Get-Path -OutputFolder),
+        $OutputFolder = (Get-ApplicationSetting -Name 'OutputFolder'),
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for returning the result.')]
         [System.Management.Automation.SwitchParameter]

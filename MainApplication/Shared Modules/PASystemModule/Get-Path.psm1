@@ -115,8 +115,8 @@ function Get-Path {
             'GetDSLFolder'                  { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FFol_DSLFolderTextBox }
             'GetUserDownloadsFolder'        { Join-Path -Path $ENV:USERPROFILE -ChildPath 'Downloads' }
             'GetOutputFolder'               { Invoke-RegistrySettings -Read -PropertyName MSet_SGen_FFol_OutputFolderTextBox }
-            'GetAppLockerLDAPTEST'          { Invoke-RegistrySettings -Read -PropertyName FeatureAppLockerSettings-LDAPTESTTextBox }
-            'GetAppLockerLDAPPROD'          { Invoke-RegistrySettings -Read -PropertyName FeatureAppLockerSettings-LDAPPRODTextBox }
+            'GetAppLockerLDAPTEST'          { Invoke-RegistrySettings -Read -PropertyName MSet_SApp_FApp_TB_LDAPTEST }
+            'GetAppLockerLDAPPROD'          { Invoke-RegistrySettings -Read -PropertyName MSet_SApp_FApp_TB_LDAPPROD }
             'GetSCCMRepository'             { Invoke-RegistrySettings -Read -PropertyName ASSSSCCMRepositoryTextBox }
             'GetSCCMSiteCode'               { Invoke-RegistrySettings -Read -PropertyName ASSSSiteCodeTextBox }
             'GetSCCMProviderMachineName'    { Invoke-RegistrySettings -Read -PropertyName ASSSProviderMachineNameTextBox }

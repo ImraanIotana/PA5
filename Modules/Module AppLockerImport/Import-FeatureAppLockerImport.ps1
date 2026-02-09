@@ -40,8 +40,8 @@ function Import-FeatureAppLockerImport {
         [System.String[]]$DSLApplicationFolders = Get-DSLApplicationFolder -All -Basenames
         # LDAP Handlers
         [System.Collections.Hashtable]$Global:LDAPEnvironmentHashtable = @{
-            TEST        = (Get-Path -AppLockerLDAPTEST)
-            PRODUCTION  = (Get-Path -AppLockerLDAPPROD)
+            TEST        = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST')
+            PRODUCTION  = (Get-ApplicationSetting -Name 'AppLockerLDAPPROD')
         }
 
 
