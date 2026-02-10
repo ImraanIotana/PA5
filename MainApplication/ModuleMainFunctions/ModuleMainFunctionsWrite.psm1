@@ -22,7 +22,7 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.1.248
+    Version         : 5.7.1.249
     Author          : Imraan Iotana
     Creation Date   : December 2025
     Last Update     : February 2026
@@ -48,16 +48,7 @@ function Write-Line {
 
         # Input
         [System.String]$InputMessage    = $Message
-        [System.String]$MessageType     = $Type
-
-        # Get the TimeStamp
-        #[System.DateTime]$UTCTimeStamp  = [DateTime]::UtcNow
-        #[System.String]$LogDate         = $UTCTimeStamp.ToString('yyyy-MM-dd')
-        #[System.String]$LogTime         = $UTCTimeStamp.ToString('HH:mm:ss.fff')
-        #[System.String]$FullTimeStamp   = "$LogDate $LogTime"
-
-        # Get the Calling Function
-        #[System.String]$CallingFunction = (Get-PSCallStack)[1].Command
+        [System.String]$InputType       = $Type
 
         ####################################################################################################
     }
@@ -65,14 +56,14 @@ function Write-Line {
     process {
         # MESSAGE PREPARATION
         # Set the FullMessage
-        [System.String]$FullMessage = switch ($MessageType) {
+        [System.String]$FullMessage = switch ($InputType) {
             'NoAction'          { 'No action has been taken.' }
             Default             { $InputMessage }
         }
         
         # COLOR PREPARATION
         # Set the ForegroundColor
-        [System.String]$ForegroundColor = switch ($MessageType) {
+        [System.String]$ForegroundColor = switch ($InputType) {
             'Busy'              { 'Yellow'  }
             'Fail'              { 'Red'     }
             'Normal'            { 'White'   }
@@ -81,7 +72,7 @@ function Write-Line {
             Default             { 'DarkGray'}
         }
         # Set the BackgroundColor
-        [System.String]$BackgroundColor = switch ($MessageType) {
+        [System.String]$BackgroundColor = switch ($InputType) {
             Default             { '' }
         }
 
