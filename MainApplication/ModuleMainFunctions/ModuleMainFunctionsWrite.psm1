@@ -22,7 +22,7 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.7.1.009
+    Version         : 5.7.1.248
     Author          : Imraan Iotana
     Creation Date   : December 2025
     Last Update     : February 2026
@@ -38,7 +38,7 @@ function Write-Line {
         [System.String]$Message,
 
         [Parameter(Mandatory=$false,Position=1,HelpMessage='Type for deciding the colors and prefixes.')]
-        [ValidateSet('Normal','Busy','NoAction','Success','SuccessNoAction','ValidationSuccess','Fail','ActionFail','ValidationFail','Special','Seperation','DoubleSeperation')]
+        [ValidateSet('Busy','Fail','NoAction','Normal','Special','Success')]
         [System.String]$Type
     )
 
@@ -51,63 +51,50 @@ function Write-Line {
         [System.String]$MessageType     = $Type
 
         # Get the TimeStamp
-        [System.DateTime]$UTCTimeStamp  = [DateTime]::UtcNow
-        [System.String]$LogDate         = $UTCTimeStamp.ToString('yyyy-MM-dd')
-        [System.String]$LogTime         = $UTCTimeStamp.ToString('HH:mm:ss.fff')
-        [System.String]$FullTimeStamp   = "$LogDate $LogTime"
+        #[System.DateTime]$UTCTimeStamp  = [DateTime]::UtcNow
+        #[System.String]$LogDate         = $UTCTimeStamp.ToString('yyyy-MM-dd')
+        #[System.String]$LogTime         = $UTCTimeStamp.ToString('HH:mm:ss.fff')
+        #[System.String]$FullTimeStamp   = "$LogDate $LogTime"
 
         # Get the Calling Function
-        [System.String]$CallingFunction = (Get-PSCallStack)[1].Command
+        #[System.String]$CallingFunction = (Get-PSCallStack)[1].Command
 
         ####################################################################################################
-
-
-        # Set the FullMessage
-        [System.String]$FullMessage = switch ($MessageType) {
-            'NoAction'          { 'No action has been taken.' }
-            'SuccessNoAction'   { 'No action has been taken.' }
-            'Seperation'        { "[$($FullTimeStamp)] " + ('-' * 100) }
-            'DoubleSeperation'  { "[$($FullTimeStamp)] " + ('=' * 100) }
-            'ValidationSuccess' { "[$($FullTimeStamp)] [$($CallingFunction)]: The validation is successful. The process will now start." }
-            'ValidationFail'    { "[$($FullTimeStamp)] [$($CallingFunction)]: The validation failed. The process will NOT start." }
-            Default             { $InputMessage }
-        }
-        
-
-        # Set the ForegroundColor
-        [System.String]$ForegroundColor = switch ($MessageType) {
-            'Busy'              { 'Yellow'  }
-            'Success'           { 'Green'   }
-            'Fail'              { 'Red'     }
-            'Normal'            { 'White'   }
-            'Special'           { 'Cyan'    }
-            'SuccessNoAction'   { 'Green'   }
-            'Seperation'        { 'White'   }
-            'DoubleSeperation'  { 'White'   }
-            'ValidationFail'    { 'White'   }
-            Default             { 'DarkGray'}
-        }
-
-        # Set the BackgroundColor
-        [System.String]$BackgroundColor = switch ($MessageType) {
-            'ActionFail'        { 'DarkRed' }
-            'ValidationFail'    { 'DarkRed' }
-            Default             { ''        }
-        }
     }
     
     process {
-        # EXECUTION
+        # MESSAGE PREPARATION
+        # Set the FullMessage
+        [System.String]$FullMessage = switch ($MessageType) {
+            'NoAction'          { 'No action has been taken.' }
+            Default             { $InputMessage }
+        }
+        
+        # COLOR PREPARATION
+        # Set the ForegroundColor
+        [System.String]$ForegroundColor = switch ($MessageType) {
+            'Busy'              { 'Yellow'  }
+            'Fail'              { 'Red'     }
+            'Normal'            { 'White'   }
+            'Special'           { 'Cyan'    }
+            'Success'           { 'Green'   }
+            Default             { 'DarkGray'}
+        }
+        # Set the BackgroundColor
+        [System.String]$BackgroundColor = switch ($MessageType) {
+            Default             { '' }
+        }
+
+        # PARAMETER PREPARATION
         # Set the Write-Host parameters
         [System.Collections.Hashtable]$WriteHostParams = @{
             'Object'            = $FullMessage
             'ForegroundColor'   = $ForegroundColor
         }
-        # Add BackgroundColor if specified
-        if (-not [System.String]::IsNullOrEmpty($BackgroundColor)) {
-            $WriteHostParams['BackgroundColor'] = $BackgroundColor
-        }
+        # Add the BackgroundColor if specified
+        if (-not [System.String]::IsNullOrEmpty($BackgroundColor)) { $WriteHostParams['BackgroundColor'] = $BackgroundColor }
 
+        # EXECUTION
         # Write the message
         Write-Host @WriteHostParams
     }
