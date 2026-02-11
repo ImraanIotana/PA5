@@ -176,17 +176,12 @@ function Import-FeatureAppLockerImport {
             $Global:MApplock_FApplock_EnvironmentComboBox.Text = 'TEST'
         }
 
-        # Set the ScriptBlock for setting the AppLocker Environment based on the ComboBox selection
-        $SetAppLockerEnvironment = {
+        # Set initial selection and bind handler
+        $Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$($Global:MApplock_FApplock_EnvironmentComboBox.Text)
+        $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
             [System.String]$Environment = $Global:MApplock_FApplock_EnvironmentComboBox.Text
             $Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$Environment
-        }
-
-        # Set initial selection and bind handler
-        & $SetAppLockerEnvironment
-        $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
-            & $SetAppLockerEnvironment
-            Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Global:MApplock_FApplock_EnvironmentComboBox.Text,$Global:MApplock_SelectedAppLockerLDAP)
+            Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Environment,$Global:MApplock_SelectedAppLockerLDAP)
         })
 
         # Create the buttons
