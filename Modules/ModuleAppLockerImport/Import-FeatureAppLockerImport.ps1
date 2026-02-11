@@ -37,11 +37,6 @@ function Import-FeatureAppLockerImport {
             NumberOfRows    = 7
         }
 
-        # Groupbox Handlers
-        #[System.String]$GroupboxTitle           = 'AppLocker Policy Import'
-        #[System.String]$GroupboxColor           = 'LightCyan'
-        #[System.Int32]$GroupboxNumberOfRows     = 7
-
         # ComboBox Handlers
         [System.String[]]$DSLApplicationFolders = Get-DSLApplicationFolder -All -Basenames
 
@@ -62,7 +57,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'folder.png'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the AppLocker folder'
-                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:ALAApplicationIDComboBox.Text -SubFolder AppLockerFolder) }
+                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
             }
             @{
                 ColumnNumber    = 6
@@ -70,7 +65,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'file_extension_log.png'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the logfile of the selected Application'
-                Function        = { Show-ApplicationLogFile -ApplicationID $Global:ALAApplicationIDComboBox.Text }
+                Function        = { Show-ApplicationLogFile -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text }
             }
         )
 
@@ -81,7 +76,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'folder.png'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the AppLocker folder'
-                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:ALAApplicationIDComboBox.Text -SubFolder AppLockerFolder) }
+                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
             }
             @{
                 RowNumber       = 2
@@ -101,7 +96,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Global:ALAApplicationIDComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP }
             }
            @{
                 ColumnNumber    = 3
@@ -110,7 +105,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield_add.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Import the AppLocker Policy'
-                Function        = { Add-AppLockerPolicy -ApplicationID $Global:ALAApplicationIDComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP }
+                Function        = { Add-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP }
             }
            @{
                 ColumnNumber    = 5
@@ -119,7 +114,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield_delete.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Remove the AppLocker Policy'
-                Function        = { Remove-AppLockerPolicy -ApplicationID $Global:ALAApplicationIDComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP }
+                Function        = { Remove-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP }
             }
         )
 
@@ -130,7 +125,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Global:ALAApplicationIDComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP -OutHost }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP -OutHost }
             }
             @{
                 RowNumber       = 8
@@ -138,7 +133,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Global:ALAApplicationIDComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP -OutGridView }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:SelectedAppLockerLDAP -OutGridView }
             }
         )
 
@@ -147,11 +142,10 @@ function Import-FeatureAppLockerImport {
     
     process {
         # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$Global:AppLockerApplicationGroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
-        # Create the GroupBox
-        #[System.Windows.Forms.GroupBox]$Global:AppLockerApplicationGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupboxTitle -NumberOfRows $GroupboxNumberOfRows -Color $GroupboxColor
-        # Create the ALAApplicationIDComboBox
-        [System.Windows.Forms.ComboBox]$Global:ALAApplicationIDComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray $DSLApplicationFolders -PropertyName 'ALAApplicationIDComboBox'
+        [System.Windows.Forms.GroupBox]$Global:MApplock_FApplock_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
+
+        # Create the MApplock_FApplock_ApplicationComboBox
+        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray $DSLApplicationFolders -PropertyName 'MApplock_FApplock_ApplicationComboBox'
         
         # Create the ALIEnvironmentComboBox
         [System.Windows.Forms.ComboBox]$Global:ALIEnvironmentComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 2 -SizeType Medium -Type Output -Label 'Select Environment:' -ContentArray $Global:LDAPEnvironmentHashtable.Keys -PropertyName 'ALIEnvironmentComboBox'
