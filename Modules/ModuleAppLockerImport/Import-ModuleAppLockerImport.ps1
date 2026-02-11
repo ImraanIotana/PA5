@@ -22,28 +22,33 @@ function Import-ModuleAppLockerImport {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
-        [Alias('TabControl')]
-        [System.Windows.Forms.TabControl]
-        $ParentTabControl = $Global:MainTabControl
+        [System.Windows.Forms.TabControl]$ParentTabControl = $Global:MainTabControl
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
+        # Submodule properties
+        [System.Collections.Hashtable]$SubModuleProperties = @{
+            ParentTabControl    = $ParentTabControl
+            Title               = 'APPLOCKER Import'
+            Version             = '5.7.1'
+            BackGroundColor     = 'RoyalBlue'
+        }
+
         # Handlers
-        [System.String]$TabTitle        = 'APPLOCKER Import'
-        [System.String]$ModuleVersion   = '5.5.1'
+        #[System.String]$TabTitle        = 'APPLOCKER Import'
+        #[System.String]$ModuleVersion   = '5.5.1'
 
         ####################################################################################################
     }
     
     process {
         try {
-            # Write the message
-            Write-ModuleImport -Title $TabTitle -Version $ModuleVersion
             # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor 'RoyalBlue'
+            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @SubModuleProperties
+
             # Import the Features
             Import-FeatureAppLockerImport -ParentTabPage $ParentTabPage
         }
