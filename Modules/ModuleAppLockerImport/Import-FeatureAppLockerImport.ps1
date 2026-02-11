@@ -144,8 +144,18 @@ function Import-FeatureAppLockerImport {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:MApplock_FApplock_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
 
+        # Set the parameters for the MApplock_FApplock_ApplicationComboBox
+        [System.Collections.Hashtable]$ComboBoxParameters = @{
+            ParentGroupBox     = $ParentGroupBox
+            RowNumber          = 1
+            SizeType           = 'Medium'
+            Type               = 'Output'
+            Label              = 'Select Application:'
+            ContentArray       = $DSLApplicationFolders
+            PropertyName       = 'MApplock_FApplock_ApplicationComboBox'
+        }
         # Create the MApplock_FApplock_ApplicationComboBox
-        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray $DSLApplicationFolders -PropertyName 'MApplock_FApplock_ApplicationComboBox'
+        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ComboBoxParameters
         
         # Create the ALIEnvironmentComboBox
         [System.Windows.Forms.ComboBox]$Global:ALIEnvironmentComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 2 -SizeType Medium -Type Output -Label 'Select Environment:' -ContentArray $Global:LDAPEnvironmentHashtable.Keys -PropertyName 'ALIEnvironmentComboBox'
