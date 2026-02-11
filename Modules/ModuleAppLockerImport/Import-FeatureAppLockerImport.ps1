@@ -180,8 +180,8 @@ function Import-FeatureAppLockerImport {
         # Add the EventHandler based on the selection
         [System.String]$Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$($Global:MApplock_FApplock_EnvironmentComboBox.Text)
         $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
-            [System.String]$Environment     = $Global:MApplock_FApplock_EnvironmentComboBox.Text
-            $Global:MApplock_SelectedAppLockerLDAP   = $Global:MApplock_LDAPEnvironmentHashtable.$Environment
+            [System.String]$Environment = $Global:MApplock_FApplock_EnvironmentComboBox.Text
+            $Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$Environment
             Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Environment,$Global:MApplock_SelectedAppLockerLDAP)
         })
 
