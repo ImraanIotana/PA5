@@ -92,17 +92,10 @@ function Import-FeatureAppLockerImport {
             }
         )
 
-        [System.Collections.Hashtable[]]$SideButtons = @(
+        # Set the buttons for the MApplock_FApplock_EnvironmentComboBox
+        [System.Collections.Hashtable[]]$MApplock_FApplock_EnvironmentComboBoxButtons = @(
             @{
-                RowNumber       = 1
-                Text            = 'Open Folder'
-                Image           = 'folder.png'
-                SizeType        = 'Small'
-                ToolTip         = 'Open the AppLocker folder'
-                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
-            }
-            @{
-                RowNumber       = 2
+                ColumnNumber    = 5
                 Text            = 'Export Policy'
                 Image           = 'table_export.png'
                 SizeType        = 'Small'
@@ -111,6 +104,7 @@ function Import-FeatureAppLockerImport {
             }
         )
 
+        # Set the buttons for the Actions
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
                 ColumnNumber    = 1
@@ -141,6 +135,7 @@ function Import-FeatureAppLockerImport {
             }
         )
 
+        # Set the buttons for the Extra Actions
         [System.Collections.Hashtable[]]$ExtraActionButtons = @(
             @{
                 RowNumber       = 7
@@ -187,7 +182,7 @@ function Import-FeatureAppLockerImport {
 
         # Create the buttons
         Invoke-ButtonLine -ButtonPropertiesArray $MApplock_FApplock_ApplicationComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
-        Invoke-ButtonLine -ButtonPropertiesArray $SideButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 5
+        Invoke-ButtonLine -ButtonPropertiesArray $MApplock_FApplock_EnvironmentComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
         Invoke-ButtonLine -ButtonPropertiesArray $ExtraActionButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 1
     }
