@@ -171,18 +171,22 @@ function Import-FeatureAppLockerImport {
         
         # Create the MApplock_FApplock_EnvironmentComboBox
         [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
-        $Global:MApplock_FApplock_EnvironmentComboBox | ForEach-Object {
-                if (Test-Object -IsEmpty ($_.Text)) {
-                    Write-Verbose ('The MApplock_FApplock_EnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
-                $_.Text = 'TEST'
-            }
+        if (Test-Object -IsEmpty ($Global:MApplock_FApplock_EnvironmentComboBox.Text)) {
+            Write-Verbose ('The MApplock_FApplock_EnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
+            $Global:MApplock_FApplock_EnvironmentComboBox.Text = 'TEST'
         }
-        # Add the EventHandler based on the selection
-        [System.String]$Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$($Global:MApplock_FApplock_EnvironmentComboBox.Text)
-        $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
+
+        # Set the ScriptBlock for setting the AppLocker Environment based on the ComboBox selection
+        $SetAppLockerEnvironment = {
             [System.String]$Environment = $Global:MApplock_FApplock_EnvironmentComboBox.Text
             $Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$Environment
-            Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Environment,$Global:MApplock_SelectedAppLockerLDAP)
+        }
+
+        # Set initial selection and bind handler
+        & $SetAppLockerEnvironment
+        $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
+            & $SetAppLockerEnvironment
+            Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Global:MApplock_FApplock_EnvironmentComboBox.Text,$Global:MApplock_SelectedAppLockerLDAP)
         })
 
         # Create the buttons
