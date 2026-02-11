@@ -72,7 +72,8 @@ function Import-FeatureAppLockerImport {
         ####################################################################################################
         ### BUTTON PROPERTIES ###
 
-        [System.Collections.Hashtable[]]$SmallButtons = @(
+        # Set the buttons for the MApplock_FApplock_ApplicationComboBox
+        [System.Collections.Hashtable[]]$MApplock_FApplock_ApplicationComboBoxButtons = @(
             @{
                 ColumnNumber    = 5
                 Text            = 'Open Folder'
@@ -185,7 +186,7 @@ function Import-FeatureAppLockerImport {
         })
 
         # Create the buttons
-        Invoke-ButtonLine -ButtonPropertiesArray $SmallButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
+        Invoke-ButtonLine -ButtonPropertiesArray $MApplock_FApplock_ApplicationComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
         Invoke-ButtonLine -ButtonPropertiesArray $SideButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 5
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
         Invoke-ButtonLine -ButtonPropertiesArray $ExtraActionButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 1
