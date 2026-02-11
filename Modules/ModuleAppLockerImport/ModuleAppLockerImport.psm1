@@ -10,7 +10,7 @@
 .SYNOPSIS
     This function imports the Module 'AppLocker Import'.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-ModuleAppLockerImport
 .INPUTS

@@ -3,7 +3,7 @@
 .SYNOPSIS
     This Feature imports the AppLocker XML files into the AppLocker Policy.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-FeatureAppLockerImport
 .INPUTS
@@ -11,10 +11,10 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 5.5.1
+    Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : August 2025
-    Last Updated    : August 2025
+    Last Updated    : February 2026
 #>
 ####################################################################################################
 
@@ -22,22 +22,29 @@ function Import-FeatureAppLockerImport {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The Parent TabPage to which this Feature will be added.')]
-        [System.Windows.Forms.TabPage]
-        $ParentTabPage
+        [System.Windows.Forms.TabPage]$ParentTabPage
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Function
-        [System.String[]]$FunctionDetails       = @($MyInvocation.MyCommand,$PSCmdlet.ParameterSetName,$PSBoundParameters.GetEnumerator())
+        # GroupBox properties
+        [System.Collections.Hashtable]$GroupBoxProperties = @{
+            ParentTabPage   = $ParentTabPage
+            Title           = 'AppLocker Policy Import'
+            Color           = 'LightCyan'
+            NumberOfRows    = 7
+        }
+
         # Groupbox Handlers
-        [System.String]$GroupboxTitle           = 'AppLocker Policy Import'
-        [System.String]$GroupboxColor           = 'LightCyan'
-        [System.Int32]$GroupboxNumberOfRows     = 7
+        #[System.String]$GroupboxTitle           = 'AppLocker Policy Import'
+        #[System.String]$GroupboxColor           = 'LightCyan'
+        #[System.Int32]$GroupboxNumberOfRows     = 7
+
         # ComboBox Handlers
         [System.String[]]$DSLApplicationFolders = Get-DSLApplicationFolder -All -Basenames
+
         # LDAP Handlers
         [System.Collections.Hashtable]$Global:LDAPEnvironmentHashtable = @{
             TEST        = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST')
@@ -136,14 +143,13 @@ function Import-FeatureAppLockerImport {
         )
 
         ####################################################################################################
-
-        # Write the begin message
-        Write-Function -Begin $FunctionDetails
     } 
     
     process {
         # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$Global:AppLockerApplicationGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupboxTitle -NumberOfRows $GroupboxNumberOfRows -Color $GroupboxColor
+        [System.Windows.Forms.GroupBox]$Global:AppLockerApplicationGroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
+        # Create the GroupBox
+        #[System.Windows.Forms.GroupBox]$Global:AppLockerApplicationGroupBox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $GroupboxTitle -NumberOfRows $GroupboxNumberOfRows -Color $GroupboxColor
         # Create the ALAApplicationIDComboBox
         [System.Windows.Forms.ComboBox]$Global:ALAApplicationIDComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray $DSLApplicationFolders -PropertyName 'ALAApplicationIDComboBox'
         
@@ -171,8 +177,6 @@ function Import-FeatureAppLockerImport {
     }
 
     end {
-        # Write the end message
-        Write-Function -End $FunctionDetails
     }
 }
 
