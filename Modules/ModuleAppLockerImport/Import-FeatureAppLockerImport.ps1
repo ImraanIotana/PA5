@@ -46,6 +46,18 @@ function Import-FeatureAppLockerImport {
             PRODUCTION  = (Get-ApplicationSetting -Name 'AppLockerLDAPPROD')
         }
 
+        ####################################################################################################
+        ### COMBOBOX PROPERTIES ###
+
+        # Set the parameters for the MApplock_FApplock_ApplicationComboBox
+        [System.Collections.Hashtable]$ComboBoxParameters = @{
+            RowNumber          = 1
+            SizeType           = 'Medium'
+            Type               = 'Output'
+            Label              = 'Select Application:'
+            ContentArray       = $DSLApplicationFolders
+            PropertyName       = 'MApplock_FApplock_ApplicationComboBox'
+        }
 
         ####################################################################################################
         ### BUTTON PROPERTIES ###
@@ -144,31 +156,21 @@ function Import-FeatureAppLockerImport {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:MApplock_FApplock_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
 
-        # Set the parameters for the MApplock_FApplock_ApplicationComboBox
-        [System.Collections.Hashtable]$ComboBoxParameters = @{
-            ParentGroupBox     = $ParentGroupBox
-            RowNumber          = 1
-            SizeType           = 'Medium'
-            Type               = 'Output'
-            Label              = 'Select Application:'
-            ContentArray       = $DSLApplicationFolders
-            PropertyName       = 'MApplock_FApplock_ApplicationComboBox'
-        }
         # Create the MApplock_FApplock_ApplicationComboBox
-        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ComboBoxParameters
+        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ComboBoxParameters -ParentGroupBox $ParentGroupBox
         
-        # Create the ALIEnvironmentComboBox
-        [System.Windows.Forms.ComboBox]$Global:ALIEnvironmentComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 2 -SizeType Medium -Type Output -Label 'Select Environment:' -ContentArray $Global:LDAPEnvironmentHashtable.Keys -PropertyName 'ALIEnvironmentComboBox'
-        $Global:ALIEnvironmentComboBox | ForEach-Object {
-            if (Test-Object -IsEmpty ($_.Text)) {
-                Write-Verbose ('The ALIEnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
+        # Create the MApplock_FApplock_EnvironmentComboBox
+        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 2 -SizeType Medium -Type Output -Label 'Select Environment:' -ContentArray $Global:LDAPEnvironmentHashtable.Keys -PropertyName 'MApplock_FApplock_EnvironmentComboBox'
+        $Global:MApplock_FApplock_EnvironmentComboBox | ForEach-Object {
+                if (Test-Object -IsEmpty ($_.Text)) {
+                    Write-Verbose ('The MApplock_FApplock_EnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
                 $_.Text = 'TEST'
             }
         }
         # Add the EventHandler based on the selection
-        [System.String]$Global:SelectedAppLockerLDAP = $Global:LDAPEnvironmentHashtable.$($Global:ALIEnvironmentComboBox.Text)
-        $Global:ALIEnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
-            [System.String]$Environment     = $Global:ALIEnvironmentComboBox.Text
+        [System.String]$Global:SelectedAppLockerLDAP = $Global:LDAPEnvironmentHashtable.$($Global:MApplock_FApplock_EnvironmentComboBox.Text)
+        $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
+            [System.String]$Environment     = $Global:MApplock_FApplock_EnvironmentComboBox.Text
             $Global:SelectedAppLockerLDAP   = $Global:LDAPEnvironmentHashtable.$Environment
             Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Environment,$Global:SelectedAppLockerLDAP)
         })
