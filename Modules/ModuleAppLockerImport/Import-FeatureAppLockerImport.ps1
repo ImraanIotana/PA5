@@ -50,13 +50,23 @@ function Import-FeatureAppLockerImport {
         ### COMBOBOX PROPERTIES ###
 
         # Set the parameters for the MApplock_FApplock_ApplicationComboBox
-        [System.Collections.Hashtable]$ComboBoxParameters = @{
+        [System.Collections.Hashtable]$ApplicationComboBoxParameters = @{
             RowNumber          = 1
             SizeType           = 'Medium'
             Type               = 'Output'
             Label              = 'Select Application:'
             ContentArray       = $DSLApplicationFolders
             PropertyName       = 'MApplock_FApplock_ApplicationComboBox'
+        }
+
+         # Set the parameters for the MApplock_FApplock_EnvironmentComboBox
+        [System.Collections.Hashtable]$EnvironmentComboBoxParameters = @{
+            RowNumber          = 2
+            SizeType           = 'Medium'
+            Type               = 'Output'
+            Label              = 'Select Environment:'
+            ContentArray       = $Global:LDAPEnvironmentHashtable.Keys
+            PropertyName       = 'MApplock_FApplock_EnvironmentComboBox'
         }
 
         ####################################################################################################
@@ -157,10 +167,10 @@ function Import-FeatureAppLockerImport {
         [System.Windows.Forms.GroupBox]$Global:MApplock_FApplock_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
 
         # Create the MApplock_FApplock_ApplicationComboBox
-        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ComboBoxParameters -ParentGroupBox $ParentGroupBox
+        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ApplicationComboBoxParameters -ParentGroupBox $ParentGroupBox
         
         # Create the MApplock_FApplock_EnvironmentComboBox
-        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 2 -SizeType Medium -Type Output -Label 'Select Environment:' -ContentArray $Global:LDAPEnvironmentHashtable.Keys -PropertyName 'MApplock_FApplock_EnvironmentComboBox'
+        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
         $Global:MApplock_FApplock_EnvironmentComboBox | ForEach-Object {
                 if (Test-Object -IsEmpty ($_.Text)) {
                     Write-Verbose ('The MApplock_FApplock_EnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
