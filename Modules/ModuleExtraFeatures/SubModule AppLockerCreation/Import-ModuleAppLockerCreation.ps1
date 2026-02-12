@@ -5,7 +5,7 @@
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains references to classes, functions and variables, that may be in other files.
 .EXAMPLE
-    Import-ModuleAppLockerImport
+    Import-ModuleAppLockerCreation
 .INPUTS
     [System.Windows.Forms.TabControl]
 .OUTPUTS

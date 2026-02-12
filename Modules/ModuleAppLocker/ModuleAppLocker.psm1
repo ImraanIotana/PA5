@@ -8,11 +8,11 @@
 ####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the Module 'AppLocker Import'.
+    This function imports the Module 'AppLocker'.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
-    Import-ModuleAppLockerImport
+    Import-ModuleAppLocker
 .INPUTS
     [System.Windows.Forms.TabControl]
 .OUTPUTS
@@ -25,7 +25,7 @@
 #>
 ####################################################################################################
 
-function Import-ModuleAppLockerImport {
+function Import-ModuleAppLocker {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
@@ -36,10 +36,10 @@ function Import-ModuleAppLockerImport {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Submodule properties
-        [System.Collections.Hashtable]$SubModuleProperties = @{
+        # Module properties
+        [System.Collections.Hashtable]$ModuleProperties = @{
             ParentTabControl    = $ParentTabControl
-            Title               = 'APPLOCKER Import'
+            Title               = 'APPLOCKER'
             Version             = '5.7.1'
             BackGroundColor     = 'RoyalBlue'
         }
@@ -50,10 +50,16 @@ function Import-ModuleAppLockerImport {
     process {
         try {
             # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @SubModuleProperties
+            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @ModuleProperties
+
+            # Create a SubTabControl
+            [System.Windows.Forms.TabControl]$ParentSubTabControl = Invoke-SubTabControl -ParentTabPage $ParentTabPage
+
+            # Import the SubModules
+            Import-SubModuleAppLockerImport -ParentTabControl $ParentSubTabControl
 
             # Import the Features
-            Import-FeatureAppLockerImport -ParentTabPage $ParentTabPage
+            #Import-FeatureAppLockerImport -ParentTabPage $ParentTabPage
         }
         catch {
             Write-FullError

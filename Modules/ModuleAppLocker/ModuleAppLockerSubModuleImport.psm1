@@ -8,11 +8,11 @@
 ####################################################################################################
 <#
 .SYNOPSIS
-    This function imports the Module 'AppLocker Import'.
+    This function imports the SubModule 'AppLocker Import'.
 .DESCRIPTION
     This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
-    Import-ModuleAppLockerImport
+    Import-SubModuleAppLockerImport
 .INPUTS
     [System.Windows.Forms.TabControl]
 .OUTPUTS
@@ -25,11 +25,11 @@
 #>
 ####################################################################################################
 
-function Import-ModuleAppLockerImportTEST {
+function Import-SubModuleAppLockerImport {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
-        [System.Windows.Forms.TabControl]$ParentTabControl = $Global:MainTabControl
+        [Parameter(Mandatory=$true,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
+        [System.Windows.Forms.TabControl]$ParentTabControl
     )
 
     begin {
@@ -49,7 +49,7 @@ function Import-ModuleAppLockerImportTEST {
     
     process {
         try {
-            # Create the Module TabPage
+            # Create the SubModule TabPage
             [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @SubModuleProperties
 
             # Import the Features

@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.String]'5.7.1.294'
+        Version                     = [System.String]'5.7.1.295'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -201,7 +201,7 @@ process {
         # Hide these modules on an SCCM server
         if (-Not($IsSCCMServer)) {
             Import-ModuleOmnissaDEMManagement
-            Import-ModuleAppLockerImport
+            Import-ModuleAppLocker
         }
         # Import these modules, for all machines
         Import-ModuleApplicationSettings
