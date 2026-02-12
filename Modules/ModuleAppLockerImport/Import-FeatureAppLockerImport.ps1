@@ -50,7 +50,7 @@ function Import-FeatureAppLockerImport {
         ### COMBOBOX PROPERTIES ###
 
         # Set the parameters for the MApplock_FApplock_ApplicationComboBox
-        [System.Collections.Hashtable]$ApplicationComboBoxParameters = @{
+        [System.Collections.Hashtable]$MApplock_FApplock_ApplicationComboBoxParameters = @{
             RowNumber       = 1
             SizeType        = 'Medium'
             Type            = 'Output'
@@ -61,12 +61,13 @@ function Import-FeatureAppLockerImport {
         }
 
          # Set the parameters for the MApplock_FApplock_EnvironmentComboBox
-        [System.Collections.Hashtable]$EnvironmentComboBoxParameters = @{
+        [System.Collections.Hashtable]$MApplock_FApplock_EnvironmentComboBoxParameters = @{
             RowNumber       = 2
             SizeType        = 'Medium'
             Type            = 'Output'
             Label           = 'Select Environment:'
             ContentArray    = $Script:MApplock_LDAPEnvironmentHashtable.Keys
+            DefaultValue    = 'TEST'
             PropertyName    = 'MApplock_FApplock_EnvironmentComboBox'
             ToolTip         = 'Select the Environment for which you want to import the AppLocker Policy'
         }
@@ -165,10 +166,10 @@ function Import-FeatureAppLockerImport {
         [System.Windows.Forms.GroupBox]$Global:MApplock_FApplock_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
 
         # Create the MApplock_FApplock_ApplicationComboBox
-        [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ApplicationComboBoxParameters -ParentGroupBox $ParentGroupBox
+        [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @MApplock_FApplock_ApplicationComboBoxParameters -ParentGroupBox $ParentGroupBox
         
         # Create the MApplock_FApplock_EnvironmentComboBox
-        [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
+        [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @MApplock_FApplock_EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
         if (Test-Object -IsEmpty ($Script:MApplock_FApplock_EnvironmentComboBox.Text)) {
             Write-Verbose ('The MApplock_FApplock_EnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
             $Script:MApplock_FApplock_EnvironmentComboBox.Text = 'TEST'
