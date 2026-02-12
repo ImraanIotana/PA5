@@ -79,10 +79,10 @@ function Import-FeatureAppLockerImport {
         [System.Collections.Hashtable[]]$MApplock_FApplock_ApplicationComboBoxButtons = @(
             @{
                 ColumnNumber    = 5
-                Text            = 'Open Folder'
+                Text            = 'Open AppLocker Folder'
                 Image           = 'folder.png'
                 SizeType        = 'Small'
-                ToolTip         = 'Open the AppLocker folder'
+                ToolTip         = 'Open the AppLocker folder of the selected Application'
                 Function        = { Open-Folder -Path (Get-Path -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
             }
             @{
@@ -170,18 +170,14 @@ function Import-FeatureAppLockerImport {
         
         # Create the MApplock_FApplock_EnvironmentComboBox
         [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @MApplock_FApplock_EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
-        if (Test-Object -IsEmpty ($Script:MApplock_FApplock_EnvironmentComboBox.Text)) {
-            Write-Verbose ('The MApplock_FApplock_EnvironmentComboBox field is empty. It will be filled with the default value: (TEST)')
-            $Script:MApplock_FApplock_EnvironmentComboBox.Text = 'TEST'
-        }
-        # Set initial selection
-        [System.String]$Script:MApplock_SelectedEnvironment     = $Script:MApplock_FApplock_EnvironmentComboBox.Text
-        [System.String]$Script:MApplock_SelectedAppLockerLDAP   = $Script:MApplock_LDAPEnvironmentHashtable.$Script:MApplock_SelectedEnvironment
-        # Add event handler for Application ComboBox
+        # Set the initial selection and the initial AppLocker LDAP value
+        [System.String]$InitialSelectedEnvironment              = $Script:MApplock_FApplock_EnvironmentComboBox.Text
+        [System.String]$Script:MApplock_SelectedAppLockerLDAP   = $Script:MApplock_LDAPEnvironmentHashtable.$InitialSelectedEnvironment
+        # Add the event handler for the MApplock_FApplock_EnvironmentComboBox to update the selected AppLocker LDAP value, when the selection changes
         $Script:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
-            [System.String]$Script:MApplock_SelectedEnvironment = $Script:MApplock_FApplock_EnvironmentComboBox.Text
-            $Script:MApplock_SelectedAppLockerLDAP = $Script:MApplock_LDAPEnvironmentHashtable.$Script:MApplock_SelectedEnvironment
-            Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Script:MApplock_SelectedEnvironment,$Script:MApplock_SelectedAppLockerLDAP)
+            [System.String]$SelectedEnvironment                     = $Script:MApplock_FApplock_EnvironmentComboBox.Text
+            [System.String]$Script:MApplock_SelectedAppLockerLDAP   = $Script:MApplock_LDAPEnvironmentHashtable.$SelectedEnvironment
+            Write-Line ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $SelectedEnvironment,$Script:MApplock_SelectedAppLockerLDAP) -Type Busy
         })
 
         # Create the buttons
