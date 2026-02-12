@@ -130,20 +130,9 @@ function Import-FeatureFolderSettings {
         ####################################################################################################
         ### TEXTBOX PROPERTIES ###
 
-        # Set the Output Folder TextBox Properties
-        [System.Collections.Hashtable]$OutputFolderTextBoxProperties = @{
-            RowNumber               = 1
-            Label                   = 'My Output Folder:'
-            ToolTip                 = 'Enter the path to your output folder. You can use the "Copy" and "Paste" buttons to easily copy and paste the path. The "Default" button will reset the path to the default value.'
-            PropertyName            = 'MSet_SGen_FFol_OutputFolderTextBox'
-            SizeType                = 'Large'
-            DefaultValue            = $ApplicationObject.DefaultOutputFolder
-            ButtonPropertiesArray   = $FolderButtonsArray
-        }
-
         # Set the DSL Folder TextBox Properties
         [System.Collections.Hashtable]$DSLFolderTextBoxProperties = @{
-            RowNumber               = 3
+            RowNumber               = 1
             Label                   = 'Software Library (DSL):'
             ToolTip                 = 'Enter the path to your Software Library (DSL) folder. You can use the "Copy" and "Paste" buttons to easily copy and paste the path. The "Default" button will reset the path to the default value.'
             PropertyName            = 'MSet_SGen_FFol_DSLFolderTextBox'
@@ -152,9 +141,20 @@ function Import-FeatureFolderSettings {
             ButtonPropertiesArray   = $FolderButtonsArray
         }
 
+        # Set the Output Folder TextBox Properties
+        [System.Collections.Hashtable]$OutputFolderTextBoxProperties = @{
+            RowNumber               = 4
+            Label                   = 'My Output Folder:'
+            ToolTip                 = 'Enter the path to your output folder. You can use the "Copy" and "Paste" buttons to easily copy and paste the path. The "Default" button will reset the path to the default value.'
+            PropertyName            = 'MSet_SGen_FFol_OutputFolderTextBox'
+            SizeType                = 'Large'
+            DefaultValue            = $ApplicationObject.DefaultOutputFolder
+            ButtonPropertiesArray   = $FolderButtonsArray
+        }
+
         # Set the Installation Folder TextBox Properties
         [System.Collections.Hashtable]$InstallationFolderTextBoxProperties = @{
-            RowNumber               = 5
+            RowNumber               = 6
             Label                   = 'Installation Folder:'
             ToolTip                 = 'Enter the installation folder path. You can use the "Browse" button to select a folder, and the "Default" button will reset the path to the default value.'
             PropertyName            = 'MSet_SGen_FFol_InstallationFolderTextBox'
