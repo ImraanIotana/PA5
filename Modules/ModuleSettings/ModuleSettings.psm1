@@ -62,7 +62,6 @@ function Import-ModuleApplicationSettings {
 
             # Import the other SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $ParentSubTabControl
-            Import-SubModuleAppLockerSettings -ParentTabControl $ParentSubTabControl
             Import-SubModuleMaintenance -ParentTabControl $ParentSubTabControl
         }
         catch {
