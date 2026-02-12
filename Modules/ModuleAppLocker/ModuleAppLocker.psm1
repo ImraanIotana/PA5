@@ -41,8 +41,7 @@ function Import-ModuleAppLocker {
             ParentTabControl    = $ParentTabControl
             Title               = 'APPLOCKER'
             Version             = '5.7.1'
-            #BackGroundColor     = 'RoyalBlue'
-            BackGroundColor     = 'LightCyan'
+            BackGroundColor     = 'RoyalBlue'
         }
 
         ####################################################################################################
