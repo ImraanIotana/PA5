@@ -121,7 +121,7 @@ function Import-FeatureFolderSettings {
             ParentTabPage   = $ParentTabPage
             Title           = [System.String]'Folder Settings'
             Color           = [System.String]'Brown'
-            NumberOfRows    = [System.Int32]6
+            NumberOfRows    = [System.Int32]5
         }
 
         # Set the Button Properties Array
