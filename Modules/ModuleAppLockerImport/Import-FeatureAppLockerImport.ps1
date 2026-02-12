@@ -113,7 +113,8 @@ function Import-FeatureAppLockerImport {
                 ColumnNumber    = 1
                 Text            = 'Check AppLocker Policy'
                 TextColor       = 'LightCyan'
-                Image           = 'shield.png'
+                #Image           = 'shield.png'
+                DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
                 Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP }
