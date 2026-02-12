@@ -39,7 +39,7 @@ function Update-InternalDeploymentScript {
         [System.String]$PreFix                  = "[$($MyInvocation.MyCommand)]:"
         # Handlers
         [System.String]$DeploymentScriptPath    = $Global:ApplicationObject.Settings.DeploymentScriptPath
-        [System.String]$MaintainanceName        = $Global:FAMActionComboBox.Text
+        [System.String]$MaintainanceName        = $Global:MSet_SMai_FMai_ActionComboBox.Text
         [System.String]$WorkFolder              = "$ENV:TEMP\PAWorkFolder"
         [System.String]$SearchFolder            = $Global:ApplicationObject.RootFolder
 
