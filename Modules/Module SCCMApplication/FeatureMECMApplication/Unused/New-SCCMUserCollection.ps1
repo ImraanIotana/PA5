@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function creates a new SCCM User Collection, adds a Query Rule, and moves it to a subfolder.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     External classes    : -
     External functions  : Test-SCCMUserCollection, Write-FullError
     External variables  : -

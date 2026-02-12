@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function updates the Metadata file on the DSL with information from the Local Metadata file.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Sync-Metadata -ApplicationID Adobe_Reader_12.4
 .INPUTS

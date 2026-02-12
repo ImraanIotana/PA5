@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function creates a new meta data file for applications.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     New-MetaDataFile
 .INPUTS

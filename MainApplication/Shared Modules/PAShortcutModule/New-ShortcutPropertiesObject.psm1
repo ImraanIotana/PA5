@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function get the details of a shortcut, and returns an object will properties.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     New-ShortcutPropertiesObject -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Acrobat Reader.lnk"
 .INPUTS

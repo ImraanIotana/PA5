@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function gets the Omnissa DEM Objects, based on the ApplicationID.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Test-OmnissaDEMObjects -ApplicationID 'Adobe_Reader_12.4' -Shortcuts
 .EXAMPLE

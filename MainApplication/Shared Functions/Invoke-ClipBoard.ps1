@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function copies text from, or pastes text to, or clears a TextBox/ComboBox.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     External classes    : -
     External functions  : Test-Object, Get-UserConfirmation, Write-FullError, Invoke-RegistrySettings
     External variables  : -

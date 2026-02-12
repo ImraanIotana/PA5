@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function updates the Content Location of an Application inside SCCM.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Update-SCCMContentLocation -ApplicationID 'DemoVendor_DemoApplication_12.4'
 .INPUTS

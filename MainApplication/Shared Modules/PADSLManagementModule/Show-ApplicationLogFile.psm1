@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function show the Logfile of the Application.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Show-ApplicationLogFile -ApplicationID 'Adobe_Reader_12.4'
 .INPUTS

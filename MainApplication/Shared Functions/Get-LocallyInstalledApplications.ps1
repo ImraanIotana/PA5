@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function get the names of all locally installed appliction from the Registry.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     External classes    : -
     External functions  : Write-Message, Test-Object
     External variables  : -

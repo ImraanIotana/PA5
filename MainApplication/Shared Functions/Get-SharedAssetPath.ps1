@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function returns the full path af a shared asset, or folder.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     External classes    : -
     External functions  : Invoke-RegistrySettings
     External variables  : $Global:ApplicationObject

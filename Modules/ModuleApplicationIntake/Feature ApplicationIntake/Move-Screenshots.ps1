@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function moves the screenshots from the your Screenshot-folder to the Application Folder.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Move-Screenshots -ToLocalApplicationFolder
 .INPUTS

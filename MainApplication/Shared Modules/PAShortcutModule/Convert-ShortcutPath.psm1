@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function converts the path of a shortcut or folder, from long to short, and the other way.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Convert-ShortcutPath -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Acrobat Reader.lnk"
 .EXAMPLE

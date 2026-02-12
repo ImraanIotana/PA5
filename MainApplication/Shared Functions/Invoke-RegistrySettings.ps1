@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function manages the user settings, which are stored in the registry.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     External classes    : -
     External functions  : -
     External variables  : $Global:ApplicationObject

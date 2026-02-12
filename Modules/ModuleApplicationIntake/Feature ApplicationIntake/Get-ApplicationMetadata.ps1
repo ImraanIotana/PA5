@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function gets application information from the Metadata file.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Get-ApplicationMetadata -ApplicationID NotepadTeam_Notepad++_8.7.7 -PropertyName VendorNameFull
 .INPUTS

@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function imports the feature Settings.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     External classes    : -
     External functions  : Invoke-Groupbox, Invoke-TextBox, Invoke-Label, Invoke-ButtonLine, Invoke-RegistrySettings, Select-Item, Invoke-ClipBoard, Get-UserConfirmation
     External variables  : $Global:SettingsTabPage, $Global:GeneralSettingsGroupBox, $Global:OutputFolderTextBox, $Global:DSLFolderTextBox

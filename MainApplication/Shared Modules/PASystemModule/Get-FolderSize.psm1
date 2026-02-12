@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function measure the size of a folder, and returns the size in MB.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Get-FolderSize -path 'C:\Demo'
 .INPUTS

@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function moves your local screenshots to the Screenshots folder of the Application.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Move-ScreenShotsToDSL -ApplicationID 'Adobe_Reader_12.4'
 .INPUTS

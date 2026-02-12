@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function copies the package from the SCCM folder to the Work folder.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Copy-PackageToWorkFolder -ApplicationID 'Adobe_Reader_12.4'
 .INPUTS

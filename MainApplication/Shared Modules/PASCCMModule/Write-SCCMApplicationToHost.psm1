@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function writes the details of an SCCM Application to the host.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Write-SCCMApplicationToHost -SCCMApplicationObject $MySCCMApplicationObject
 .INPUTS

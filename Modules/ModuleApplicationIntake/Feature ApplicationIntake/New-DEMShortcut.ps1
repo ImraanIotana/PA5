@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function imports the Module MECM Application.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-ModuleDSLSynchronization
 .INPUTS

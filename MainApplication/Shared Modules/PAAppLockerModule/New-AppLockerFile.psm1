@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function create a new AppLocker file (xml) that can be imported into the AppLocker Policy.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     New-AppLockerFile -Path 'C:\Demo\MyFolder'
 .INPUTS

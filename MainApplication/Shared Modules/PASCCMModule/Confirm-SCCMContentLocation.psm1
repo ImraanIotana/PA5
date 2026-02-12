@@ -3,7 +3,7 @@
 .SYNOPSIS
     This function checks the Content Location of an SCCM Application.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to classes, functions or variables, that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Get-SCCMContentLocation -ApplicationID 'DemoVendor_DemoApplication_12.4'
 .INPUTS
