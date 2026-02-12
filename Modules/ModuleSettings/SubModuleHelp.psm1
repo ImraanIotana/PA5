@@ -117,7 +117,7 @@ function Import-FeatureHelp {
             ParentTabPage   = $ParentTabPage
             Title           = 'Help'
             Color           = 'Brown'
-            NumberOfRows    = 4
+            NumberOfRows    = 2
         }
 
         ####################################################################################################
@@ -159,18 +159,6 @@ function Import-FeatureHelp {
             }
             @{
                 ColumnNumber    = 5
-                Text            = 'Reset All Settings'
-                ToolTip         = 'Reset all settings to their default values.'
-                SizeType        = 'Large'
-                Image           = 'arrow_rotate_clockwise.png'
-                Function        = { Invoke-RegistrySettings -ResetAll }
-            }
-        )
-
-        # Set the Help Buttons 2
-        [System.Collections.Hashtable[]]$ButtonPropertiesArray2 = @(
-            @{
-                ColumnNumber    = 5
                 Text            = 'Application Settings Key'
                 SizeType        = 'Large'
                 DefaultIcon     = 'Registry'
@@ -185,7 +173,6 @@ function Import-FeatureHelp {
 
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 1
-        Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray2 -ParentGroupBox $ParentGroupBox -RowNumber 3
     }
 
     end {
