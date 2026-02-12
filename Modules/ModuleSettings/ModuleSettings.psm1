@@ -62,6 +62,7 @@ function Import-ModuleApplicationSettings {
 
             # Import the other SubModules
             Import-SubModuleGeneralSettings -ParentTabControl $ParentSubTabControl
+            Import-SubModuleHelp -ParentTabControl $ParentSubTabControl
             Import-SubModuleMaintenance -ParentTabControl $ParentSubTabControl
         }
         catch {
