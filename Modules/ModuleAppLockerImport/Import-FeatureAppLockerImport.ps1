@@ -80,7 +80,7 @@ function Import-FeatureAppLockerImport {
             @{
                 ColumnNumber    = 5
                 Text            = 'Open AppLocker Folder'
-                Image           = 'folder.png'
+                DefaultIcon     = 'Folder'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the AppLocker folder of the selected Application'
                 Function        = { Open-Folder -Path (Get-Path -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
@@ -88,7 +88,7 @@ function Import-FeatureAppLockerImport {
             @{
                 ColumnNumber    = 6
                 Text            = 'Show Application Log'
-                Image           = 'file_extension_log.png'
+                DefaultIcon     = 'Logfile'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the logfile of the selected Application'
                 Function        = { Show-ApplicationLogFile -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text }
@@ -100,7 +100,7 @@ function Import-FeatureAppLockerImport {
             @{
                 ColumnNumber    = 5
                 Text            = 'Export Policy'
-                Image           = 'table_export.png'
+                DefaultIcon     = 'Table_Export'
                 SizeType        = 'Small'
                 ToolTip         = 'Export the AppLocker Policy'
                 Function        = { Export-AppLockerPolicy -AppLockerLDAP $Script:MApplock_LDAPEnvironmentHashtable }
