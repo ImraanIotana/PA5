@@ -14,7 +14,7 @@
 .EXAMPLE
     Import-SubModuleGeneralSettings
 .INPUTS
-    This function has no input parameters.
+    [System.Windows.Forms.TabControl]
 .OUTPUTS
     This function returns no stream-output.
 .NOTES
@@ -39,7 +39,7 @@ function Import-SubModuleGeneralSettings {
         # Submodule properties
         [System.Collections.Hashtable]$SubModuleProperties = @{
             ParentTabControl    = $ParentTabControl
-            Title               = [System.String]'General Settings'
+            Title               = [System.String]'General'
             Version             = [System.String]'5.7.1'
             BackGroundColor     = [System.String]'Cornsilk'
         }
@@ -67,7 +67,6 @@ function Import-SubModuleGeneralSettings {
             # Import the Features
             Import-FeatureFolderSettings -ParentTabPage $ParentTabPage
             Import-FeaturePersonalSettings -ParentTabPage $ParentTabPage
-            #Import-FeatureHelp -ParentTabPage $ParentTabPage
         }
         catch {
             Write-FullError
