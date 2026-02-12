@@ -10,7 +10,7 @@
 .SYNOPSIS
     This function imports the Application Settings Module.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-ModuleApplicationSettings
 .INPUTS

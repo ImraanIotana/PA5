@@ -10,7 +10,7 @@
 .SYNOPSIS
     This function imports the General Settings SubModule.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-SubModuleGeneralSettings
 .INPUTS
@@ -87,7 +87,7 @@ function Import-SubModuleGeneralSettings {
 .SYNOPSIS
     This function imports the Feature Folder Settings.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-FeatureFolderSettings -ParentTabPage $MyGlobalTabPage
 .INPUTS
@@ -180,7 +180,7 @@ function Import-FeatureFolderSettings {
 .SYNOPSIS
     This function imports the Feature Personal Settings.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains references to functions and variables that are in other files.
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
 .EXAMPLE
     Import-FeaturePersonalSettings -ParentTabPage $MyParentTabPage
 .INPUTS
