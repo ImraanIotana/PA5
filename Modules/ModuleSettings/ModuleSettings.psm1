@@ -36,9 +36,12 @@ function Import-ModuleApplicationSettings {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Tab properties
-        [System.String]$TabTitle        = 'Settings'
-        [System.String]$ModuleVersion   = '5.7.1'
+        # Module properties
+        [System.Collections.Hashtable]$ModuleProperties = @{
+            ParentTabControl    = $ParentTabControl
+            Title               = 'Settings'
+            Version             = '5.7.1'
+        }
 
         # Handlers
         [System.Boolean]$IsSCCMServer   = $Global:ApplicationObject.IsSCCMServer
@@ -48,11 +51,8 @@ function Import-ModuleApplicationSettings {
     
     process {
         try {
-            # Write the message
-            Write-Line "Importing Module $TabTitle $ModuleVersion"
-
             # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle
+            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @ModuleProperties
 
             # Create a SubTabControl
             [System.Windows.Forms.TabControl]$ParentSubTabControl = Invoke-SubTabControl -ParentTabPage $ParentTabPage
