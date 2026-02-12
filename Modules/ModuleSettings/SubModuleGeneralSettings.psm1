@@ -154,7 +154,7 @@ function Import-FeatureFolderSettings {
 
         # Set the Installation Folder TextBox Properties
         [System.Collections.Hashtable]$InstallationFolderTextBoxProperties = @{
-            RowNumber               = 4
+            RowNumber               = 5
             Label                   = 'Installation Folder:'
             ToolTip                 = 'Enter the installation folder path. You can use the "Browse" button to select a folder, and the "Default" button will reset the path to the default value.'
             PropertyName            = 'MSet_SGen_FFol_InstallationFolderTextBox'
