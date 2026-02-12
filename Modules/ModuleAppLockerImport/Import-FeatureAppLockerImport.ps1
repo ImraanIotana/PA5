@@ -177,7 +177,7 @@ function Import-FeatureAppLockerImport {
         $Script:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
             [System.String]$SelectedEnvironment                     = $Script:MApplock_FApplock_EnvironmentComboBox.Text
             [System.String]$Script:MApplock_SelectedAppLockerLDAP   = $Script:MApplock_LDAPEnvironmentHashtable.$SelectedEnvironment
-            Write-Line ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $SelectedEnvironment,$Script:MApplock_SelectedAppLockerLDAP) -Type Busy
+            Write-Line ("The AppLocker LDAP Environment has changed to: $SelectedEnvironment ($Script:MApplock_SelectedAppLockerLDAP)") -Type Busy
         })
 
         # Create the buttons
