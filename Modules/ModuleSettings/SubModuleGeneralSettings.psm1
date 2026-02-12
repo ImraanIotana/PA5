@@ -121,7 +121,7 @@ function Import-FeatureFolderSettings {
             ParentTabPage   = $ParentTabPage
             Title           = [System.String]'Folder Settings'
             Color           = [System.String]'Brown'
-            NumberOfRows    = [System.Int32]4
+            NumberOfRows    = [System.Int32]6
         }
 
         # Set the Button Properties Array
@@ -152,6 +152,16 @@ function Import-FeatureFolderSettings {
             ButtonPropertiesArray   = $FolderButtonsArray
         }
 
+        # Set the Installation Folder TextBox Properties
+        [System.Collections.Hashtable]$InstallationFolderTextBoxProperties = @{
+            RowNumber               = 4
+            Label                   = 'Installation Folder:'
+            ToolTip                 = 'Enter the installation folder path. You can use the "Browse" button to select a folder, and the "Default" button will reset the path to the default value.'
+            PropertyName            = 'MSet_SGen_FFol_InstallationFolderTextBox'
+            DefaultValue            = $ApplicationObject.DefaultInstallationFolder
+            ButtonPropertiesArray   = $FolderButtonsArray
+        }
+
         ####################################################################################################
     } 
     
@@ -164,6 +174,9 @@ function Import-FeatureFolderSettings {
 
         # Create the DSL Folder TextBox
         [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_DSLFolderTextBox = Invoke-TextBox @DSLFolderTextBoxProperties -ParentGroupBox $ParentGroupBox
+
+        # Create the Installation Folder TextBox
+        [System.Windows.Forms.TextBox]$Global:MSet_SGen_FFol_InstallationFolderTextBox = Invoke-TextBox @InstallationFolderTextBoxProperties -ParentGroupBox $ParentGroupBox
     }
 
     end {
