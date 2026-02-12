@@ -118,7 +118,6 @@ function Import-FeatureHelp {
             Title           = 'Help'
             Color           = 'Brown'
             NumberOfRows    = 4
-            GroupBoxAbove   = $Global:MSet_SGen_FPer_GroupBox
         }
 
         ####################################################################################################
