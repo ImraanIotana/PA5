@@ -182,7 +182,7 @@ function Import-FeatureHelp {
     
     process {
         # Create the GroupBox
-        [System.Windows.Forms.GroupBox]$ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
+        [System.Windows.Forms.GroupBox]$Global:MSet_SHel_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties -OnSubTab
 
         # Create the Buttons
         Invoke-ButtonLine -ButtonPropertiesArray $ButtonPropertiesArray -ParentGroupBox $ParentGroupBox -RowNumber 1
