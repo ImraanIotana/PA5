@@ -67,6 +67,7 @@ function Import-SubModuleGeneralSettings {
             # Import the Features
             Import-FeatureFolderSettings -ParentTabPage $ParentTabPage
             Import-FeaturePersonalSettings -ParentTabPage $ParentTabPage
+            Import-FeatureHelp -ParentTabPage $ParentTabPage
         }
         catch {
             Write-FullError
