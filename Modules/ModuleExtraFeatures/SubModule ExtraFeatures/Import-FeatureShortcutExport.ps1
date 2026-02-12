@@ -62,7 +62,7 @@ function Import-FeatureExtraFeatures {
                 SizeType        = 'Medium'
                 Image           = 'arrow_refresh.png'
                 ToolTip         = 'Refresh the content of this field'
-                Function        = { Update-ComboBox -ComboBox $Global:SIStartMenuItemsComboBox -NewContent (Get-StartMenuItems -AsComboboxList) }
+                Function        = { Update-ComboBox -ComboBox $Global:SIStartMenuItemsComboBox -NewContent (Get-StartMenuItems -AsComboboxList) -OutHost }
             }
         )
 

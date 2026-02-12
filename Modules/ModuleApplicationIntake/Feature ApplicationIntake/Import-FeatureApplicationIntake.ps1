@@ -178,8 +178,8 @@ function Import-FeatureApplicationIntake {
                     Image           = 'arrow_refresh.png'
                     ToolTip         = 'Refresh the lists'
                     Function        = {
-                        Update-ComboBox -ComboBox $Global:AILocalApplicationsComboBox -NewContent (Get-LocallyInstalledApplications -DisplaynamesOnly)
-                        Update-ComboBox -ComboBox $Global:AIStartMenuFolderComboBox -NewContent (Get-StartMenuItems -AsComboboxList)
+                        Update-ComboBox -ComboBox $Global:AILocalApplicationsComboBox -NewContent (Get-LocallyInstalledApplications -DisplaynamesOnly) -OutHost
+                        Update-ComboBox -ComboBox $Global:AIStartMenuFolderComboBox -NewContent (Get-StartMenuItems -AsComboboxList) -OutHost
                     }
                 }
                 @{
