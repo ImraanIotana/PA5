@@ -66,7 +66,6 @@ function Import-SubModuleHelp {
 
             # Import the Features
             Import-FeatureHelp -ParentTabPage $ParentTabPage
-            Import-FeatureUpdates -ParentTabPage $ParentTabPage
         }
         catch {
             Write-FullError

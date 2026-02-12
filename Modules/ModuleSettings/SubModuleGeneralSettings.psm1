@@ -143,7 +143,7 @@ function Import-FeatureFolderSettings {
 
         # Set the Output Folder TextBox Properties
         [System.Collections.Hashtable]$OutputFolderTextBoxProperties = @{
-            RowNumber               = 4
+            RowNumber               = 3
             Label                   = 'My Output Folder:'
             ToolTip                 = 'Enter the path to your output folder. You can use the "Copy" and "Paste" buttons to easily copy and paste the path. The "Default" button will reset the path to the default value.'
             PropertyName            = 'MSet_SGen_FFol_OutputFolderTextBox'
@@ -154,7 +154,7 @@ function Import-FeatureFolderSettings {
 
         # Set the Installation Folder TextBox Properties
         [System.Collections.Hashtable]$InstallationFolderTextBoxProperties = @{
-            RowNumber               = 6
+            RowNumber               = 5
             Label                   = 'Installation Folder:'
             ToolTip                 = 'Enter the installation folder path. You can use the "Browse" button to select a folder, and the "Default" button will reset the path to the default value.'
             PropertyName            = 'MSet_SGen_FFol_InstallationFolderTextBox'
