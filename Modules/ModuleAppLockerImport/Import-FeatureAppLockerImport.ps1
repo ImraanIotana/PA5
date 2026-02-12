@@ -113,7 +113,6 @@ function Import-FeatureAppLockerImport {
                 ColumnNumber    = 1
                 Text            = 'Check AppLocker Policy'
                 TextColor       = 'LightCyan'
-                #Image           = 'shield.png'
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
@@ -123,7 +122,7 @@ function Import-FeatureAppLockerImport {
                 ColumnNumber    = 3
                 Text            = 'Import AppLocker Policy'
                 TextColor       = 'LightGreen'
-                Image           = 'shield_add.png'
+                DefaultIcon     = 'Shield_Add'
                 SizeType        = 'Large'
                 ToolTip         = 'Import the AppLocker Policy'
                 Function        = { Add-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP }
@@ -132,7 +131,7 @@ function Import-FeatureAppLockerImport {
                 ColumnNumber    = 5
                 Text            = 'Remove AppLocker Policy'
                 TextColor       = 'Orange'
-                Image           = 'shield_delete.png'
+                DefaultIcon     = 'Shield_Delete'
                 SizeType        = 'Large'
                 ToolTip         = 'Remove the AppLocker Policy'
                 Function        = { Remove-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP }
@@ -144,7 +143,7 @@ function Import-FeatureAppLockerImport {
             @{
                 RowNumber       = 7
                 Text            = 'Details in Host'
-                Image           = 'shield.png'
+                DefaultIcon     = 'Shield'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
                 Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP -OutHost }
@@ -152,7 +151,7 @@ function Import-FeatureAppLockerImport {
             @{
                 RowNumber       = 8
                 Text            = 'Details in Grid'
-                Image           = 'shield.png'
+                DefaultIcon     = 'Shield'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
                 Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP -OutGridView }
