@@ -108,7 +108,7 @@ function Import-FeatureAppLockerImport {
         )
 
         # Shared action arguments
-        [System.Management.Automation.ScriptBlock]$GetAppLockerArgs = {
+        [System.Management.Automation.ScriptBlock]$Script:GetAppLockerArgs = {
             @{
                 ApplicationID   = $Script:MApplock_FApplock_ApplicationComboBox.Text
                 AppLockerLDAP   = $Script:MApplock_SelectedAppLockerLDAP
@@ -125,7 +125,7 @@ function Import-FeatureAppLockerImport {
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
                 Function        = {
-                    $Args = & $GetAppLockerArgs
+                    $Args = & $Script:GetAppLockerArgs
                     Test-AppLockerPolicy @Args
                 }
             }
@@ -137,7 +137,7 @@ function Import-FeatureAppLockerImport {
                 SizeType        = 'Large'
                 ToolTip         = 'Import the AppLocker Policy'
                 Function        = {
-                    $Args = & $GetAppLockerArgs
+                    $Args = & $Script:GetAppLockerArgs
                     Add-AppLockerPolicy @Args
                 }
             }
@@ -149,7 +149,7 @@ function Import-FeatureAppLockerImport {
                 SizeType        = 'Large'
                 ToolTip         = 'Remove the AppLocker Policy'
                 Function        = {
-                    $Args = & $GetAppLockerArgs
+                    $Args = & $Script:GetAppLockerArgs
                     Remove-AppLockerPolicy @Args
                 }
             }
@@ -164,7 +164,7 @@ function Import-FeatureAppLockerImport {
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
                 Function        = {
-                    $Args = & $GetAppLockerArgs
+                    $Args = & $Script:GetAppLockerArgs
                     Test-AppLockerPolicy @Args -OutHost
                 }
             }
@@ -175,7 +175,7 @@ function Import-FeatureAppLockerImport {
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
                 Function        = {
-                    $Args = & $GetAppLockerArgs
+                    $Args = & $Script:GetAppLockerArgs
                     Test-AppLockerPolicy @Args -OutGridView
                 }
             }
