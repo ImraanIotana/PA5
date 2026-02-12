@@ -39,7 +39,7 @@ function Import-SubModuleAppLockerImport {
         # Submodule properties
         [System.Collections.Hashtable]$SubModuleProperties = @{
             ParentTabControl    = $ParentTabControl
-            Title               = 'APPLOCKER Import'
+            Title               = 'AppLocker Import'
             Version             = '5.7.1'
             BackGroundColor     = 'RoyalBlue'
         }
