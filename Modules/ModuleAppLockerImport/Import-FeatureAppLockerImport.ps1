@@ -41,7 +41,7 @@ function Import-FeatureAppLockerImport {
         [System.String[]]$DSLApplicationFolders = Get-DSLApplicationFolder -All -Basenames
 
         # LDAP Handlers
-        [System.Collections.Hashtable]$Global:MApplock_LDAPEnvironmentHashtable = @{
+        [System.Collections.Hashtable]$Script:MApplock_LDAPEnvironmentHashtable = @{
             TEST        = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST')
             PRODUCTION  = (Get-ApplicationSetting -Name 'AppLockerLDAPPROD')
         }
@@ -65,7 +65,7 @@ function Import-FeatureAppLockerImport {
             SizeType           = 'Medium'
             Type               = 'Output'
             Label              = 'Select Environment:'
-            ContentArray       = $Global:MApplock_LDAPEnvironmentHashtable.Keys
+            ContentArray       = $Script:MApplock_LDAPEnvironmentHashtable.Keys
             PropertyName       = 'MApplock_FApplock_EnvironmentComboBox'
         }
 
@@ -80,7 +80,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'folder.png'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the AppLocker folder'
-                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
+                Function        = { Open-Folder -Path (Get-Path -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -SubFolder AppLockerFolder) }
             }
             @{
                 ColumnNumber    = 6
@@ -88,7 +88,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'file_extension_log.png'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the logfile of the selected Application'
-                Function        = { Show-ApplicationLogFile -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text }
+                Function        = { Show-ApplicationLogFile -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text }
             }
         )
 
@@ -100,7 +100,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'table_export.png'
                 SizeType        = 'Small'
                 ToolTip         = 'Export the AppLocker Policy'
-                Function        = { Export-AppLockerPolicy -AppLockerLDAP $Global:MApplock_LDAPEnvironmentHashtable }
+                Function        = { Export-AppLockerPolicy -AppLockerLDAP $Script:MApplock_LDAPEnvironmentHashtable }
             }
         )
 
@@ -113,7 +113,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP }
             }
            @{
                 ColumnNumber    = 3
@@ -122,7 +122,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield_add.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Import the AppLocker Policy'
-                Function        = { Add-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP }
+                Function        = { Add-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP }
             }
            @{
                 ColumnNumber    = 5
@@ -131,7 +131,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield_delete.png'
                 SizeType        = 'Large'
                 ToolTip         = 'Remove the AppLocker Policy'
-                Function        = { Remove-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP }
+                Function        = { Remove-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP }
             }
         )
 
@@ -143,7 +143,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP -OutHost }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP -OutHost }
             }
             @{
                 RowNumber       = 8
@@ -151,7 +151,7 @@ function Import-FeatureAppLockerImport {
                 Image           = 'shield.png'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Global:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP -OutGridView }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Global:MApplock_SelectedAppLockerLDAP -OutGridView }
             }
         )
 
@@ -163,7 +163,7 @@ function Import-FeatureAppLockerImport {
         [System.Windows.Forms.GroupBox]$Global:MApplock_FApplock_GroupBox = $ParentGroupBox = Invoke-Groupbox @GroupBoxProperties
 
         # Create the MApplock_FApplock_ApplicationComboBox
-        [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ApplicationComboBoxParameters -ParentGroupBox $ParentGroupBox
+        [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @ApplicationComboBoxParameters -ParentGroupBox $ParentGroupBox
         
         # Create the MApplock_FApplock_EnvironmentComboBox
         [System.Windows.Forms.ComboBox]$Global:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
@@ -173,10 +173,10 @@ function Import-FeatureAppLockerImport {
         }
 
         # Set initial selection and bind handler
-        $Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$($Global:MApplock_FApplock_EnvironmentComboBox.Text)
+        $Global:MApplock_SelectedAppLockerLDAP = $Script:MApplock_LDAPEnvironmentHashtable.$($Global:MApplock_FApplock_EnvironmentComboBox.Text)
         $Global:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
             [System.String]$Environment = $Global:MApplock_FApplock_EnvironmentComboBox.Text
-            $Global:MApplock_SelectedAppLockerLDAP = $Global:MApplock_LDAPEnvironmentHashtable.$Environment
+            $Global:MApplock_SelectedAppLockerLDAP = $Script:MApplock_LDAPEnvironmentHashtable.$Environment
             Write-Yellow ('The AppLocker LDAP Environment has changed to: {0} - ({1})' -f $Environment,$Global:MApplock_SelectedAppLockerLDAP)
         })
 
