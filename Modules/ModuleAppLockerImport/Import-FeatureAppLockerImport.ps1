@@ -107,6 +107,14 @@ function Import-FeatureAppLockerImport {
             }
         )
 
+        # Shared action arguments
+        [System.Management.Automation.ScriptBlock]$GetAppLockerArgs = {
+            @{
+                ApplicationID   = $Script:MApplock_FApplock_ApplicationComboBox.Text
+                AppLockerLDAP   = $Script:MApplock_SelectedAppLockerLDAP
+            }
+        }
+
         # Set the buttons for the Actions
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
@@ -116,7 +124,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP }
+                Function        = { Test-AppLockerPolicy @(& $GetAppLockerArgs) }
             }
            @{
                 ColumnNumber    = 3
@@ -125,7 +133,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield_Add'
                 SizeType        = 'Large'
                 ToolTip         = 'Import the AppLocker Policy'
-                Function        = { Add-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP }
+                Function        = { Add-AppLockerPolicy @(& $GetAppLockerArgs) }
             }
            @{
                 ColumnNumber    = 5
@@ -134,7 +142,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield_Delete'
                 SizeType        = 'Large'
                 ToolTip         = 'Remove the AppLocker Policy'
-                Function        = { Remove-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP }
+                Function        = { Remove-AppLockerPolicy @(& $GetAppLockerArgs) }
             }
         )
 
@@ -146,7 +154,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP -OutHost }
+                Function        = { Test-AppLockerPolicy @(& $GetAppLockerArgs) -OutHost }
             }
             @{
                 RowNumber       = 8
@@ -154,7 +162,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP -OutGridView }
+                Function        = { Test-AppLockerPolicy @(& $GetAppLockerArgs) -OutGridView }
             }
         )
 
