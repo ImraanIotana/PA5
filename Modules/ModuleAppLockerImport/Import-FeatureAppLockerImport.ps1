@@ -51,22 +51,24 @@ function Import-FeatureAppLockerImport {
 
         # Set the parameters for the MApplock_FApplock_ApplicationComboBox
         [System.Collections.Hashtable]$ApplicationComboBoxParameters = @{
-            RowNumber          = 1
-            SizeType           = 'Medium'
-            Type               = 'Output'
-            Label              = 'Select Application:'
-            ContentArray       = $DSLApplicationFolders
-            PropertyName       = 'MApplock_FApplock_ApplicationComboBox'
+            RowNumber       = 1
+            SizeType        = 'Medium'
+            Type            = 'Output'
+            Label           = 'Select Application:'
+            ContentArray    = $DSLApplicationFolders
+            PropertyName    = 'MApplock_FApplock_ApplicationComboBox'
+            ToolTip         = 'Select the Application for which you want to import the AppLocker Policy'
         }
 
          # Set the parameters for the MApplock_FApplock_EnvironmentComboBox
         [System.Collections.Hashtable]$EnvironmentComboBoxParameters = @{
-            RowNumber          = 2
-            SizeType           = 'Medium'
-            Type               = 'Output'
-            Label              = 'Select Environment:'
-            ContentArray       = $Script:MApplock_LDAPEnvironmentHashtable.Keys
-            PropertyName       = 'MApplock_FApplock_EnvironmentComboBox'
+            RowNumber       = 2
+            SizeType        = 'Medium'
+            Type            = 'Output'
+            Label           = 'Select Environment:'
+            ContentArray    = $Script:MApplock_LDAPEnvironmentHashtable.Keys
+            PropertyName    = 'MApplock_FApplock_EnvironmentComboBox'
+            ToolTip         = 'Select the Environment for which you want to import the AppLocker Policy'
         }
 
         ####################################################################################################
