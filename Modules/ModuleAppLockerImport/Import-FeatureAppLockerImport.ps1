@@ -124,10 +124,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
-                Function        = {
-                    $Args = & $Script:GetAppLockerArgs
-                    Test-AppLockerPolicy @Args
-                }
+                Function        = { Test-AppLockerPolicy (& $Script:GetAppLockerArgs) }
             }
            @{
                 ColumnNumber    = 3
@@ -136,10 +133,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield_Add'
                 SizeType        = 'Large'
                 ToolTip         = 'Import the AppLocker Policy'
-                Function        = {
-                    $Args = & $Script:GetAppLockerArgs
-                    Add-AppLockerPolicy @Args
-                }
+                Function        = { Add-AppLockerPolicy @(& $Script:GetAppLockerArgs) }
             }
            @{
                 ColumnNumber    = 5
@@ -148,10 +142,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield_Delete'
                 SizeType        = 'Large'
                 ToolTip         = 'Remove the AppLocker Policy'
-                Function        = {
-                    $Args = & $Script:GetAppLockerArgs
-                    Remove-AppLockerPolicy @Args
-                }
+                Function        = { Remove-AppLockerPolicy @(& $Script:GetAppLockerArgs) }
             }
         )
 
@@ -163,10 +154,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = {
-                    $Args = & $Script:GetAppLockerArgs
-                    Test-AppLockerPolicy @Args -OutHost
-                }
+                Function        = { Test-AppLockerPolicy @(& $Script:GetAppLockerArgs) -OutHost }
             }
             @{
                 RowNumber       = 8
@@ -174,10 +162,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Medium'
                 ToolTip         = 'Check the AppLocker Policy and show the result in a Gridview'
-                Function        = {
-                    $Args = & $Script:GetAppLockerArgs
-                    Test-AppLockerPolicy @Args -OutGridView
-                }
+                Function        = { Test-AppLockerPolicy @(& $Script:GetAppLockerArgs) -OutGridView }
             }
         )
 
