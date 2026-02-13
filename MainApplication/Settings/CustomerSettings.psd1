@@ -46,7 +46,8 @@
     DEMLogFolder                    = '\\domain.nl\folder\Profile\'
 
     ##### APPLOCKER LDAP #####
-    AppLockerLDAPTEST               = 'LDAP://servername.domain.nl/CN={62242444-75F6-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPDEV                = 'LDAP://servername.domain.nl/CN={62242444-75F6-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPTEST               = 'LDAP://servername.domain.nl/CN={12345678-ABCD-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
     AppLockerLDAPPROD               = 'LDAP://servername.domain.nl/CN={BA363FDE-6098-4CBA-9233-E1512BF88ABA},CN=Policies,CN=System,DC=domain,DC=nl'
 
     ##### SCREENSHOTS #####

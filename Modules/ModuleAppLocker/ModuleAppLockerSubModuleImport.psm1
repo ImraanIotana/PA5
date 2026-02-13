@@ -112,6 +112,7 @@ function Import-FeatureAppLockerImport {
 
         # LDAP Handlers
         [System.Collections.Hashtable]$Script:MApplock_LDAPEnvironmentHashtable = @{
+            DEV         = (Get-ApplicationSetting -Name 'AppLockerLDAPDEV')
             TEST        = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST')
             PRODUCTION  = (Get-ApplicationSetting -Name 'AppLockerLDAPPROD')
         }
