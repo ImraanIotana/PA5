@@ -56,6 +56,7 @@ function Import-ModuleAppLocker {
 
             # Import the SubModules
             Import-SubModuleAppLockerImport -ParentTabControl $ParentSubTabControl
+            Import-SubModuleAppLockerCreation -ParentTabControl $ParentSubTabControl
             Import-SubModuleAppLockerSettings -ParentTabControl $ParentSubTabControl
         }
         catch {

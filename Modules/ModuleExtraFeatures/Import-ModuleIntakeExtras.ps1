@@ -48,7 +48,7 @@ function Import-ModuleIntakeExtras {
             [System.Windows.Forms.TabControl]$ParentTabControl = Invoke-SubTabControl -ParentTabPage $ParentTabPage
             # Import the SubModules
             Import-ModuleExtraFeatures -ParentTabControl $ParentTabControl
-            Import-ModuleAppLockerCreation -ParentTabControl $ParentTabControl
+            #Import-ModuleAppLockerCreation -ParentTabControl $ParentTabControl
         }
         catch {
             Write-FullError
