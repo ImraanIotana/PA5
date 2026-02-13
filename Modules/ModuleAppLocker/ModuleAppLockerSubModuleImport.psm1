@@ -112,10 +112,11 @@ function Import-FeatureAppLockerImport {
 
         # LDAP Handlers
         [System.Collections.Hashtable]$Script:MApplock_LDAPEnvironmentHashtable = @{
-            DEV         = (Get-ApplicationSetting -Name 'AppLockerLDAPDEV')
+            DEVELOPMENT = (Get-ApplicationSetting -Name 'AppLockerLDAPDEV')
             TEST        = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST')
             PRODUCTION  = (Get-ApplicationSetting -Name 'AppLockerLDAPPROD')
         }
+        [System.String[]]$MApplock_EnvironmentOrder = @('DEVELOPMENT','TEST','PRODUCTION')
 
         ####################################################################################################
         ### COMBOBOX PROPERTIES ###
@@ -137,10 +138,10 @@ function Import-FeatureAppLockerImport {
             SizeType        = 'Medium'
             Type            = 'Output'
             Label           = 'Select Environment:'
-            ContentArray    = $Script:MApplock_LDAPEnvironmentHashtable.Keys
+            ContentArray    = $MApplock_EnvironmentOrder
             DefaultValue    = 'TEST'
             PropertyName    = 'MApplock_FApplock_EnvironmentComboBox'
-            ToolTip         = 'Select the Environment for which you want to import the AppLocker Policy'
+            ToolTip         = 'Select the Environment into which you want to import the AppLocker Policy'
         }
 
         ####################################################################################################
@@ -163,6 +164,13 @@ function Import-FeatureAppLockerImport {
                 SizeType        = 'Small'
                 ToolTip         = 'Open the logfile of the selected Application'
                 Function        = { Show-ApplicationLogFile -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text }
+            }
+            @{
+                ColumnNumber    = 7
+                Text            = 'Copy'
+                SizeType        = 'Small'
+                ToolTip         = 'Copy the the selected Application ID to the clipboard'
+                Function        = { Invoke-ClipBoard -CopyFromBox $Script:MApplock_FApplock_ApplicationComboBox }
             }
         )
 
