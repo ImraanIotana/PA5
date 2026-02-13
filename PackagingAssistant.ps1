@@ -191,19 +191,19 @@ process {
         }
         # Import these modules, for all machines
         Import-ModuleLauncher
-        # Import the modules, only if not an SCCM server
+        # Hide these modules on an SCCM server
         if (-Not($IsSCCMServer)) {
             Import-ModuleApplicationIntake
-            Import-ModuleIntakeExtras
         }
         # Import these modules, for all machines
         Import-ModuleApplicationManagement
         # Hide these modules on an SCCM server
         if (-Not($IsSCCMServer)) {
-            Import-ModuleOmnissaDEMManagement
             Import-ModuleAppLocker
+            Import-ModuleOmnissaDEMManagement
         }
         # Import these modules, for all machines
+        Import-ModuleIntakeExtras
         Import-ModuleApplicationSettings
 
         # Stop the stopwatch and write the elapsed time
