@@ -168,7 +168,7 @@ function Import-FeatureAppLockerCreation {
            @{
                 ColumnNumber    = 5
                 Text            = 'Create AppLocker Policy Files'
-                Image           = 'shield_add.png'
+                DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
                 ToolTip         = 'Create AppLocker Policy Files from the selected folder'
                 Function        = { Invoke-AppLockerFileCreation -ApplicationID $Global:ALCApplicationIDComboBox.Text -FolderToScan $Global:ALCFolderToScanTextBox.Text -ADGroupSID $Global:ALCADGroupSIDTextBox.Text }
