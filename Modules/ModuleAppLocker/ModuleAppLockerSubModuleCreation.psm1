@@ -32,7 +32,7 @@ function Import-SubModuleAppLockerCreation {
         ### MAIN PROPERTIES ###
 
         # Handlers
-        [System.String]$TabTitle        = 'AppLocker Creation'
+        [System.String]$TabTitle        = 'AppLocker CREATION'
         [System.String]$ModuleVersion   = '5.5.1'
 
         ####################################################################################################
