@@ -94,7 +94,7 @@ function Import-FeatureAppLockerCreation {
         # GroupBox properties
         [PSCustomObject]$GroupBox   = @{
             Title                   = [System.String]'Create AppLocker Policy'
-            Color                   = [System.String]'Cyan'
+            Color                   = [System.String]'LightCyan'
             NumberOfRows            = [System.Int32]8
         }
 

@@ -6,6 +6,7 @@ February 2026
 - ModuleGraphics: Added MenuBar and Help Items.
 - ModuleGraphics: Added Default Functions to TextBoxes.
 - ModuleGraphics: Added Default Icons.
+- ModuleAppLocker: Merged 3 submodules.
 
 Version 5.7.0
 January 2026
