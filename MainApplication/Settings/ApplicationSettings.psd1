@@ -70,4 +70,6 @@
     # UPDATE SETTINGS
     # URL of the zip file on GitHub where the latest version of the Packaging Assistant can be found
     ZipFileOnGithub     = 'https://github.com/ImraanIotana/PA5/archive/refs/heads/main.zip'
+    # URL of the version file on GitHub where the version number of the latest version of the Packaging Assistant can be found
+    VersionFileOnGithub = 'https://github.com/ImraanIotana/PA5/blob/main/PackagingAssistant.ps1'
 }
