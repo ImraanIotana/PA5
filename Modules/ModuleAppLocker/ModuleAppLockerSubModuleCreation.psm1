@@ -99,7 +99,8 @@ function Import-FeatureAppLockerCreation {
         }
 
         # Set the Button Properties Array
-        [System.Object[][]]$ButtonPropertiesArray  = @( (1,'Browse') , (2,'Copy') , (3,'Paste') , (5,'Open') )
+        [System.Object[][]]$MAppLock_SCreate_FolderToScan_TextBox_Buttons  = @( (1,'Browse') , (3,'Copy') , (4,'Paste') , (5,'Open') )
+        [System.Object[][]]$MAppLock_SCreate_ADGroupSID_TextBox_Buttons  = @( (1,'Browse') , (3,'Copy') , (4,'Paste') , (5,'Open') )
 
         ####################################################################################################
         ### TEXTBOX PROPERTIES ###
@@ -110,7 +111,16 @@ function Import-FeatureAppLockerCreation {
             Label                   = 'Select Folder to scan:'
             ToolTip                 = 'Select the folder that contains the files to be scanned for AppLocker rules creation.'
             PropertyName            = 'MAppLock_SCreate_FolderToScan_TextBox'
-            ButtonPropertiesArray   = $ButtonPropertiesArray
+            ButtonPropertiesArray   = $MAppLock_SCreate_FolderToScan_TextBox_Buttons
+        }
+
+        # Set the MAppLock_SCreate_ADGroupSID_TextBox properties
+        [System.Collections.Hashtable]$MAppLock_SCreate_ADGroupSID_TextBox_Properties = @{
+            RowNumber               = 6
+            Label                   = 'AD Group SID:'
+            ToolTip                 = 'Enter the AD Group SID for the AppLocker policy.'
+            PropertyName            = 'MAppLock_SCreate_ADGroupSID_TextBox'
+            ButtonPropertiesArray   = $MAppLock_SCreate_ADGroupSID_TextBox_Buttons
         }
 
         ####################################################################################################
@@ -124,37 +134,6 @@ function Import-FeatureAppLockerCreation {
                 SizeType        = 'Small'
                 ToolTip         = 'Open the AppLocker folder'
                 Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:ALCApplicationIDComboBox.Text -SubFolder AppLockerFolder) }
-            }
-        )
-
-        [System.Collections.Hashtable[]]$ALCFolderToScanTextBoxButtons = @(
-            @{
-                ColumnNumber    = 1
-                Text            = 'Browse'
-                Image           = 'folders_explorer.png'
-                SizeType        = 'Medium'
-                Function        = { [System.String]$Folder = Select-Item -Folder ; if ($Folder) { $Script:MAppLock_SCreate_FolderToScan_TextBox.Text = $Folder } }
-            }
-            @{
-                ColumnNumber    = 2
-                Text            = 'Copy'
-                Image           = 'page_copy.png'
-                SizeType        = 'Medium'
-                Function        = { Invoke-ClipBoard -CopyFromBox $Script:MAppLock_SCreate_FolderToScan_TextBox }
-            }
-            @{
-                ColumnNumber    = 3
-                Text            = 'Paste'
-                Image           = 'page_paste.png'
-                SizeType        = 'Medium'
-                Function        = { Invoke-ClipBoard -PasteToBox $Script:MAppLock_SCreate_FolderToScan_TextBox }
-            }
-            @{
-                ColumnNumber    = 4
-                Text            = 'Open'
-                Image           = 'folder.png'
-                SizeType        = 'Medium'
-                Function        = { Open-Folder -Path $Script:MAppLock_SCreate_FolderToScan_TextBox.Text }
             }
         )
 
@@ -199,11 +178,10 @@ function Import-FeatureAppLockerCreation {
 
         # Create the MAppLock_SCreate_FolderToScan_TextBox
         [System.Windows.Forms.TextBox]$Script:MAppLock_SCreate_FolderToScan_TextBox = Invoke-TextBox @MAppLock_SCreate_FolderToScan_TextBox_Properties -ParentGroupBox $ParentGroupBox
-        #Invoke-ButtonLine -ButtonPropertiesArray $ALCFolderToScanTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
 
-        # Create the ALIADGroupSIDTextBox
-        [System.Windows.Forms.TextBox]$Global:ALCADGroupSIDTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 6 -SizeType Medium -Type Input -Label 'AD Group SID:' -PropertyName 'ALCADGroupSIDTextBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $ALCADGroupSIDTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 7
+        # Create the MAppLock_SCreate_ADGroupSID_TextBox
+        [System.Windows.Forms.TextBox]$Script:MAppLock_SCreate_ADGroupSID_TextBox = Invoke-TextBox @MAppLock_SCreate_ADGroupSID_TextBox_Properties -ParentGroupBox $ParentGroupBox
+        #Invoke-ButtonLine -ButtonPropertiesArray $MAppLock_SCreate_ADGroupSID_TextBox_Buttons -ParentGroupBox $ParentGroupBox -RowNumber 7
 
         # Create the action button
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 8
