@@ -22,28 +22,37 @@ function Import-SubModuleAppLockerCreation {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
-        [Alias('TabControl')]
-        [System.Windows.Forms.TabControl]
-        $ParentTabControl = $Global:MainTabControl
+        [System.Windows.Forms.TabControl]$ParentTabControl = $Global:MainTabControl
     )
 
     begin {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
+        # SubModule properties
+        [System.Collections.Hashtable]$SubModuleProperties = @{
+            ParentTabControl    = $ParentTabControl
+            Title               = 'AppLocker CREATION'
+            Version             = '5.7.1'
+            BackGroundColor     = 'RoyalBlue'
+        }
+
+
         # Handlers
-        [System.String]$TabTitle        = 'AppLocker CREATION'
-        [System.String]$ModuleVersion   = '5.5.1'
+        #[System.String]$TabTitle        = 'AppLocker CREATION'
+        #[System.String]$ModuleVersion   = '5.5.1'
 
         ####################################################################################################
     }
     
     process {
         try {
-            # Write the message
-            Write-ModuleImport -Title $TabTitle -Version $ModuleVersion
             # Create the Module TabPage
-            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor 'RoyalBlue'
+            [System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage @SubModuleProperties
+            # Write the message
+            #Write-ModuleImport -Title $TabTitle -Version $ModuleVersion
+            # Create the Module TabPage
+            #[System.Windows.Forms.TabPage]$ParentTabPage = New-TabPage -Parent $ParentTabControl -Title $TabTitle -BackGroundColor 'RoyalBlue'
             # Import the Features
             Import-FeatureAppLockerCreation -ParentTabPage $ParentTabPage
         }
