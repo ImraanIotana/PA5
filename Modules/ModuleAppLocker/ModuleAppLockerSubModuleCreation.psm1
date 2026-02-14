@@ -100,10 +100,18 @@ function Import-FeatureAppLockerCreation {
 
         # Set the Button Properties Array
         [System.Object[][]]$MAppLock_SCreate_FolderToScan_TextBox_Buttons  = @( (1,'Browse') , (3,'Copy') , (4,'Paste') , (5,'Open') )
-        [System.Object[][]]$MAppLock_SCreate_ADGroupSID_TextBox_Buttons  = @( (1,'Browse') , (3,'Copy') , (4,'Paste') , (5,'Open') )
+        [System.Object[][]]$MAppLock_SCreate_ADGroupSID_TextBox_Buttons  = @( (4,'Copy') , (5,'Paste') )
 
         ####################################################################################################
         ### TEXTBOX PROPERTIES ###
+
+        # Set the MAppLock_SCreate_ApplicationID_ComboBox properties
+        [System.Collections.Hashtable]$MAppLock_SCreate_ApplicationID_ComboBox_Properties = @{
+            RowNumber               = 1
+            Label                   = 'Select Application ID:'
+            ToolTip                 = 'Select the Application ID for the AppLocker policy.'
+            PropertyName            = 'MAppLock_SCreate_ApplicationID_ComboBox'
+        }
 
         # Set the MAppLock_SCreate_FolderToScan_TextBox properties
         [System.Collections.Hashtable]$MAppLock_SCreate_FolderToScan_TextBox_Properties = @{
@@ -137,23 +145,6 @@ function Import-FeatureAppLockerCreation {
             }
         )
 
-        [System.Collections.Hashtable[]]$ALCADGroupSIDTextBoxButtons = @(
-            @{
-                ColumnNumber    = 1
-                Text            = 'Copy'
-                Image           = 'page_copy.png'
-                SizeType        = 'Medium'
-                Function        = { Invoke-ClipBoard -CopyFromBox $Global:ALCADGroupSIDTextBox }
-            }
-            @{
-                ColumnNumber    = 2
-                Text            = 'Paste'
-                Image           = 'page_paste.png'
-                SizeType        = 'Medium'
-                Function        = { Invoke-ClipBoard -PasteToBox $Global:ALCADGroupSIDTextBox }
-            }
-        )
-
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
                 ColumnNumber    = 5
@@ -172,8 +163,8 @@ function Import-FeatureAppLockerCreation {
         # Create the GroupBox
         [System.Windows.Forms.GroupBox]$Global:AppLockerCreationGroupbox = $ParentGroupBox = Invoke-Groupbox -ParentTabPage $ParentTabPage -Title $Groupbox.Title -NumberOfRows $Groupbox.NumberOfRows -Color $Groupbox.Color
 
-        # Create the ApplicationID ComboBox
-        [System.Windows.Forms.ComboBox]$Global:ALCApplicationIDComboBox = Invoke-ComboBox -ParentGroupBox $ParentGroupBox -RowNumber 1 -SizeType Medium -Type Output -Label 'Select Application:' -ContentArray (Get-DSLApplicationFolder -All -Basenames) -PropertyName 'ALCApplicationIDComboBox'
+        # Create the MAppLock_SCreate_ApplicationID_ComboBox
+        [System.Windows.Forms.ComboBox]$Script:MAppLock_SCreate_ApplicationID_ComboBox = Invoke-ComboBox @MAppLock_SCreate_ApplicationID_ComboBox_Properties -ParentGroupBox $ParentGroupBox
         Invoke-ButtonLine -ButtonPropertiesArray $ALCApplicationIDComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
 
         # Create the MAppLock_SCreate_FolderToScan_TextBox
@@ -181,7 +172,6 @@ function Import-FeatureAppLockerCreation {
 
         # Create the MAppLock_SCreate_ADGroupSID_TextBox
         [System.Windows.Forms.TextBox]$Script:MAppLock_SCreate_ADGroupSID_TextBox = Invoke-TextBox @MAppLock_SCreate_ADGroupSID_TextBox_Properties -ParentGroupBox $ParentGroupBox
-        #Invoke-ButtonLine -ButtonPropertiesArray $MAppLock_SCreate_ADGroupSID_TextBox_Buttons -ParentGroupBox $ParentGroupBox -RowNumber 7
 
         # Create the action button
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 8
