@@ -81,10 +81,10 @@ function Import-SubModuleAppLockerCreation {
 .OUTPUTS
     This function returns no stream output.
 .NOTES
-    Version         : 4.8
+    Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : June 2024
-    Last Updated    : September 2024
+    Last Updated    : February 2026
 #>
 ####################################################################################################
 
@@ -107,8 +107,8 @@ function Import-FeatureAppLockerCreation {
         }
 
         # Set the Button Properties Array
-        [System.Object[][]]$MAppLock_SCreate_FolderToScan_TextBox_Buttons  = @( (1,'Browse') , (3,'Copy') , (4,'Paste') , (5,'Open') )
-        [System.Object[][]]$MAppLock_SCreate_ADGroupSID_TextBox_Buttons  = @( (4,'Copy') , (5,'Paste') )
+        [System.Object[][]]$MAppLock_SCreate_FolderToScan_TextBox_Buttons   = @( (1,'Browse') , (3,'Copy') , (4,'Paste') , (5,'Open') )
+        [System.Object[][]]$MAppLock_SCreate_ADGroupSID_TextBox_Buttons     = @( (4,'Copy') , (5,'Paste') )
 
         ####################################################################################################
         ### TEXTBOX PROPERTIES ###
@@ -155,7 +155,7 @@ function Import-FeatureAppLockerCreation {
 
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
-                ColumnNumber    = 6
+                ColumnNumber    = 5
                 Text            = 'Create AppLocker Policy Files'
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
@@ -182,7 +182,7 @@ function Import-FeatureAppLockerCreation {
         [System.Windows.Forms.TextBox]$Script:MAppLock_SCreate_ADGroupSID_TextBox = Invoke-TextBox @MAppLock_SCreate_ADGroupSID_TextBox_Properties -ParentGroupBox $ParentGroupBox
 
         # Create the action button
-        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 8
+        Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 9
     }
 
     end {
