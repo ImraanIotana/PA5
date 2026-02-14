@@ -138,7 +138,7 @@ function Import-FeatureAppLockerCreation {
             @{
                 ColumnNumber    = 5
                 Text            = 'Open'
-                Image           = 'folder.png'
+                DefaultIcon     = 'Folder'
                 SizeType        = 'Small'
                 ToolTip         = 'Open the AppLocker folder'
                 Function        = { Open-Folder -Path (Get-Path -ApplicationID $Global:ALCApplicationIDComboBox.Text -SubFolder AppLockerFolder) }
@@ -147,7 +147,7 @@ function Import-FeatureAppLockerCreation {
 
         [System.Collections.Hashtable[]]$ActionButtons = @(
            @{
-                ColumnNumber    = 5
+                ColumnNumber    = 6
                 Text            = 'Create AppLocker Policy Files'
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
