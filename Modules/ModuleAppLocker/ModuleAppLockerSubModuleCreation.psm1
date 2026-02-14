@@ -102,6 +102,18 @@ function Import-FeatureAppLockerCreation {
         [System.Object[][]]$ButtonPropertiesArray  = @( (1,'Browse') , (2,'Copy') , (3,'Paste') , (5,'Open') )
 
         ####################################################################################################
+        ### TEXTBOX PROPERTIES ###
+
+        # Set the MAppLock_SCreate_FolderToScan_TextBox properties
+        [System.Collections.Hashtable]$MAppLock_SCreate_FolderToScan_TextBox_Properties = @{
+            RowNumber               = 3
+            Label                   = 'Select Folder to scan:'
+            ToolTip                 = 'Select the folder that contains the files to be scanned for AppLocker rules creation.'
+            PropertyName            = 'MAppLock_SCreate_FolderToScan_TextBox'
+            ButtonPropertiesArray   = $ButtonPropertiesArray
+        }
+
+        ####################################################################################################
         ### BUTTON PROPERTIES ###
 
         [System.Collections.Hashtable[]]$ALCApplicationIDComboBoxButtons = @(
@@ -186,8 +198,8 @@ function Import-FeatureAppLockerCreation {
         Invoke-ButtonLine -ButtonPropertiesArray $ALCApplicationIDComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
 
         # Create the MAppLock_SCreate_FolderToScan_TextBox
-        [System.Windows.Forms.TextBox]$Script:MAppLock_SCreate_FolderToScan_TextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 3 -SizeType Medium -Type Input -Label 'Select Folder to scan:' -PropertyName 'MAppLock_SCreate_FolderToScan_TextBox'
-        Invoke-ButtonLine -ButtonPropertiesArray $ALCFolderToScanTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
+        [System.Windows.Forms.TextBox]$Script:MAppLock_SCreate_FolderToScan_TextBox = Invoke-TextBox @MAppLock_SCreate_FolderToScan_TextBox_Properties -ParentGroupBox $ParentGroupBox
+        #Invoke-ButtonLine -ButtonPropertiesArray $ALCFolderToScanTextBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
 
         # Create the ALIADGroupSIDTextBox
         [System.Windows.Forms.TextBox]$Global:ALCADGroupSIDTextBox = Invoke-TextBox -ParentGroupBox $ParentGroupBox -RowNumber 6 -SizeType Medium -Type Input -Label 'AD Group SID:' -PropertyName 'ALCADGroupSIDTextBox'
