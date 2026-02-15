@@ -116,9 +116,10 @@ function Import-FeatureAppLockerImport {
         [System.Collections.Hashtable]$Script:MApplock_LDAPEnvironmentHashtable = @{
             DEVELOPMENT = (Get-ApplicationSetting -Name 'AppLockerLDAPDEV')
             TEST        = (Get-ApplicationSetting -Name 'AppLockerLDAPTEST')
+            ACCEPTANCE  = (Get-ApplicationSetting -Name 'AppLockerLDAPACC')
             PRODUCTION  = (Get-ApplicationSetting -Name 'AppLockerLDAPPROD')
         }
-        [System.String[]]$MApplock_EnvironmentOrder = @('DEVELOPMENT','TEST','PRODUCTION')
+        [System.String[]]$MApplock_EnvironmentOrder = @('DEVELOPMENT','TEST','ACCEPTANCE','PRODUCTION')
 
         ####################################################################################################
         ### COMBOBOX PROPERTIES ###
