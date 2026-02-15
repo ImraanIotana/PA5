@@ -13,20 +13,20 @@
     [System.Boolean]
 .NOTES
     This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
-    Version         : 5.5.1
+    Version         : 5.7.2
     Author          : Imraan Iotana
     Creation Date   : August 2025
-    Last Update     : August 2025
+    Last Updated    : February 2026
 #>
 ####################################################################################################
-######### FIX: $AudacityPolicies
+
 function Test-AppLockerPolicy {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true,HelpMessage='The ID of the application that will be handled.')]
         [System.String]$ApplicationID,
 
-        [Parameter(Mandatory=$false,HelpMessage='The LDAP of the AppLocker policy that will be queried.')]
+        [Parameter(Mandatory=$true,HelpMessage='The LDAP of the AppLocker policy that will be queried.')]
         [System.String]$AppLockerLDAP,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for returning the result as a boolean.')]
@@ -50,48 +50,52 @@ function Test-AppLockerPolicy {
     }
     
     process {
-        # VALIDATION
-        # Validate the input
-        if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line 'The AppLockerLDAP string is empty.' -Type Fail ; Return }
+        # EXECUTION
+        try {
+            # GET THE POLICY
+            # Get the AppLocker policy as xml
+            Write-Line ('Checking the AppLocker policies for the application ({0}). One moment please...' -f $ApplicationID)
+            [System.Xml.XmlDocument]$AllPoliciesAsXML = Get-AppLockerPolicy -Domain -Ldap $AppLockerLDAP -Xml
+            # If the AppLocker policy is empty, then return false
+            if ($null -eq $AllPoliciesAsXML) { Write-Line ("No AppLocker Policy was obtained from $AppLockerLDAP.") -Type Fail ; Return }
+            # Set the search string
+            [System.String]$SearchString = ('//FileHashRule[contains(@Name,"{0}") or contains(@Description,"{0}")]' -f $ApplicationID)
+            # Search the policy based on the Application ID
+            [System.Xml.XmlElement[]]$AudacityPolicies = $AllPoliciesAsXML.SelectNodes($SearchString)
 
 
-        # GET THE POLICY
-        # Get the AppLocker policy as xml
-        Write-Line ('Checking the AppLocker policies for the application ({0}). One moment please...' -f $ApplicationID)
-        [System.Xml.XmlDocument]$AllPoliciesAsXML = Get-AppLockerPolicy -Domain -Ldap $AppLockerLDAP -Xml
-        # Set the search string
-        [System.String]$SearchString = ('//FileHashRule[contains(@Name,"{0}") or contains(@Description,"{0}")]' -f $ApplicationID)
-        # Search the policy based on the Application ID
-        [System.Xml.XmlElement[]]$AudacityPolicies = $AllPoliciesAsXML.SelectNodes($SearchString)
-
-
-        # WRITE RESULTS AND SET OUTPUT
-        # Set the OutputObject based on the result
-        [System.Boolean]$OutputObject = if (($null -eq $AudacityPolicies) -or ($TotalCount -eq 0)) {
-            # If no Policies were found, then return false
-            Write-Line "No AppLocker policies were found for the application: ($ApplicationID)" -Type Info
-            $false
-        } else {
-            # If Policies were found, and the OutHost switch is used, then show the details in the host
-            if ($OutHost) {
+            # WRITE RESULTS AND SET OUTPUT
+            # Set the OutputObject based on the result
+            $OutputObject = if ($null -eq $AudacityPolicies -or $AudacityPolicies.Count -eq 0) {
+                # If no Policies were found, then write the message
+                Write-Line "No AppLocker policies were found for the application: ($ApplicationID)" -Type Info
+            } else {
+                # Set the total count of policies found
                 [System.Int32]$TotalCount = $AudacityPolicies.Count
-                Write-Line "$TotalCount AppLocker policies were found for the application: ($ApplicationID)" -Type Success
-                $AudacityPolicies | ForEach-Object {
-                    [System.Int32]$Counter = ([array]::IndexOf($AudacityPolicies,$_) + 1)
-                    Write-Host
-                    Write-Line ("--- $Counter of $TotalCount ---")
-                    Write-Host ("Name`t`t: $($_.Name)")
-                    Write-Host ("Description`t: $($_.Description)")
-                    Write-Host ("AD Group SID`t: $($_.UserOrGroupSid)")
-                    Write-Host ("Action`t`t: $($_.Action)")
+                # If Policies were found, and the OutHost switch is used, then show the details in the host
+                if ($OutHost) {
+                    Write-Line "$TotalCount AppLocker policies were found for the application: ($ApplicationID)" -Type Success
+                    $AudacityPolicies | ForEach-Object {
+                        [System.Int32]$Counter = ([array]::IndexOf($AudacityPolicies,$_) + 1)
+                        Write-Host
+                        Write-Line ("--- $Counter of $TotalCount ---")
+                        Write-Host ("Name`t`t: $($_.Name)")
+                        Write-Host ("Description`t: $($_.Description)")
+                        Write-Host ("AD Group SID`t: $($_.UserOrGroupSid)")
+                        Write-Host ("Action`t`t: $($_.Action)")
+                    }
                 }
+                # If Policies were found, and the OutGridView switch is used, then show the details in a GridView
+                if ($OutGridView) {
+                    $AudacityPolicies | Select-Object Name,Description,Action,UserOrGroupSid | Out-GridView -Title ("Application: $ApplicationID - Entries: $TotalCount")
+                }
+                # If Policies were found, then return true
+                $true
             }
-            # If Policies were found, and the OutGridView switch is used, then show the details in a GridView
-            if ($OutGridView) {
-                $AudacityPolicies | Select-Object Name,Description,Action,UserOrGroupSid | Out-GridView -Title ("Application: $ApplicationID - Entries: $TotalCount")
-            }
-            # If Policies were found, then return true
-            $true
+        }
+        catch {
+            Write-FullError
+            Return
         }
     }
     
