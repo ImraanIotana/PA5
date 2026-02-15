@@ -38,7 +38,7 @@ function Write-Line {
         [System.String]$Message,
 
         [Parameter(Mandatory=$false,Position=1,HelpMessage='Type for deciding the colors and prefixes.')]
-        [ValidateSet('Busy','Fail','NoAction','Normal','Info','Special','Success')]
+        [ValidateSet('Busy','Fail','NoAction','Normal','Info','Special','Success','EmptyStringNoAction')]
         [System.String]$Type
     )
 
@@ -57,20 +57,22 @@ function Write-Line {
         # MESSAGE PREPARATION
         # Set the FullMessage
         [System.String]$FullMessage = switch ($InputType) {
-            'NoAction'          { 'No action has been taken.' }
-            Default             { $InputMessage }
+            'NoAction'              { 'No action has been taken.' }
+            'EmptyStringNoAction'   { "The $InputMessage String is empty. No action has been taken." }
+            Default                 { $InputMessage }
         }
         
         # COLOR PREPARATION
         # Set the ForegroundColor
         [System.String]$ForegroundColor = switch ($InputType) {
-            'Busy'              { 'Yellow'  }
-            'Fail'              { 'Red'     }
-            'Normal'            { 'White'   }
-            'Special'           { 'Cyan'    }
-            'Success'           { 'Green'   }
-            'Info'              { 'Yellow'    }
-            Default             { 'DarkGray' }
+            'Busy'                  { 'Yellow'  }
+            'Fail'                  { 'Red'     }
+            'Normal'                { 'White'   }
+            'Special'               { 'Cyan'    }
+            'Success'               { 'Green'   }
+            'Info'                  { 'Yellow'  }
+            'EmptyStringNoAction'   { 'Red'     }
+            Default                 { 'DarkGray' }
         }
         # Set the BackgroundColor
         [System.String]$BackgroundColor = switch ($InputType) {

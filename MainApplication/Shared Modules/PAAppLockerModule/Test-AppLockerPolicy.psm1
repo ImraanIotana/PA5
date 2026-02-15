@@ -52,9 +52,9 @@ function Test-AppLockerPolicy {
     process {
         # VALIDATION
         # Validate the ApplicationID
-        if (Test-String -IsEmpty $ApplicationID) { Write-Line "The ApplicationID cannot be null or empty." -Type Fail ; Return }
+        if (Test-String -IsEmpty $ApplicationID) { Write-Line "ApplicationID" -Type EmptyStringNoAction ; Return }
         # Validate the AppLockerLDAP
-        if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line "The AppLockerLDAP cannot be null or empty." -Type Fail ; Return }
+        if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line "AppLockerLDAP" -Type EmptyStringNoAction ; Return }
 
         # EXECUTION
         try {
