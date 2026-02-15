@@ -142,7 +142,6 @@ function Import-FeatureAppLockerImport {
             Type            = 'Output'
             Label           = 'Select Environment:'
             ContentArray    = $MApplock_EnvironmentOrder
-            DefaultValue    = 'TEST'
             PropertyName    = 'MApplock_SImp_FImp_SelectedEnvironmentComboBox'
             ToolTip         = 'Select the Environment into which you want to import the AppLocker Policy'
         }

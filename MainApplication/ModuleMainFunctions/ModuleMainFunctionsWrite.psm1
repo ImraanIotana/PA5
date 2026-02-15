@@ -38,7 +38,7 @@ function Write-Line {
         [System.String]$Message,
 
         [Parameter(Mandatory=$false,Position=1,HelpMessage='Type for deciding the colors and prefixes.')]
-        [ValidateSet('Busy','Fail','NoAction','Normal','Special','Success')]
+        [ValidateSet('Busy','Fail','NoAction','Normal','Info','Special','Success')]
         [System.String]$Type
     )
 
@@ -69,7 +69,8 @@ function Write-Line {
             'Normal'            { 'White'   }
             'Special'           { 'Cyan'    }
             'Success'           { 'Green'   }
-            Default             { 'DarkGray'}
+            'Info'              { 'Yellow'    }
+            Default             { 'DarkGray' }
         }
         # Set the BackgroundColor
         [System.String]$BackgroundColor = switch ($InputType) {

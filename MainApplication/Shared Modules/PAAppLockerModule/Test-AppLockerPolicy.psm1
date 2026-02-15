@@ -45,6 +45,8 @@ function Test-AppLockerPolicy {
 
         # OutputObject
         [System.Boolean]$OutputObject = $false
+
+        ####################################################################################################
     }
     
     process {
@@ -53,6 +55,7 @@ function Test-AppLockerPolicy {
         if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line 'The AppLockerLDAP string is empty.' -Type Fail ; Return }
 
 
+        # GET THE POLICY
         # Get the AppLocker policy as xml
         Write-Line ('Checking the AppLocker policies for the application ({0}). One moment please...' -f $ApplicationID)
         [System.Xml.XmlDocument]$AllPoliciesAsXML = Get-AppLockerPolicy -Domain -Ldap $AppLockerLDAP -Xml
@@ -60,31 +63,34 @@ function Test-AppLockerPolicy {
         [System.String]$SearchString = ('//FileHashRule[contains(@Name,"{0}") or contains(@Description,"{0}")]' -f $ApplicationID)
         # Search the policy based on the Application ID
         [System.Xml.XmlElement[]]$AudacityPolicies = $AllPoliciesAsXML.SelectNodes($SearchString)
-        # Write the result, and set the OutputObject
-        [System.Int32]$TotalCount = $AudacityPolicies.Count
-        if (-Not($PassThru)) { Write-Host ('{0} AppLocker policies were found for the application: ({1})' -f $TotalCount,$ApplicationID) }
-        # If no policies were found, then return false
-        [System.Boolean]$OutputObject = if ($TotalCount -eq 0) {
+
+
+        # WRITE RESULTS AND SET OUTPUT
+        # Set the OutputObject based on the result
+        [System.Boolean]$OutputObject = if (($null -eq $AudacityPolicies) -or ($TotalCount -eq 0)) {
+            # If no Policies were found, then return false
+            Write-Line "No AppLocker policies were found for the application: ($ApplicationID)" -Type Info
             $false
         } else {
+            # If Policies were found, and the OutHost switch is used, then show the details in the host
             if ($OutHost) {
-                # Write the details to the host
+                [System.Int32]$TotalCount = $AudacityPolicies.Count
                 Write-Line "$TotalCount AppLocker policies were found for the application: ($ApplicationID)" -Type Success
                 $AudacityPolicies | ForEach-Object {
                     [System.Int32]$Counter = ([array]::IndexOf($AudacityPolicies,$_) + 1)
                     Write-Host
-                    Write-Line ('--- {0} of {1} ---' -f $Counter,$TotalCount)
-                    Write-Host ("Name`t`t: {0}" -f $_.Name)
-                    Write-Host ("Description`t: {0}" -f $_.Description)
-                    Write-Host ("AD Group SID`t: {0}" -f $_.UserOrGroupSid)
-                    Write-Host ("Action`t`t: {0}" -f $_.Action)
+                    Write-Line ("--- $Counter of $TotalCount ---")
+                    Write-Host ("Name`t`t: $($_.Name)")
+                    Write-Host ("Description`t: $($_.Description)")
+                    Write-Host ("AD Group SID`t: $($_.UserOrGroupSid)")
+                    Write-Host ("Action`t`t: $($_.Action)")
                 }
             }
-            # If the OutGridView switch is used, then show the details in a GridView
+            # If Policies were found, and the OutGridView switch is used, then show the details in a GridView
             if ($OutGridView) {
-                $AudacityPolicies | Select-Object Name,Description,Action,UserOrGroupSid | Out-GridView -Title ('Application: {0} - Entries: {1}' -f $ApplicationID, $TotalCount)
+                $AudacityPolicies | Select-Object Name,Description,Action,UserOrGroupSid | Out-GridView -Title ("Application: $ApplicationID - Entries: $TotalCount")
             }
-            # Return true
+            # If Policies were found, then return true
             $true
         }
     }
