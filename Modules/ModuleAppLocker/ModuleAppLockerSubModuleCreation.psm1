@@ -29,8 +29,8 @@
 function Import-SubModuleAppLockerCreation {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$false,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
-        [System.Windows.Forms.TabControl]$ParentTabControl = $Global:MainTabControl
+        [Parameter(Mandatory=$true,HelpMessage='The Parent TabControl to which this new TabPage will be added.')]
+        [System.Windows.Forms.TabControl]$ParentTabControl
     )
 
     begin {
@@ -41,7 +41,7 @@ function Import-SubModuleAppLockerCreation {
         [System.Collections.Hashtable]$SubModuleProperties = @{
             ParentTabControl    = $ParentTabControl
             Title               = 'AppLocker CREATION'
-            Version             = '5.7.1'
+            Version             = '5.7.2'
             BackGroundColor     = 'RoyalBlue'
         }
 
@@ -83,9 +83,9 @@ function Import-SubModuleAppLockerCreation {
     This function returns no stream output.
 .NOTES
     This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
-    Version         : 5.7.1
+    Version         : 5.7.2
     Author          : Imraan Iotana
-    Creation Date   : June 2024
+    Creation Date   : June 2025
     Last Updated    : February 2026
 #>
 ####################################################################################################

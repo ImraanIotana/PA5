@@ -19,7 +19,7 @@
     This function returns no stream output.
 .NOTES
     This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
-    Version         : 5.7.1
+    Version         : See below at 'Main Properties'
     Author          : Imraan Iotana
     Creation Date   : August 2025
     Last Update     : February 2026
@@ -41,7 +41,7 @@ function Import-ModuleAppLocker {
         [System.Collections.Hashtable]$ModuleProperties = @{
             ParentTabControl    = $ParentTabControl
             Title               = 'APPLOCKER'
-            Version             = '5.7.1'
+            Version             = '5.7.2'
         }
 
         ####################################################################################################

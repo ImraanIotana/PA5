@@ -37,11 +37,11 @@ function Import-SubModuleAppLockerImport {
         ####################################################################################################
         ### MAIN PROPERTIES ###
 
-        # Submodule properties
+        # SubModule properties
         [System.Collections.Hashtable]$SubModuleProperties = @{
             ParentTabControl    = $ParentTabControl
             Title               = 'AppLocker IMPORT'
-            Version             = '5.7.1'
+            Version             = '5.7.2'
             BackGroundColor     = 'RoyalBlue'
         }
 
@@ -83,7 +83,7 @@ function Import-SubModuleAppLockerImport {
     This function returns no stream output.
 .NOTES
     This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
-    Version         : 5.7.1
+    Version         : 5.7.2
     Author          : Imraan Iotana
     Creation Date   : August 2025
     Last Updated    : February 2026
