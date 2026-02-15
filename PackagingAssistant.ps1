@@ -36,7 +36,7 @@ begin {
     [PSCustomObject]$Global:ApplicationObject = @{
         # Application
         Name                        = [System.String]'Packaging Assistant'
-        Version                     = [System.Version]'5.7.2.003'
+        Version                     = [System.Version]'5.7.2.004'
         # Folder Handlers
         RootFolder                  = [System.String]$PSScriptRoot
         LogFolder                   = [System.String](Join-Path -Path $ENV:TEMP -ChildPath 'PALogs')
@@ -133,7 +133,7 @@ begin {
     function Write-WelcomeMessage {
         # Write the copyright and welcome message
         Write-Line $Global:ApplicationObject.Messages.CopyrightNotice
-        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version)
+        Write-Host ($Global:ApplicationObject.Messages.WelcomeMessageFix -f $Global:ApplicationObject.Name,[System.String]$Global:ApplicationObject.Version)
     }
 
     ####################################################################################################
@@ -141,7 +141,7 @@ begin {
 
 process {
     # Start the Initialization
-    Write-Host ($Global:ApplicationObject.Messages.LoadingMessageFix -f $Global:ApplicationObject.Name,$Global:ApplicationObject.Version) -ForegroundColor DarkGray
+    Write-Host ($Global:ApplicationObject.Messages.LoadingMessageFix -f $Global:ApplicationObject.Name,[System.String]$Global:ApplicationObject.Version) -ForegroundColor DarkGray
     Add-WorkFoldersToMainObject
 
     # LOADING AND UNBLOCKING FILES

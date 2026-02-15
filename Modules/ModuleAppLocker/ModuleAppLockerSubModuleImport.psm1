@@ -205,7 +205,7 @@ function Import-FeatureAppLockerImport {
                 DefaultIcon     = 'Shield'
                 SizeType        = 'Large'
                 ToolTip         = 'Check the AppLocker Policy'
-                Function        = { Test-AppLockerPolicy (& $Script:GetAppLockerArgs) }
+                Function        = { Test-AppLockerPolicy -ApplicationID $Script:MApplock_FApplock_ApplicationComboBox.Text -AppLockerLDAP $Script:MApplock_SelectedAppLockerLDAP -OutHost }
             }
            @{
                 ColumnNumber    = 3
