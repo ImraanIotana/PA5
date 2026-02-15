@@ -46,9 +46,10 @@
     DEMLogFolder                    = '\\domain.nl\folder\Profile\'
 
     ##### APPLOCKER LDAP #####
-    AppLockerLDAPDEV                = 'LDAP://servername.domain.nl/CN={62242444-75F6-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
-    AppLockerLDAPTEST               = 'LDAP://servername.domain.nl/CN={12345678-ABCD-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
-    AppLockerLDAPPROD               = 'LDAP://servername.domain.nl/CN={BA363FDE-6098-4CBA-9233-E1512BF88ABA},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPDEVELOPMENT        = 'LDAP://servername.domain.nl/CN={DEVELOPM-75F6-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPTEST               = 'LDAP://servername.domain.nl/CN={TEST1234-ABCD-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPACCEPTANCE         = 'LDAP://servername.domain.nl/CN={ACCEPTAN-1234-4AA2-89D0-034917004AA3},CN=Policies,CN=System,DC=domain,DC=nl'
+    AppLockerLDAPPRODUCTION         = 'LDAP://servername.domain.nl/CN={PRODUCTI-6098-4CBA-9233-E1512BF88ABA},CN=Policies,CN=System,DC=domain,DC=nl'
 
     ##### SCREENSHOTS #####
     NetworkScreenshotsFolderFix     = '\\domain.nl\folder\Home\{0}\Pictures\Screenshots'
