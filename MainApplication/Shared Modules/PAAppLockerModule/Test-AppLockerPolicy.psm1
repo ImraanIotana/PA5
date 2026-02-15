@@ -23,10 +23,10 @@
 function Test-AppLockerPolicy {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory=$true,HelpMessage='The ID of the application that will be handled.')]
+        [Parameter(Mandatory=$false,HelpMessage='The ID of the application that will be handled.')]
         [System.String]$ApplicationID,
 
-        [Parameter(Mandatory=$true,HelpMessage='The LDAP of the AppLocker policy that will be queried.')]
+        [Parameter(Mandatory=$false,HelpMessage='The LDAP of the AppLocker policy that will be queried.')]
         [System.String]$AppLockerLDAP,
 
         [Parameter(Mandatory=$false,HelpMessage='Switch for returning the result as a boolean.')]
@@ -50,6 +50,12 @@ function Test-AppLockerPolicy {
     }
     
     process {
+        # VALIDATION
+        # Validate the ApplicationID
+        if (Test-String -IsEmpty $ApplicationID) { Write-Line "The ApplicationID cannot be null or empty." -Type Fail ; Return }
+        # Validate the AppLockerLDAP
+        if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line "The AppLockerLDAP cannot be null or empty." -Type Fail ; Return }
+
         # EXECUTION
         try {
             # GET THE POLICY
