@@ -52,9 +52,9 @@ function Test-AppLockerPolicy {
     process {
         # VALIDATION
         # Validate the ApplicationID
-        if (Test-String -IsEmpty $ApplicationID) { Write-Line "ApplicationID" -Type EmptyStringNoAction ; Return }
+        if (Test-String -IsEmpty $ApplicationID) { Write-Line "Application ID" -Type EmptyStringNoAction ; Return }
         # Validate the AppLockerLDAP
-        if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line "AppLockerLDAP" -Type EmptyStringNoAction ; Return }
+        if (Test-String -IsEmpty $AppLockerLDAP) { Write-Line "Environment" -Type EmptyStringNoAction ; Return }
 
         # EXECUTION
         try {
@@ -98,6 +98,10 @@ function Test-AppLockerPolicy {
                 # If Policies were found, then return true
                 $true
             }
+        }
+        catch [Microsoft.Security.ApplicationId.PolicyManagement.GetDomainPolicyException] {
+            Write-Line "Unable to read the AppLocker GPO from LDAP. Check domain connectivity, permissions, and the GPO path: ($AppLockerLDAP)" -Type Fail
+            Return
         }
         catch {
             Write-FullError

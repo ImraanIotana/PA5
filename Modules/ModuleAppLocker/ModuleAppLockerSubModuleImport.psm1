@@ -129,7 +129,7 @@ function Import-FeatureAppLockerImport {
             RowNumber       = 1
             SizeType        = 'Medium'
             Type            = 'Output'
-            Label           = 'Select Application:'
+            Label           = 'Select Application ID:'
             ContentArray    = $DSLApplicationFolders
             PropertyName    = 'MApplock_FApplock_ApplicationComboBox'
             ToolTip         = 'Select the Application for which you want to import the AppLocker Policy'

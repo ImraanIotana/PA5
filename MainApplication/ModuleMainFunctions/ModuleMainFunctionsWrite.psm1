@@ -58,7 +58,7 @@ function Write-Line {
         # Set the FullMessage
         [System.String]$FullMessage = switch ($InputType) {
             'NoAction'              { 'No action has been taken.' }
-            'EmptyStringNoAction'   { "The $InputMessage String is empty. No action has been taken." }
+            'EmptyStringNoAction'   { "The $InputMessage is empty. No action has been taken." }
             Default                 { $InputMessage }
         }
         
