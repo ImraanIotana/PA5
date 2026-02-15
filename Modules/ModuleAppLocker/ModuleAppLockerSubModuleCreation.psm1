@@ -10,7 +10,7 @@
 .SYNOPSIS
     This function imports the SubModule 'AppLocker Creation'.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
+    Creates the AppLocker Creation submodule TabPage under the provided ParentTabControl and loads its feature UI.
 .EXAMPLE
     Import-SubModuleAppLockerCreation
 .INPUTS
@@ -18,6 +18,7 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     Version         : See below at 'Main Properties'
     Author          : Imraan Iotana
     Creation Date   : September 2025
@@ -73,7 +74,7 @@ function Import-SubModuleAppLockerCreation {
 .SYNOPSIS
     This Feature creates AppLocker XML files and saves them in the Appliction Folder on the DSL.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
+    Builds the AppLocker Creation feature UI under the provided ParentTabPage and wires actions for generating policy files.
 .EXAMPLE
     Import-FeatureAppLockerCreation
 .INPUTS
@@ -81,6 +82,7 @@ function Import-SubModuleAppLockerCreation {
 .OUTPUTS
     This function returns no stream output.
 .NOTES
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : June 2024

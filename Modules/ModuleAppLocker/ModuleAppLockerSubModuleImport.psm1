@@ -10,7 +10,7 @@
 .SYNOPSIS
     This function imports the SubModule 'AppLocker Import'.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
+    Creates the AppLocker Import submodule TabPage under the provided ParentTabControl and loads its feature UI.
 .EXAMPLE
     Import-SubModuleAppLockerImport
 .INPUTS
@@ -18,6 +18,7 @@
 .OUTPUTS
     This function returns no stream output.
 .NOTES
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     Version         : See below at 'Main Properties'
     Author          : Imraan Iotana
     Creation Date   : August 2025
@@ -73,7 +74,7 @@ function Import-SubModuleAppLockerImport {
 .SYNOPSIS
     This Feature imports the AppLocker XML files into the AppLocker Policy.
 .DESCRIPTION
-    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
+    Builds the AppLocker Import feature UI under the provided ParentTabPage and wires actions for policy import.
 .EXAMPLE
     Import-FeatureAppLockerImport
 .INPUTS
@@ -81,6 +82,7 @@ function Import-SubModuleAppLockerImport {
 .OUTPUTS
     This function returns no stream output.
 .NOTES
+    This function is part of the Packaging Assistant. It contains functions and variables that are in other files.
     Version         : 5.7.1
     Author          : Imraan Iotana
     Creation Date   : August 2025
