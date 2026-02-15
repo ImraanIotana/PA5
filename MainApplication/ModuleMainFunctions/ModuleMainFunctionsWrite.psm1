@@ -71,7 +71,7 @@ function Write-Line {
             'Special'               { 'Cyan'    }
             'Success'               { 'Green'   }
             'Info'                  { 'Yellow'  }
-            'EmptyStringNoAction'   { 'Red'     }
+            'EmptyStringNoAction'   { 'Yellow'  }
             Default                 { 'DarkGray' }
         }
         # Set the BackgroundColor
