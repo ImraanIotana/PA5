@@ -135,15 +135,15 @@ function Import-FeatureAppLockerImport {
             ToolTip         = 'Select the Application for which you want to import the AppLocker Policy'
         }
 
-         # Set the parameters for the MApplock_FApplock_EnvironmentComboBox
-        [System.Collections.Hashtable]$MApplock_FApplock_EnvironmentComboBoxParameters = @{
+         # Set the parameters for the MApplock_SImp_FImp_SelectedEnvironmentComboBox
+        [System.Collections.Hashtable]$MApplock_SImp_FImp_SelectedEnvironmentComboBoxParameters = @{
             RowNumber       = 2
             SizeType        = 'Medium'
             Type            = 'Output'
             Label           = 'Select Environment:'
             ContentArray    = $MApplock_EnvironmentOrder
             DefaultValue    = 'TEST'
-            PropertyName    = 'MApplock_FApplock_EnvironmentComboBox'
+            PropertyName    = 'MApplock_SImp_FImp_SelectedEnvironmentComboBox'
             ToolTip         = 'Select the Environment into which you want to import the AppLocker Policy'
         }
 
@@ -177,8 +177,8 @@ function Import-FeatureAppLockerImport {
             }
         )
 
-        # Set the buttons for the MApplock_FApplock_EnvironmentComboBox
-        [System.Collections.Hashtable[]]$MApplock_FApplock_EnvironmentComboBoxButtons = @(
+        # Set the buttons for the MApplock_SImp_FImp_SelectedEnvironmentComboBox
+        [System.Collections.Hashtable[]]$MApplock_SImp_FImp_SelectedEnvironmentComboBoxButtons = @(
             @{
                 ColumnNumber    = 5
                 Text            = 'Export Policy'
@@ -258,14 +258,14 @@ function Import-FeatureAppLockerImport {
         # Create the MApplock_FApplock_ApplicationComboBox
         [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_ApplicationComboBox = Invoke-ComboBox @MApplock_FApplock_ApplicationComboBoxParameters -ParentGroupBox $ParentGroupBox
         
-        # Create the MApplock_FApplock_EnvironmentComboBox
-        [System.Windows.Forms.ComboBox]$Script:MApplock_FApplock_EnvironmentComboBox = Invoke-ComboBox @MApplock_FApplock_EnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
+        # Create the MApplock_SImp_FImp_SelectedEnvironmentComboBox
+        [System.Windows.Forms.ComboBox]$Script:MApplock_SImp_FImp_SelectedEnvironmentComboBox = Invoke-ComboBox @MApplock_SImp_FImp_SelectedEnvironmentComboBoxParameters -ParentGroupBox $ParentGroupBox
         # Set the initial selection and the initial AppLocker LDAP value
-        [System.String]$InitialSelectedEnvironment              = $Script:MApplock_FApplock_EnvironmentComboBox.Text
+        [System.String]$InitialSelectedEnvironment              = $Script:MApplock_SImp_FImp_SelectedEnvironmentComboBox.Text
         [System.String]$Script:MApplock_SelectedAppLockerLDAP   = $Script:MApplock_LDAPEnvironmentHashtable.$InitialSelectedEnvironment
-        # Add the event handler for the MApplock_FApplock_EnvironmentComboBox to update the selected AppLocker LDAP value, when the selection changes
-        $Script:MApplock_FApplock_EnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
-            [System.String]$SelectedEnvironment                     = $Script:MApplock_FApplock_EnvironmentComboBox.Text
+        # Add the event handler for the MApplock_SImp_FImp_SelectedEnvironmentComboBox to update the selected AppLocker LDAP value, when the selection changes
+        $Script:MApplock_SImp_FImp_SelectedEnvironmentComboBox.Add_SelectedIndexChanged([System.EventHandler]{
+            [System.String]$SelectedEnvironment                     = $Script:MApplock_SImp_FImp_SelectedEnvironmentComboBox.Text
             [System.String]$Script:MApplock_SelectedAppLockerLDAP   = $Script:MApplock_LDAPEnvironmentHashtable.$SelectedEnvironment
             Write-Line ("The AppLocker LDAP Environment has changed to: $SelectedEnvironment") -Type Busy
             Write-Line ("($Script:MApplock_SelectedAppLockerLDAP)")
@@ -273,7 +273,7 @@ function Import-FeatureAppLockerImport {
 
         # Create the buttons
         Invoke-ButtonLine -ButtonPropertiesArray $MApplock_FApplock_ApplicationComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 1
-        Invoke-ButtonLine -ButtonPropertiesArray $MApplock_FApplock_EnvironmentComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
+        Invoke-ButtonLine -ButtonPropertiesArray $MApplock_SImp_FImp_SelectedEnvironmentComboBoxButtons -ParentGroupBox $ParentGroupBox -RowNumber 2
         Invoke-ButtonLine -ButtonPropertiesArray $ActionButtons -ParentGroupBox $ParentGroupBox -RowNumber 4
         Invoke-ButtonLine -ButtonPropertiesArray $ExtraActionButtons -ParentGroupBox $ParentGroupBox -ColumnNumber 1
     }
